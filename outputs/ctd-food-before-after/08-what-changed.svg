@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs>
+  <radialGradient id="bg" cx="72%" cy="18%" r="95%"><stop offset="0" stop-color="#272219"/><stop offset=".38" stop-color="#171511"/><stop offset="1" stop-color="#0A0A09"/></radialGradient>
+  <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0A0A09" stop-opacity=".12"/><stop offset=".62" stop-color="#0A0A09" stop-opacity=".18"/><stop offset="1" stop-color="#0A0A09" stop-opacity=".9"/></linearGradient>
+  <filter id="grain"><feTurbulence baseFrequency=".72" numOctaves="3" seed="37" type="fractalNoise"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .045"/></feComponentTransfer></filter>
+</defs>
+<rect width="1080" height="1080" fill="url(#bg)"/>
+<clipPath id="prep"><rect x="650" y="160" width="374" height="760" rx="2"/></clipPath>
+<image x="-363.33" y="-600.00" width="1520.00" height="1520.00" preserveAspectRatio="none" xlink:href="file:///workspace/Instagram-TikTok-/outputs/ctd-food-before-after/source-now-sheet.png" clip-path="url(#prep)"/>
+<text x="72" y="245" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="56" font-weight="700" letter-spacing="0">THE 3 BIGGEST</text>
+<text x="72" y="313" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="56" font-weight="700" letter-spacing="0">CHANGES I MADE</text><text x="72" y="470" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="20" font-weight="700" letter-spacing="2">01</text><text x="126" y="470" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="26" font-weight="600" letter-spacing="0">FOCUSED ON MORE</text>
+<text x="126" y="504" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="26" font-weight="600" letter-spacing="0">WHOLE FOODS</text><text x="72" y="615" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="20" font-weight="700" letter-spacing="2">02</text><text x="126" y="615" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="26" font-weight="600" letter-spacing="0">ATE MORE FRUIT</text>
+<text x="126" y="649" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="26" font-weight="600" letter-spacing="0">+ VEGETABLES</text><text x="72" y="760" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="20" font-weight="700" letter-spacing="2">03</text><text x="126" y="760" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="26" font-weight="600" letter-spacing="0">PRIORITIZED</text>
+<text x="126" y="794" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="26" font-weight="600" letter-spacing="0">PROTEIN</text><rect x="72" y="884" width="520" height="50" fill="#BE995C"/><text x="332" y="916" text-anchor="middle" fill="#0A0A09" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="0.5">I ALSO TRACKED CALORIES + MACROS.</text><path d="M45 34 H1035 M45 1046 H1035" stroke="#BE995C" stroke-width="1" opacity=".55"/>
+<text x="62" y="75" fill="#D9BC78" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<text x="1018" y="75" text-anchor="end" fill="#B6B0A5" font-family="DejaVu Sans" font-size="15" letter-spacing="2">08 / 09 · WHAT CHANGED</text>
+<text x="62" y="1020" fill="#B6B0A5" font-family="DejaVu Sans" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text>
+<rect width="1080" height="1080" filter="url(#grain)" opacity=".33" pointer-events="none"/>
+</svg>

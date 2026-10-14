@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs>
+  <radialGradient id="bg" cx="72%" cy="18%" r="95%"><stop offset="0" stop-color="#272219"/><stop offset=".38" stop-color="#171511"/><stop offset="1" stop-color="#0A0A09"/></radialGradient>
+  <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0A0A09" stop-opacity=".12"/><stop offset=".62" stop-color="#0A0A09" stop-opacity=".18"/><stop offset="1" stop-color="#0A0A09" stop-opacity=".9"/></linearGradient>
+  <filter id="grain"><feTurbulence baseFrequency=".72" numOctaves="3" seed="34" type="fractalNoise"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .045"/></feComponentTransfer></filter>
+</defs>
+<rect width="1080" height="1080" fill="url(#bg)"/>
+<clipPath id="breakfast"><rect x="590" y="170" width="430" height="730" rx="2"/></clipPath>
+<image x="-140.00" y="170.00" width="1460.00" height="1460.00" preserveAspectRatio="none" xlink:href="file:///workspace/Instagram-TikTok-/outputs/ctd-food-before-after/source-now-sheet.png" clip-path="url(#breakfast)"/>
+<rect x="590" y="170" width="430" height="730" fill="#0A0A09" opacity=".17"/><text x="72" y="205" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="19" font-weight="700" letter-spacing="4">BREAKFAST</text><text x="72" y="310" text-anchor="start" fill="#B6B0A5" font-family="DejaVu Sans" font-size="20" font-weight="700" letter-spacing="3">BEFORE</text><text x="72" y="385" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="39" font-weight="700" letter-spacing="0">LOADS OF WAFFLES</text>
+<text x="72" y="435" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="39" font-weight="700" letter-spacing="0">+ PANCAKES WITH</text>
+<text x="72" y="485" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="39" font-weight="700" letter-spacing="0">SUGARY SYRUP</text><path d="M72 575 H510" stroke="#BE995C" stroke-width="2"/><text x="72" y="650" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="20" font-weight="700" letter-spacing="3">NOW</text><text x="72" y="715" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="29" font-weight="600" letter-spacing="0">SOMETIMES I SKIP IT.</text>
+<text x="72" y="755" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="29" font-weight="600" letter-spacing="0">OTHER DAYS: EGGS,</text>
+<text x="72" y="795" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="29" font-weight="600" letter-spacing="0">OATMEAL OR</text>
+<text x="72" y="835" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="29" font-weight="600" letter-spacing="0">CREAM OF WHEAT.</text><text x="72" y="925" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="0.2">THE WIN WAS INTENTION—NOT BREAKFAST MAGIC.</text><path d="M45 34 H1035 M45 1046 H1035" stroke="#BE995C" stroke-width="1" opacity=".55"/>
+<text x="62" y="75" fill="#D9BC78" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<text x="1018" y="75" text-anchor="end" fill="#B6B0A5" font-family="DejaVu Sans" font-size="15" letter-spacing="2">05 / 09 · BREAKFAST</text>
+<text x="62" y="1020" fill="#B6B0A5" font-family="DejaVu Sans" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text>
+<rect width="1080" height="1080" filter="url(#grain)" opacity=".33" pointer-events="none"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs>
+  <radialGradient id="bg" cx="72%" cy="18%" r="95%"><stop offset="0" stop-color="#272219"/><stop offset=".38" stop-color="#171511"/><stop offset="1" stop-color="#0A0A09"/></radialGradient>
+  <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0A0A09" stop-opacity=".12"/><stop offset=".62" stop-color="#0A0A09" stop-opacity=".18"/><stop offset="1" stop-color="#0A0A09" stop-opacity=".9"/></linearGradient>
+  <filter id="grain"><feTurbulence baseFrequency=".72" numOctaves="3" seed="38" type="fractalNoise"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .045"/></feComponentTransfer></filter>
+</defs>
+<rect width="1080" height="1080" fill="url(#bg)"/>
+
+<rect x="80" y="125" width="920" height="815" fill="none" stroke="#BE995C" stroke-width="2" opacity=".65"/><text x="540" y="315" text-anchor="middle" fill="#EEE9DF" font-family="DejaVu Serif" font-size="77" font-weight="700" letter-spacing="0">DON’T COPY</text>
+<text x="540" y="406" text-anchor="middle" fill="#EEE9DF" font-family="DejaVu Serif" font-size="77" font-weight="700" letter-spacing="0">MY PLATE.</text><text x="540" y="535" text-anchor="middle" fill="#D9BC78" font-family="DejaVu Serif" font-size="46" font-weight="700" letter-spacing="0">EXAMINE YOUR DEFAULTS.</text><path d="M330 605 H750" stroke="#BE995C" stroke-width="3"/><text x="540" y="690" text-anchor="middle" fill="#EEE9DF" font-family="DejaVu Sans" font-size="24" font-weight="600" letter-spacing="0">WHICH REPEATED MEAL, SNACK, DRINK</text>
+<text x="540" y="728" text-anchor="middle" fill="#EEE9DF" font-family="DejaVu Sans" font-size="24" font-weight="600" letter-spacing="0">OR PORTION COULD YOU CHANGE THIS WEEK?</text><text x="540" y="850" text-anchor="middle" fill="#B6B0A5" font-family="DejaVu Sans" font-size="16" font-weight="700" letter-spacing="0.35">MY EXPERIENCE IS PERSONAL—YOUR NEEDS AND RESULTS WILL BE YOUR OWN.</text><path d="M45 34 H1035 M45 1046 H1035" stroke="#BE995C" stroke-width="1" opacity=".55"/>
+<text x="62" y="75" fill="#D9BC78" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<text x="1018" y="75" text-anchor="end" fill="#B6B0A5" font-family="DejaVu Sans" font-size="15" letter-spacing="2">09 / 09 · REFLECTION</text>
+<text x="62" y="1020" fill="#B6B0A5" font-family="DejaVu Sans" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text>
+<rect width="1080" height="1080" filter="url(#grain)" opacity=".33" pointer-events="none"/>
+</svg>

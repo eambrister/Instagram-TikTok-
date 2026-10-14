@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs>
+  <radialGradient id="bg" cx="72%" cy="18%" r="95%"><stop offset="0" stop-color="#272219"/><stop offset=".38" stop-color="#171511"/><stop offset="1" stop-color="#0A0A09"/></radialGradient>
+  <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0A0A09" stop-opacity=".12"/><stop offset=".62" stop-color="#0A0A09" stop-opacity=".18"/><stop offset="1" stop-color="#0A0A09" stop-opacity=".9"/></linearGradient>
+  <filter id="grain"><feTurbulence baseFrequency=".72" numOctaves="3" seed="31" type="fractalNoise"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .045"/></feComponentTransfer></filter>
+</defs>
+<rect width="1080" height="1080" fill="url(#bg)"/>
+
+<text x="72" y="285" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="61" font-weight="700" letter-spacing="0">THIS ISN’T A LIST OF</text>
+<text x="72" y="361" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Serif" font-size="61" font-weight="700" letter-spacing="0">“GOOD” AND “BAD” FOODS.</text><path d="M72 470 H1008" stroke="#BE995C" stroke-width="3"/><text x="72" y="545" text-anchor="start" fill="#D9BC78" font-family="DejaVu Sans" font-size="24" font-weight="700" letter-spacing="1">MY RESULTS CAME FROM CHANGING THE OVERALL PATTERN:</text><circle cx="91" cy="637" r="12" fill="none" stroke="#BE995C" stroke-width="2"/><text x="126" y="645" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="27" font-weight="600" letter-spacing="0.5">PORTIONS + FREQUENCY</text><circle cx="91" cy="713" r="12" fill="none" stroke="#BE995C" stroke-width="2"/><text x="126" y="721" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="27" font-weight="600" letter-spacing="0.5">ADDED SUGAR</text><circle cx="91" cy="789" r="12" fill="none" stroke="#BE995C" stroke-width="2"/><text x="126" y="797" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="27" font-weight="600" letter-spacing="0.5">PROTEIN + PRODUCE</text><circle cx="91" cy="865" r="12" fill="none" stroke="#BE995C" stroke-width="2"/><text x="126" y="873" text-anchor="start" fill="#EEE9DF" font-family="DejaVu Sans" font-size="27" font-weight="600" letter-spacing="0.5">TOTAL CALORIES + MACROS</text><path d="M45 34 H1035 M45 1046 H1035" stroke="#BE995C" stroke-width="1" opacity=".55"/>
+<text x="62" y="75" fill="#D9BC78" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<text x="1018" y="75" text-anchor="end" fill="#B6B0A5" font-family="DejaVu Sans" font-size="15" letter-spacing="2">02 / 09 · CONTEXT</text>
+<text x="62" y="1020" fill="#B6B0A5" font-family="DejaVu Sans" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text>
+<rect width="1080" height="1080" filter="url(#grain)" opacity=".33" pointer-events="none"/>
+</svg>
