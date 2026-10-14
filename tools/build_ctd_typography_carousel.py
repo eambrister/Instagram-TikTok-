@@ -107,9 +107,11 @@ def render(i, s):
         v += ['<circle cx="878" cy="253" r="126" fill="none" stroke="url(#gold)" stroke-width="2" opacity=".55"/>',
               '<path d="M760 126 L1022 430" stroke="#BE995C" stroke-width="18" opacity=".12"/>']
         y = 290
+        hero_size = s.get('headline_size', 112)
+        hero_step = s.get('headline_step', 126)
         for n, c in s['headline']:
-            v.append(tspan_lines([n], 72, y, 112, c, 1, family='serif', weight='700', spacing='-2'))
-            y += 126
+            v.append(tspan_lines([n], 72, y, hero_size, c, 1, family='serif', weight='700', spacing='-2'))
+            y += hero_step
         v.append('<path d="M72 820 H390" stroke="#BE995C" stroke-width="4"/>')
         v.append(tspan_lines(s['body'], 72, 875, 25, MUTED, 38, weight='500', spacing='1'))
     elif layout == 'left':
@@ -149,8 +151,9 @@ def render(i, s):
         v.append('<path d="M540 164 V922" stroke="#BE995C" stroke-width="2" opacity=".55"/>')
         v.append('<text x="820" y="570" text-anchor="middle" fill="#BE995C" opacity=".12" font-family="DejaVu Serif" font-size="410" font-weight="700">?</text>')
         y=285
+        split_size = s.get('headline_size', 55)
         for n,c in s['headline']:
-            v.append(tspan_lines([n],72,y,55,c,1,family='serif',weight='700'))
+            v.append(tspan_lines([n],72,y,split_size,c,1,family='serif',weight='700'))
             y+=72
         v.append(tspan_lines(s['body'],72,650,23,MUTED,39,weight='500'))
     elif layout == 'reset':
@@ -164,8 +167,9 @@ def render(i, s):
         v.append(tspan_lines(lines,540,620,25,MUTED,76,anchor='middle',weight='500',spacing='.5'))
     elif layout == 'offer':
         y=250
+        offer_size = s.get('headline_size', 70)
         for n,c in s['headline']:
-            v.append(tspan_lines([n],72,y,70,c,1,family='serif',weight='700'))
+            v.append(tspan_lines([n],72,y,offer_size,c,1,family='serif',weight='700'))
             y+=85
         v.append('<path d="M72 405 H1008" stroke="#BE995C" stroke-width="2"/>')
         for j,step in enumerate(s['steps']):
@@ -173,6 +177,17 @@ def render(i, s):
             v.append(f'<rect x="74" y="{y-23}" width="30" height="30" fill="none" stroke="{GOLD}" stroke-width="2"/>')
             v.append(f'<path d="M82 {y-8} l8 8 17 -21" fill="none" stroke="{GOLD2}" stroke-width="3"/>')
             v.append(tspan_lines([step],135,y,27,BONE,1,weight='600',spacing='.5'))
+    elif layout == 'reflection':
+        v.append('<rect x="80" y="125" width="920" height="815" fill="none" stroke="#BE995C" stroke-width="2" opacity=".6"/>')
+        y=270
+        for n,c in s['headline']:
+            v.append(tspan_lines([n],540,y,76,c,1,anchor='middle',family='serif',weight='700'))
+            y+=90
+        clean=[line for line in s['body'] if line]
+        v.append(tspan_lines([clean[0]],540,535,27,BONE,1,anchor='middle',weight='600',spacing='.5'))
+        v.append('<path d="M340 600 H740" stroke="#BE995C" stroke-width="3"/>')
+        v.append(tspan_lines(clean[1:3],540,680,22,MUTED,38,anchor='middle',weight='500',spacing='.3'))
+        v.append(tspan_lines([clean[3]],540,830,18,GOLD2,1,anchor='middle',weight='700',spacing='.5'))
     elif layout == 'cta':
         v.append('<rect x="80" y="125" width="920" height="815" fill="none" stroke="#BE995C" stroke-width="2" opacity=".6"/>')
         y=275
