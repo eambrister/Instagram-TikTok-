@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs>
+  <radialGradient id="bg" cx="72%" cy="18%" r="95%"><stop offset="0" stop-color="#272219"/><stop offset=".38" stop-color="#171511"/><stop offset="1" stop-color="#0A0A09"/></radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#D9BC78"/><stop offset="1" stop-color="#8B6737"/></linearGradient>
+  <filter id="grain"><feTurbulence baseFrequency=".75" numOctaves="3" seed="24" type="fractalNoise"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .055"/></feComponentTransfer></filter>
+</defs>
+<rect width="1080" height="1080" fill="url(#bg)"/>
+<rect width="1080" height="1080" filter="url(#grain)" opacity=".42"/>
+<path d="M45 34 H1035 M45 1046 H1035" stroke="#BE995C" stroke-width="1" opacity=".42"/>
+<text x="62" y="75" fill="#BE995C" font-family="DejaVu Sans" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<text x="1018" y="75" text-anchor="end" fill="#B6B0A5" font-family="DejaVu Sans" font-size="15" letter-spacing="2">07 / 09 · EXECUTE AGAIN</text>
+
+<text x="540" y="770" text-anchor="middle" fill="#BE995C" opacity=".075" font-family="DejaVu Serif" font-size="480" font-weight="700">1</text>
+<text x="540" y="285" text-anchor="middle" fill="#EEE9DF" font-family="DejaVu Serif" font-size="65" font-weight="700" letter-spacing="0">ONE MISS DOESN&#x27;T</text>
+<text x="540" y="367" text-anchor="middle" fill="#EEE9DF" font-family="DejaVu Serif" font-size="65" font-weight="700" letter-spacing="0">REQUIRE ANOTHER</text>
+<text x="540" y="449" text-anchor="middle" fill="#D9BC78" font-family="DejaVu Serif" font-size="65" font-weight="700" letter-spacing="0">MONDAY.</text>
+<path d="M330 505 H750" stroke="#BE995C" stroke-width="3"/>
+<text x="540" y="620" text-anchor="middle" fill="#B6B0A5" font-family="DejaVu Sans" font-size="25" font-weight="500" letter-spacing=".5">COMPLETE THE NEXT SCHEDULED ACTION.</text>
+<text x="540" y="696" text-anchor="middle" fill="#B6B0A5" font-family="DejaVu Sans" font-size="25" font-weight="500" letter-spacing=".5">DISCIPLINE IS MEASURED BY HOW QUICKLY YOU RETURN.</text>
+<text x="62" y="1020" fill="#B6B0A5" font-family="DejaVu Sans" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text></svg>
