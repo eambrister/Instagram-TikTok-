@@ -121,16 +121,18 @@ s += chrome(4, 'current pattern')
 slides.append(('04-current-pattern', s))
 
 # 05 — breakfast
-defs = cropped_image(NOW, 627, 0, 627, 627, 590, 170, 430, 730, 'breakfast')
+defs = cropped_image(NOW, 627, 0, 627, 627, 540, 165, 484, 765, 'breakfast')
 s = frame(5, 'breakfast', defs)
-s += '<rect x="590" y="170" width="430" height="730" fill="#0A0A09" opacity=".17"/>'
+s += '<rect x="540" y="165" width="484" height="765" fill="#0A0A09" opacity=".08"/>'
+s += '<path d="M540 165 V930" stroke="#BE995C" stroke-width="2"/>'
 s += text(['BREAKFAST'], 72, 205, 19, GOLD2, spacing=4)
 s += text(['BEFORE'], 72, 310, 20, MUTED, spacing=3)
-s += text(['LOADS OF WAFFLES', '+ PANCAKES WITH', 'SUGARY SYRUP'], 72, 385, 39, BONE, 50, serif=True)
-s += '<path d="M72 575 H510" stroke="#BE995C" stroke-width="2"/>'
-s += text(['NOW'], 72, 650, 20, GOLD2, spacing=3)
-s += text(['SOMETIMES I SKIP IT.', 'OTHER DAYS: EGGS,', 'OATMEAL OR', 'CREAM OF WHEAT.'], 72, 715, 29, BONE, 40, weight=600)
-s += text(['THE WIN WAS INTENTION—NOT BREAKFAST MAGIC.'], 72, 925, 17, GOLD2, spacing=.2)
+s += text(['WAFFLES +', 'PANCAKES'], 72, 380, 43, BONE, 53, serif=True)
+s += text(['WITH LOADS OF', 'SUGARY SYRUP'], 72, 500, 25, MUTED, 36, weight=600)
+s += '<path d="M72 605 H480" stroke="#BE995C" stroke-width="2"/>'
+s += text(['NOW'], 72, 680, 20, GOLD2, spacing=3)
+s += text(['EGGS · OATMEAL', 'CREAM OF WHEAT', 'OR I SKIP IT'], 72, 750, 29, BONE, 42, weight=600)
+s += text(['INTENTIONAL CHOICES.', 'NO BREAKFAST MAGIC.'], 72, 895, 16, GOLD2, 25, weight=700, spacing=.3)
 s += chrome(5, 'breakfast')
 slides.append(('05-breakfast', s))
 
@@ -146,8 +148,8 @@ s += text(['PROTEIN + A PLANNED', 'CARB OR VEGETABLES'], 594, 858, 22, BONE, 33,
 s += chrome(6, 'lunch + dinner')
 slides.append(('06-lunch-dinner', s))
 
-# 07 — snacks
-defs = cropped_image(BEFORE, 418, 627, 418, 627, 56, 245, 456, 520, 'dessert') + cropped_image(NOW, 0, 0, 627, 627, 568, 245, 456, 520, 'fruit')
+# 07 — snacks. The current-food crop isolates the mangoes and strawberries.
+defs = cropped_image(BEFORE, 418, 627, 418, 627, 56, 245, 456, 520, 'dessert') + cropped_image(NOW, 285, 0, 342, 390, 568, 245, 456, 520, 'fruit')
 s = frame(7, 'snacks', defs)
 s += text(['SNACKS'], 540, 175, 53, BONE, anchor='middle', serif=True)
 s += text(['BEFORE'], 82, 830, 18, MUTED, spacing=3) + text(['SKITTLES, FRUIT SNACKS', '+ OTHER SWEETS'], 82, 875, 22, BONE, 33, weight=600)
