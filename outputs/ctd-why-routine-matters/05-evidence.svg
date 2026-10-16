@@ -11,7 +11,7 @@
 <rect width="760" height="1350" fill="url(#leftShade)"/>
 <rect y="1050" width="1080" height="300" fill="url(#bottomFade)"/>
 <path d="M45 34 H1035 M45 1316 H1035" stroke="#C19A58" stroke-width="1" opacity=".62"/>
-<text x="62" y="75" fill="#E1BE77" font-family="Liberation Sans" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<image x="52" y="43" width="118" height="118" preserveAspectRatio="xMidYMid meet" xlink:href="file:///workspace/Instagram-TikTok-/outputs/ctd-why-routine-matters/ctd-cinematic-logo.png"/>
 <text x="1018" y="75" text-anchor="end" fill="#C2BDB3" font-family="Liberation Sans" font-size="15" letter-spacing="2">05 / 08 · EVIDENCE</text>
 <text x="72" y="322" text-anchor="start" fill="#E1BE77" font-family="Liberation Sans" font-size="19" font-weight="700" letter-spacing="3">04 · EVIDENCE</text>
 <text x="72" y="400" text-anchor="start" fill="#F0ECE3" font-family="Latin Modern Sans Demi Cond" font-size="68" font-weight="700" letter-spacing="-1">REPETITION BUILDS</text>
@@ -19,6 +19,6 @@
 <path d="M72 578 H380" stroke="#C19A58" stroke-width="3"/>
 <text x="72" y="630" text-anchor="start" fill="#F0ECE3" font-family="Liberation Sans" font-size="24" font-weight="600" letter-spacing=".2">Each completed action strengthens the belief</text>
 <text x="72" y="667" text-anchor="start" fill="#F0ECE3" font-family="Liberation Sans" font-size="24" font-weight="600" letter-spacing=".2">that you follow through on your word.</text>
-<text x="62" y="1288" fill="#C2BDB3" font-family="Liberation Sans" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text>
+<text x="62" y="1288" fill="#C2BDB3" font-family="Liberation Sans" font-size="13" font-weight="700" letter-spacing="1.8">DISCIPLINE · ACCOUNTABILITY · CONSISTENCY</text>
 <rect width="1080" height="1350" filter="url(#grain)" opacity=".42" pointer-events="none"/>
 </svg>

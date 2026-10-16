@@ -29,6 +29,9 @@ GOLD = '#C19A58'
 GOLD2 = '#E1BE77'
 HEAD = 'Latin Modern Sans Demi Cond'
 BODY = 'Liberation Sans'
+LOGO_SOURCE = Path('/workspace/generated_images/exec-66c3afd4-fee1-46ee-81a3-4ab263151bb1.png')
+LOGO = OUT / 'ctd-cinematic-logo.png'
+shutil.copy2(LOGO_SOURCE, LOGO)
 
 slides = [
     {
@@ -104,6 +107,7 @@ def lines(values, x, y, size, color, leading, anchor='start', family=BODY,
 
 def render(i, slide):
     image_uri = (ASSETS / f'{i:02d}-scene.png').resolve().as_uri()
+    logo_uri = LOGO.resolve().as_uri()
     align = slide['align']
     x = 72 if align == 'left' else 1008
     anchor = 'start' if align == 'left' else 'end'
@@ -132,7 +136,7 @@ def render(i, slide):
 {shade}
 <rect y="1050" width="1080" height="300" fill="url(#bottomFade)"/>
 <path d="M45 34 H1035 M45 1316 H1035" stroke="{GOLD}" stroke-width="1" opacity=".62"/>
-<text x="62" y="75" fill="{GOLD2}" font-family="{BODY}" font-size="17" font-weight="700" letter-spacing="3">CUT THROAT DISCIPLINE</text>
+<image x="52" y="43" width="118" height="118" preserveAspectRatio="xMidYMid meet" xlink:href="{logo_uri}"/>
 <text x="1018" y="75" text-anchor="end" fill="{MUTED}" font-family="{BODY}" font-size="15" letter-spacing="2">{i:02d} / 08 · {esc(slide['role'].upper())}</text>
 {lines([slide['kicker']], x, text_y-78, 19, GOLD2, 1, anchor, BODY, '700', '3')}
 {lines(slide['headline'], x, text_y, headline_size, BONE, 79, anchor, HEAD, '700', '-1')}
@@ -142,7 +146,7 @@ def render(i, slide):
     if slide.get('prompt'):
         svg += f'<rect x="72" y="1032" width="520" height="66" fill="{GOLD}"/>'
         svg += lines([slide['prompt']], 332, 1074, 17, INK, 1, 'middle', BODY, '700', '.8')
-    svg += f'''<text x="62" y="1288" fill="{MUTED}" font-family="{BODY}" font-size="14" letter-spacing="2">COMMIT · TRACK · EXECUTE</text>
+    svg += f'''<text x="62" y="1288" fill="{MUTED}" font-family="{BODY}" font-size="13" font-weight="700" letter-spacing="1.8">DISCIPLINE · ACCOUNTABILITY · CONSISTENCY</text>
 <rect width="1080" height="1350" filter="url(#grain)" opacity=".42" pointer-events="none"/>
 </svg>'''
     return svg
@@ -192,6 +196,8 @@ Format: 8 individual 1080 × 1350 sRGB PNG slides (Instagram 4:5).
 Objective: educational authority and reflection; no coaching offer.
 Art direction: original cinematic 3D scenes in obsidian, charcoal, muted gold and bone.
 Typography: Latin Modern Sans Demi Cond is the temporary Heading Now substitute; Liberation Sans is the temporary Gotham substitute because the licensed font files are not installed.
+Brand lockup: cinematic CTD monogram and wordmark at the top-left of every slide.
+Footer standard: DISCIPLINE · ACCOUNTABILITY · CONSISTENCY.
 Sequence: hook, direction, resistance, preparation, evidence, difficult days, real-life fit, seven-day action prompt.
 CTA: choose one repeatable action and name it; no sales CTA.
 ''', encoding='utf-8')
