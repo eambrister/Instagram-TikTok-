@@ -31,3 +31,14 @@ The nine-slide photo and typography carousel is in [`outputs/ctd-food-before-aft
 - Upload the numbered PNG files in order from `01` through `09`.
 
 The editable SVG files, source contact sheets, transcript, production notes, and generator script are included.
+
+## Why routine matters carousel
+
+The 4:5 cinematic educational carousel is in [`outputs/ctd-why-routine-matters`](outputs/ctd-why-routine-matters).
+
+- Download [`final-carousel.zip`](outputs/ctd-why-routine-matters/final-carousel.zip) for the complete posting package.
+- Open [`preview.jpg`](outputs/ctd-why-routine-matters/preview.jpg) to review the eight-slide sequence.
+- Use [`caption.txt`](outputs/ctd-why-routine-matters/caption.txt) as the posting caption.
+- Upload the numbered 1080 × 1350 PNG files in order from `01` through `08`.
+
+The editable SVG files, original 3D scene assets, transcript, production notes, and generator script are included.
