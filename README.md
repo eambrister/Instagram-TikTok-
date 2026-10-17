@@ -2,6 +2,19 @@
 
 Social content assets for Cut Throat Discipline.
 
+Current format, logo, footer and typography preferences are recorded in [`brand/README.md`](brand/README.md).
+
+## Burpees: bodyweight conditioning
+
+The eight-slide cinematic sports-performance carousel is in [`outputs/ctd-burpees`](outputs/ctd-burpees).
+
+- [Download the posting package](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/ctd-burpees/final-carousel.zip).
+- [Review the preview](outputs/ctd-burpees/preview.jpg).
+- [Copy the Instagram caption](outputs/ctd-burpees/caption.txt).
+- Individual PNGs are numbered `01` through `08`, each 1080 × 1350 px (4:5).
+
+The set includes the established cinematic logo and updated footer, the confirmed 100-burpee personal story, original generated scenes, editable SVGs and open font substitutes.
+
 ## CTD Execution Cycle carousel
 
 The finished nine-slide typography carousel is in [`outputs/ctd-execution-cycle`](outputs/ctd-execution-cycle).

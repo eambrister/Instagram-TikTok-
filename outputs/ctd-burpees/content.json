@@ -1,0 +1,63 @@
+[
+  {
+    "slug": "hook",
+    "kicker": "THE BODYWEIGHT CONDITIONING SERIES",
+    "headline": ["THE MOST UNDERRATED", "CONDITIONING EXERCISE?"],
+    "subhead": "BURPEES.",
+    "body": ["No machines. No fancy equipment.", "One movement that challenges your whole body."]
+  },
+  {
+    "slug": "whole-body",
+    "kicker": "01 / FULL-BODY CONDITIONING",
+    "headline": ["ONE MOVEMENT.", "MULTIPLE MUSCLE GROUPS."],
+    "subhead": "YOUR WHOLE BODY GETS INVOLVED.",
+    "body": ["Legs drive the transitions. Core and shoulders", "stabilize the plank. Add a push-up for", "more chest and triceps work."]
+  },
+  {
+    "slug": "cardiovascular",
+    "kicker": "02 / CARDIOVASCULAR ENDURANCE",
+    "headline": ["TURN UP THE", "CARDIOVASCULAR DEMAND."],
+    "subhead": "BUILD YOUR ENGINE.",
+    "body": ["Repeated burpees raise heart rate and breathing.", "Work-and-rest intervals challenge your ability", "to sustain effort and recover between sets."]
+  },
+  {
+    "slug": "explosiveness",
+    "kicker": "03 / EXPLOSIVE MOVEMENT",
+    "headline": ["CONDITIONING MEETS", "EXPLOSIVENESS."],
+    "subhead": "MOVE WITH POWER.",
+    "body": ["The jump adds explosive lower-body effort.", "Land softly. Rest when jump quality", "or technique starts to decline."]
+  },
+  {
+    "slug": "no-equipment",
+    "kicker": "04 / NO EQUIPMENT REQUIRED",
+    "headline": ["NO GYM.", "NO EXCUSES."],
+    "subhead": "YOUR BODY IS THE EQUIPMENT.",
+    "body": ["Clear some floor space. Use a stable surface.", "Choose your variation, set your pace", "and get moving."]
+  },
+  {
+    "slug": "endurance",
+    "kicker": "05 / MUSCULAR ENDURANCE",
+    "headline": ["THE REAL TEST STARTS", "WHEN YOU GET TIRED."],
+    "subhead": "STAY IN CONTROL.",
+    "body": ["Repeated reps challenge endurance and pacing.", "Keep your movements controlled. Slow down", "or rest when your technique starts to slip."]
+  },
+  {
+    "slug": "progression",
+    "kicker": "06 / ADAPTABLE INTENSITY",
+    "headline": ["ONE EXERCISE.", "MULTIPLE LEVELS."],
+    "subhead": "PROGRESS AT YOUR OWN PACE.",
+    "labels": [
+      {"title": "STEP BACK", "body": "Step back and in. Stand."},
+      {"title": "JUMP BACK", "body": "Jump back and in. Stand."},
+      {"title": "ADD A CHALLENGE", "body": "Add a jump or push-up."}
+    ],
+    "body": ["Choose the version you can control.", "Increase the challenge gradually."]
+  },
+  {
+    "slug": "start",
+    "kicker": "YOUR NEXT ACTION",
+    "headline": ["STOP OVERCOMPLICATING", "CONDITIONING."],
+    "subhead": "TRY 10 CONTROLLED REPS. BUILD FROM THERE.",
+    "body": ["Choose your variation. Use smaller sets", "or start with fewer reps. Build gradually", "and allow recovery between sessions."]
+  }
+]

@@ -1,0 +1,16 @@
+CUT THROAT DISCIPLINE — BURPEES
+
+1. Save the eight numbered PNG images to your device.
+2. Create an Instagram carousel and select slides 01 through 08 in order.
+3. Use the portrait 4:5 crop. Every slide is 1080 x 1350 pixels.
+4. Copy caption.txt into the post. Optional image descriptions are in alt-text.txt.
+5. Review each slide before posting.
+
+preview.jpg is an overview for review; post the eight separate PNGs.
+The PNGs can also be used for a TikTok photo post; check the app preview before publishing.
+
+Editable SVGs, scene assets and font files are available in the GitHub folder:
+https://github.com/eambrister/Instagram-TikTok-/tree/main/outputs/ctd-burpees
+
+Typography uses the accepted temporary substitutes Barlow Condensed ExtraBold
+and Montserrat Medium/Bold. The confirmed personal story is in the caption.
