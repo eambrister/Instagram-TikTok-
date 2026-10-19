@@ -8,14 +8,14 @@ An eight-slide, typography-only CUTTHROAT DISCIPLINE carousel confronting procra
 
 ## Posting order
 
-1. You don't need another tomorrow
-2. Talkers announce; doers disappear
-3. Your goal isn't confused
-4. Tomorrow is where excuses survive
-5. Stop mistaking intention for effort
-6. People who really want it start
-7. Quiet work makes loud results
-8. Close this post and act now
+1. You keep saying tomorrow—how many tomorrows do you need?
+2. Talking can feel productive, but it isn't progress
+3. Talkers announce; doers execute
+4. “I'll start tomorrow” often means avoiding discomfort today
+5. Your goal isn't confused; you keep avoiding it
+6. Wanting earns nothing; completed work is the receipt
+7. Stop announcing the plan; build the evidence
+8. Close this post and do one thing right now
 
 Upload the numbered PNG files in order. Every slide is 1080 × 1350 pixels (4:5). `overview.jpg` is a contact sheet for reviewing all eight slides; post the individual PNGs.
 
