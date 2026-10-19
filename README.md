@@ -7,7 +7,8 @@ Social content assets for Cut Throat Discipline.
 The eight-slide, typography-only **Talkers vs Doers** carousel is in [`outputs/ctd-talkers-vs-doers`](outputs/ctd-talkers-vs-doers).
 
 - [Download the posting package](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/ctd-talkers-vs-doers/final-carousel.zip)
-- [Review the full preview](outputs/ctd-talkers-vs-doers/preview.jpg)
+- [Review the 4:5 cover](outputs/ctd-talkers-vs-doers/preview.png)
+- [View all eight slides](outputs/ctd-talkers-vs-doers/overview.jpg)
 - [Copy the caption](outputs/ctd-talkers-vs-doers/caption.txt)
 
 Each numbered slide is 1080 × 1350 pixels (4:5), using loud typography, vector geometry, the established logo, and no generated people or fitness imagery.

@@ -15,11 +15,10 @@
 <text x="1018" y="84" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="18" font-weight="700" text-anchor="end" letter-spacing="1.6">02 / 08</text>
 <path d="M66 150 H1014" stroke="#464950" stroke-width="1"/>
 <path d="M730 150 H1014" stroke="#D6A928" stroke-width="5"/>
-<text x="1014" y="305" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="end" letter-spacing="-1.2">TALKERS</text>
-<text x="1014" y="463" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="end" letter-spacing="-1.2">ANNOUNCE.</text>
-<path d="M730 825 H1014" stroke="#D6A928" stroke-width="5"/>
-<text x="1014" y="883" fill="#F3EFE6" fill-opacity="1" font-family="Montserrat" font-size="34" font-weight="700" text-anchor="end" letter-spacing="0.2">DOERS DISAPPEAR.</text>
-<text x="1014" y="936" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="25" font-weight="500" text-anchor="end" letter-spacing="0">One collects reactions. The other collects results.</text>
+<text x="1014" y="325.0" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">TALKERS</text>
+<text x="1014" y="588.3333333333333" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">ANNOUNCE.</text>
+<text x="1014" y="851.6666666666666" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">DOERS</text>
+<text x="1014" y="1115.0" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">EXECUTE.</text>
 <path d="M66 1268 H1014" stroke="#464950" stroke-width="1"/>
 <text x="540" y="1307" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1.5">DISCIPLINE - ACCOUNTABILITY - CONSISTENCY</text>
 </svg>

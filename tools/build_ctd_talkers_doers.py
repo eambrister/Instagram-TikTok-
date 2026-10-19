@@ -5,6 +5,7 @@ from base64 import b64encode
 from zipfile import ZipFile, ZIP_DEFLATED
 import html
 import os
+import shutil
 import subprocess
 import tempfile
 
@@ -24,23 +25,19 @@ HEAD = "Barlow Condensed"
 BODY = "Montserrat"
 
 slides = [
-    ("hook", ["YOU DON'T NEED", "ANOTHER", "TOMORROW."],
-     "YOU NEED A FIRST REP.", "Talking about the work is not the work."),
-    ("talkers", ["TALKERS", "ANNOUNCE."],
-     "DOERS DISAPPEAR.", "One collects reactions. The other collects results."),
-    ("avoidance", ["YOUR GOAL", "ISN'T CONFUSED."],
-     "YOU KEEP DODGING IT.", "You already know the next move. You're avoiding the discomfort."),
-    ("tomorrow", ["TOMORROW IS", "WHERE EXCUSES", "GO TO SURVIVE."],
-     "Every delay trains you to delay again.", ""),
-    ("intention", ["STOP MISTAKING", "INTENTION", "FOR EFFORT."],
-     "Wanting it earns you nothing.", "Completed actions are the only proof."),
-    ("start", ["PEOPLE WHO", "REALLY WANT IT", "START."],
-     "They don't wait for the perfect mood.", "They begin before they feel ready."),
-    ("quiet", ["QUIET WORK", "MAKES LOUD", "RESULTS."],
-     "Less announcing. More evidence.", "Let your habits introduce you."),
-    ("command", ["CLOSE THIS POST.", "DO THE FIRST", "THING. NOW."],
-     "10 squats. A 10-minute walk. Prep one meal.", "Pick one. Finish it. Then come back."),
+    ("hook", ["STOP", "SAYING", "TOMORROW.", "START", "TODAY."], "", ""),
+    ("talkers", ["TALKERS", "ANNOUNCE.", "DOERS", "EXECUTE."], "", ""),
+    ("avoidance", ["YOUR GOAL", "ISN'T", "CONFUSED.", "YOU KEEP", "DODGING IT."], "", ""),
+    ("tomorrow", ["TOMORROW", "IS WHERE", "EXCUSES", "GO TO", "SURVIVE."], "", ""),
+    ("intention", ["WANTING IT", "EARNS YOU", "NOTHING.", "WORK", "DOES."], "", ""),
+    ("start", ["SERIOUS", "PEOPLE", "START", "BEFORE THEY", "FEEL READY."], "", ""),
+    ("quiet", ["QUIET", "WORK.", "LOUD", "RESULTS."], "", ""),
+    ("command", ["CLOSE", "THIS POST.", "DO ONE", "THING.", "NOW."], "", ""),
 ]
+
+GOLD_LINES = {"TOMORROW.", "TODAY.", "DOERS", "EXECUTE.", "DODGING IT.",
+              "SURVIVE.", "NOTHING.", "DOES.", "START", "FEEL READY.",
+              "RESULTS.", "NOW."}
 
 def esc(value):
     return html.escape(str(value), quote=True)
@@ -49,10 +46,12 @@ def uri(path):
     return "data:image/png;base64," + b64encode(path.read_bytes()).decode("ascii")
 
 def text(x, y, value, size, color=WHITE, family=HEAD, weight=800,
-         anchor="start", tracking=0, opacity=1):
+         anchor="start", tracking=0, opacity=1, text_length=None):
+    length = (f' textLength="{text_length}" lengthAdjust="spacingAndGlyphs"'
+              if text_length else "")
     return (f'<text x="{x}" y="{y}" fill="{color}" fill-opacity="{opacity}" '
             f'font-family="{family}" font-size="{size}" font-weight="{weight}" '
-            f'text-anchor="{anchor}" letter-spacing="{tracking}">{esc(value)}</text>')
+            f'text-anchor="{anchor}" letter-spacing="{tracking}"{length}>{esc(value)}</text>')
 
 def svg(number, slug, headline, strike, support):
     # Alternating alignment creates controlled aggression without sacrificing hierarchy.
@@ -61,21 +60,15 @@ def svg(number, slug, headline, strike, support):
     x = 1014 if right else 66
     if number == 8:
         x = 82
-    sizes = [142 if len(line) < 13 else 116 if len(line) < 18 else 96 for line in headline]
-    if number == 1:
-        sizes = [99, 176, 146]
-    if number == 8:
-        sizes = [108, 150, 150]
-    top = 305
-    lead = 158
+    top = 325
+    bottom = 1115
+    lead = (bottom - top) / max(1, len(headline)-1)
     blocks = []
     for index, line in enumerate(headline):
-        color = GOLD if (index == len(headline)-1 or line in ("ANOTHER", "INTENTION")) else WHITE
-        blocks.append(text(x, top + index*lead, line, sizes[index], color, anchor=anchor, tracking=-1.2))
-    last_y = top + (len(headline)-1)*lead
-    divider_y = max(825, last_y + 86)
-    if number == 8:
-        divider_y = 760
+        color = GOLD if line in GOLD_LINES else WHITE
+        target_width = min(948, max(610, len(line) * 66))
+        blocks.append(text(x, top + index*lead, line, 190, color, anchor=anchor,
+                           tracking=-1.5, text_length=target_width))
     accent_x1, accent_x2 = (730, 1014) if right else (66, 350)
     number_outline = text(540, 760, f"{number:02d}", 690, "#FFFFFF", HEAD, 800,
                           "middle", -16, .025)
@@ -88,7 +81,7 @@ def svg(number, slug, headline, strike, support):
         5: '<path d="M70 660 H1010" stroke="#8D1721" stroke-width="18" opacity=".32"/>',
         6: '<path d="M70 1025 H1010" stroke="#D6A928" stroke-width="3"/><path d="M960 995 L1010 1025 L960 1055" fill="none" stroke="#D6A928" stroke-width="3"/>',
         7: '<g fill="none" stroke="#D6A928" opacity=".2"><rect x="690" y="760" width="320" height="155"/><rect x="645" y="715" width="320" height="155"/><rect x="600" y="670" width="320" height="155"/></g>',
-        8: '<rect x="65" y="175" width="950" height="740" fill="none" stroke="#D6A928" stroke-width="3"/>',
+        8: '<rect x="65" y="175" width="950" height="985" fill="none" stroke="#D6A928" stroke-width="3"/>',
     }[number]
     body = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">',
@@ -108,12 +101,7 @@ def svg(number, slug, headline, strike, support):
         '<path d="M66 150 H1014" stroke="#464950" stroke-width="1"/>',
         f'<path d="M{accent_x1} 150 H{accent_x2}" stroke="#D6A928" stroke-width="5"/>',
         *blocks,
-        f'<path d="M{accent_x1} {divider_y} H{accent_x2}" stroke="#D6A928" stroke-width="5"/>',
-        text(x, divider_y+58, strike.upper(), 34 if len(strike)<35 else 29, WHITE, BODY, 700, anchor, .2),
     ]
-    if support:
-        body.append(text(x, divider_y+111, support, 25 if len(support)<58 else 22,
-                         SILVER, BODY, 500, anchor, 0))
     body.extend([
         '<path d="M66 1268 H1014" stroke="#464950" stroke-width="1"/>',
         text(540, 1307, "DISCIPLINE - ACCOUNTABILITY - CONSISTENCY", 15, SILVER, BODY, 700, "middle", 1.5),
@@ -148,12 +136,18 @@ def main():
             subprocess.run(["inkscape", str(svg_path), "--export-type=png", "--export-filename", str(png_path),
                             "--export-width=1080", "--export-height=1350"], check=True, env=env)
             pngs.append(png_path)
-            copy.extend([f"SLIDE {number}", *headline, strike, support, ""])
-    (OUT / "copy.txt").write_text("\n".join(copy), encoding="utf-8")
+            copy.extend([f"SLIDE {number}", *headline])
+            if strike:
+                copy.append(strike)
+            if support:
+                copy.append(support)
+            copy.append("")
+    (OUT / "copy.txt").write_text("\n".join(copy).rstrip() + "\n", encoding="utf-8")
     subprocess.run(["montage", *map(str, pngs), "-thumbnail", "270x338", "-tile", "4x2",
-                    "-geometry", "+12+12", "-background", "#090A0C", str(OUT / "preview.jpg")], check=True)
+                    "-geometry", "+12+12", "-background", "#090A0C", str(OUT / "overview.jpg")], check=True)
+    shutil.copyfile(pngs[0], OUT / "preview.png")
     package = [*pngs, OUT / "caption.txt", OUT / "copy.txt", OUT / "alt-text.txt",
-               OUT / "production-notes.txt", OUT / "README.md", OUT / "preview.jpg"]
+               OUT / "production-notes.txt", OUT / "README.md", OUT / "preview.png", OUT / "overview.jpg"]
     with ZipFile(OUT / "final-carousel.zip", "w", ZIP_DEFLATED, compresslevel=6) as archive:
         for path in package:
             archive.write(path, path.name)

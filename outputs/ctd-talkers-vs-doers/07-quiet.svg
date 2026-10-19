@@ -15,12 +15,10 @@
 <text x="1018" y="84" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="18" font-weight="700" text-anchor="end" letter-spacing="1.6">07 / 08</text>
 <path d="M66 150 H1014" stroke="#464950" stroke-width="1"/>
 <path d="M66 150 H350" stroke="#D6A928" stroke-width="5"/>
-<text x="66" y="305" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="start" letter-spacing="-1.2">QUIET WORK</text>
-<text x="66" y="463" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="start" letter-spacing="-1.2">MAKES LOUD</text>
-<text x="66" y="621" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="start" letter-spacing="-1.2">RESULTS.</text>
-<path d="M66 825 H350" stroke="#D6A928" stroke-width="5"/>
-<text x="66" y="883" fill="#F3EFE6" fill-opacity="1" font-family="Montserrat" font-size="34" font-weight="700" text-anchor="start" letter-spacing="0.2">LESS ANNOUNCING. MORE EVIDENCE.</text>
-<text x="66" y="936" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="25" font-weight="500" text-anchor="start" letter-spacing="0">Let your habits introduce you.</text>
+<text x="66" y="325.0" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">QUIET</text>
+<text x="66" y="588.3333333333333" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">WORK.</text>
+<text x="66" y="851.6666666666666" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">LOUD</text>
+<text x="66" y="1115.0" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">RESULTS.</text>
 <path d="M66 1268 H1014" stroke="#464950" stroke-width="1"/>
 <text x="540" y="1307" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1.5">DISCIPLINE - ACCOUNTABILITY - CONSISTENCY</text>
 </svg>

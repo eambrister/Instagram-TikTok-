@@ -2,9 +2,9 @@
 
 An eight-slide, typography-only CUTTHROAT DISCIPLINE carousel confronting procrastination and pushing the reader toward immediate action.
 
-[Download the complete posting package](final-carousel.zip) · [Copy the caption](caption.txt) · [Read the slide copy](copy.txt)
+[Download the complete posting package](final-carousel.zip) · [Copy the caption](caption.txt) · [View all eight slides](overview.jpg) · [Read the slide copy](copy.txt)
 
-![Eight-slide preview](preview.jpg)
+![4:5 carousel cover](preview.png)
 
 ## Posting order
 
@@ -17,6 +17,6 @@ An eight-slide, typography-only CUTTHROAT DISCIPLINE carousel confronting procra
 7. Quiet work makes loud results
 8. Close this post and act now
 
-Upload the numbered PNG files in order. Every slide is 1080 × 1350 pixels (4:5). The overview image is for review; post the eight individual PNGs.
+Upload the numbered PNG files in order. Every slide is 1080 × 1350 pixels (4:5). `overview.jpg` is a contact sheet for reviewing all eight slides; post the individual PNGs.
 
 The carousel contains typography, vector geometry, texture, and the supplied CUTTHROAT DISCIPLINE logo. It contains no AI-generated people or fitness imagery.

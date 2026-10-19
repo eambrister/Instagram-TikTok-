@@ -15,12 +15,11 @@
 <text x="1018" y="84" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="18" font-weight="700" text-anchor="end" letter-spacing="1.6">06 / 08</text>
 <path d="M66 150 H1014" stroke="#464950" stroke-width="1"/>
 <path d="M730 150 H1014" stroke="#D6A928" stroke-width="5"/>
-<text x="1014" y="305" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="end" letter-spacing="-1.2">PEOPLE WHO</text>
-<text x="1014" y="463" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="116" font-weight="800" text-anchor="end" letter-spacing="-1.2">REALLY WANT IT</text>
-<text x="1014" y="621" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="142" font-weight="800" text-anchor="end" letter-spacing="-1.2">START.</text>
-<path d="M730 825 H1014" stroke="#D6A928" stroke-width="5"/>
-<text x="1014" y="883" fill="#F3EFE6" fill-opacity="1" font-family="Montserrat" font-size="29" font-weight="700" text-anchor="end" letter-spacing="0.2">THEY DON&#x27;T WAIT FOR THE PERFECT MOOD.</text>
-<text x="1014" y="936" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="25" font-weight="500" text-anchor="end" letter-spacing="0">They begin before they feel ready.</text>
+<text x="1014" y="325.0" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">SERIOUS</text>
+<text x="1014" y="522.5" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">PEOPLE</text>
+<text x="1014" y="720.0" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">START</text>
+<text x="1014" y="917.5" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="726" lengthAdjust="spacingAndGlyphs">BEFORE THEY</text>
+<text x="1014" y="1115.0" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="end" letter-spacing="-1.5" textLength="726" lengthAdjust="spacingAndGlyphs">FEEL READY.</text>
 <path d="M66 1268 H1014" stroke="#464950" stroke-width="1"/>
 <text x="540" y="1307" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1.5">DISCIPLINE - ACCOUNTABILITY - CONSISTENCY</text>
 </svg>

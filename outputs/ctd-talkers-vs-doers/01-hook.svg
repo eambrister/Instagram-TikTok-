@@ -15,12 +15,11 @@
 <text x="1018" y="84" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="18" font-weight="700" text-anchor="end" letter-spacing="1.6">01 / 08</text>
 <path d="M66 150 H1014" stroke="#464950" stroke-width="1"/>
 <path d="M66 150 H350" stroke="#D6A928" stroke-width="5"/>
-<text x="66" y="305" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="99" font-weight="800" text-anchor="start" letter-spacing="-1.2">YOU DON&#x27;T NEED</text>
-<text x="66" y="463" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="176" font-weight="800" text-anchor="start" letter-spacing="-1.2">ANOTHER</text>
-<text x="66" y="621" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="146" font-weight="800" text-anchor="start" letter-spacing="-1.2">TOMORROW.</text>
-<path d="M66 825 H350" stroke="#D6A928" stroke-width="5"/>
-<text x="66" y="883" fill="#F3EFE6" fill-opacity="1" font-family="Montserrat" font-size="34" font-weight="700" text-anchor="start" letter-spacing="0.2">YOU NEED A FIRST REP.</text>
-<text x="66" y="936" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="25" font-weight="500" text-anchor="start" letter-spacing="0">Talking about the work is not the work.</text>
+<text x="66" y="325.0" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">STOP</text>
+<text x="66" y="522.5" fill="#F3EFE6" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">SAYING</text>
+<text x="66" y="720.0" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">TOMORROW.</text>
+<text x="66" y="917.5" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">START</text>
+<text x="66" y="1115.0" fill="#D6A928" fill-opacity="1" font-family="Barlow Condensed" font-size="190" font-weight="800" text-anchor="start" letter-spacing="-1.5" textLength="610" lengthAdjust="spacingAndGlyphs">TODAY.</text>
 <path d="M66 1268 H1014" stroke="#464950" stroke-width="1"/>
 <text x="540" y="1307" fill="#AEB3BA" fill-opacity="1" font-family="Montserrat" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1.5">DISCIPLINE - ACCOUNTABILITY - CONSISTENCY</text>
 </svg>
