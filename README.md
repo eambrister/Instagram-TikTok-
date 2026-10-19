@@ -2,6 +2,13 @@
 
 Social content assets for Cut Throat Discipline.
 
+## Less Announcing. More Evidence.
+
+The single educational 4:5 post is in [`outputs/ctd-less-talking-more-doing`](outputs/ctd-less-talking-more-doing).
+
+- [View the finished post](outputs/ctd-less-talking-more-doing/post.png)
+- [Copy the caption](outputs/ctd-less-talking-more-doing/caption.txt)
+
 ## Talkers vs Doers
 
 The eight-slide, typography-only **Talkers vs Doers** carousel is in [`outputs/ctd-talkers-vs-doers`](outputs/ctd-talkers-vs-doers).

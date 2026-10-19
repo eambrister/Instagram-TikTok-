@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <defs>
+    <radialGradient id="bg" cx="72%" cy="7%" r="105%">
+      <stop offset="0" stop-color="#25282D"/>
+      <stop offset=".48" stop-color="#121418"/>
+      <stop offset="1" stop-color="#08090B"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence baseFrequency=".72" numOctaves="4" seed="91" type="fractalNoise"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .055"/></feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bg)"/>
+  <rect width="1080" height="1350" filter="url(#grain)" opacity=".42"/>
+  <rect x="24" y="24" width="1032" height="1302" fill="none" stroke="#484B51"/>
+
+  <image href="../ctd-why-routine-matters/ctd-cinematic-logo.png" x="58" y="46" width="82" height="82" preserveAspectRatio="xMidYMid meet"/>
+  <text x="157" y="79" fill="#F3EFE6" font-family="Montserrat" font-size="18" font-weight="700" letter-spacing="2">CUTTHROAT</text>
+  <text x="157" y="105" fill="#AEB3BA" font-family="Montserrat" font-size="18" font-weight="700" letter-spacing="2">DISCIPLINE</text>
+  <text x="1016" y="87" text-anchor="end" fill="#AEB3BA" font-family="Montserrat" font-size="16" font-weight="700" letter-spacing="1.5">EXECUTION RULE 01</text>
+  <path d="M66 151 H1014" stroke="#44474D"/>
+  <path d="M66 151 H350" stroke="#D6A928" stroke-width="5"/>
+
+  <text x="66" y="292" fill="#F3EFE6" font-family="Barlow Condensed" font-size="111" font-weight="800">TALKING ABOUT IT</text>
+  <text x="66" y="411" fill="#F3EFE6" font-family="Barlow Condensed" font-size="111" font-weight="800">IS NOT</text>
+  <text x="66" y="572" fill="#D6A928" font-family="Barlow Condensed" font-size="176" font-weight="800">PROGRESS.</text>
+
+  <path d="M66 645 H1014" stroke="#44474D"/>
+  <text x="66" y="704" fill="#AEB3BA" font-family="Montserrat" font-size="22" font-weight="700" letter-spacing="2.2">THE EXECUTION RULE</text>
+
+  <text x="68" y="796" fill="#D6A928" font-family="Barlow Condensed" font-size="58" font-weight="800">01</text>
+  <text x="170" y="794" fill="#F3EFE6" font-family="Montserrat" font-size="32" font-weight="700">Choose the next specific action.</text>
+  <path d="M170 826 H1014" stroke="#34373C"/>
+
+  <text x="68" y="903" fill="#D6A928" font-family="Barlow Condensed" font-size="58" font-weight="800">02</text>
+  <text x="170" y="901" fill="#F3EFE6" font-family="Montserrat" font-size="32" font-weight="700">Complete it before you announce it.</text>
+  <path d="M170 933 H1014" stroke="#34373C"/>
+
+  <text x="68" y="1010" fill="#D6A928" font-family="Barlow Condensed" font-size="58" font-weight="800">03</text>
+  <text x="170" y="1008" fill="#F3EFE6" font-family="Montserrat" font-size="32" font-weight="700">Let repetition become your proof.</text>
+
+  <rect x="66" y="1085" width="948" height="92" fill="#D6A928"/>
+  <text x="540" y="1145" text-anchor="middle" fill="#090A0C" font-family="Montserrat" font-size="28" font-weight="700" letter-spacing="1.4">LESS ANNOUNCING. MORE EVIDENCE.</text>
+
+  <path d="M66 1268 H1014" stroke="#44474D"/>
+  <text x="540" y="1307" text-anchor="middle" fill="#AEB3BA" font-family="Montserrat" font-size="15" font-weight="700" letter-spacing="1.5">DISCIPLINE - ACCOUNTABILITY - CONSISTENCY</text>
+</svg>
