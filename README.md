@@ -73,3 +73,14 @@ The 4:5 cinematic educational carousel is in [`outputs/ctd-why-routine-matters`]
 - Upload the numbered 1080 × 1350 PNG files in order from `01` through `08`.
 
 The editable SVG files, original 3D scene assets, transcript, production notes, and generator script are included.
+
+## The Holiday Unholy Trinity carousel
+
+The nine-slide 4:5 holiday fitness carousel is in [`outputs/ctd-holiday-unholy-trinity`](outputs/ctd-holiday-unholy-trinity).
+
+- Download [`final-carousel.zip`](outputs/ctd-holiday-unholy-trinity/final-carousel.zip) for the complete posting package.
+- Open [`overview.jpg`](outputs/ctd-holiday-unholy-trinity/overview.jpg) to review the full sequence.
+- Use [`caption.txt`](outputs/ctd-holiday-unholy-trinity/caption.txt) as the posting caption.
+- Upload the numbered 1080 × 1350 PNG files in order from `01` through `09`.
+
+The editable SVG files, original cinematic scene assets, source brief, accessibility text, and generator script are included.
