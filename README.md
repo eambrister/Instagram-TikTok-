@@ -105,3 +105,10 @@ The four-slide protein, carbohydrate, fiber and plate-building guide is in [`out
 - Copy the post text from [`caption.txt`](outputs/ctd-macro-champions/caption.txt).
 
 Every slide is 1080 × 1350 pixels and includes the established Cut Throat Discipline logo and footer.
+
+## Full-body calisthenics workout
+
+The branded single-post workout infographic is in [`outputs/ctd-full-body-calisthenics`](outputs/ctd-full-body-calisthenics).
+
+- Download [`full-body-calisthenics.png`](outputs/ctd-full-body-calisthenics/full-body-calisthenics.png) for Instagram.
+- Copy the workout instructions and beginner substitutions from [`caption.txt`](outputs/ctd-full-body-calisthenics/caption.txt).
