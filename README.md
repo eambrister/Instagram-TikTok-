@@ -84,3 +84,14 @@ The nine-slide 4:5 holiday fitness carousel is in [`outputs/ctd-holiday-unholy-t
 - Upload the numbered 1080 × 1350 PNG files in order from `01` through `09`.
 
 The editable SVG files, original cinematic scene assets, source brief, accessibility text, and generator script are included.
+
+## Same Starting Weight reel
+
+The original 15-second comparison reel is in [`outputs/ctd-same-weight-different-standards`](outputs/ctd-same-weight-different-standards).
+
+- Watch [`same-weight-different-standards.mp4`](outputs/ctd-same-weight-different-standards/same-weight-different-standards.mp4) with its original sound bed.
+- Use [`same-weight-different-standards-silent.mp4`](outputs/ctd-same-weight-different-standards/same-weight-different-standards-silent.mp4) when adding trending Instagram audio.
+- Upload [`cover.jpg`](outputs/ctd-same-weight-different-standards/cover.jpg) as the Reel cover.
+- Copy the posting text from [`caption.txt`](outputs/ctd-same-weight-different-standards/caption.txt).
+
+The 1080 × 1920 animation uses the confirmed 222-to-142-pound personal story and original Cut Throat Discipline artwork.
