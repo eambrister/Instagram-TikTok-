@@ -139,17 +139,9 @@ WORKOUT = [
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
     source = Image.open(ANATOMY).convert("RGBA")
-    ratio = max(W / source.width, H / source.height)
-    source = source.resize((round(source.width * ratio), round(source.height * ratio)), Image.Resampling.LANCZOS)
-    left = (source.width - W) // 2
-    top_crop = (source.height - H) // 2
-    im = source.crop((left, top_crop, left + W, top_crop + H))
-    # Protect the typography zones while preserving the rendered anatomy.
-    shade = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    sd = ImageDraw.Draw(shade)
-    sd.rectangle((0, 0, W, 178), fill=(3, 4, 6, 238))
-    sd.rectangle((0, 1302, W, H), fill=(3, 4, 6, 235))
-    im.alpha_composite(shade)
+    im = Image.new("RGBA", (W, H), BLACK)
+    glow(im, (-180, -220, 480, 400), CRIMSON, 110, 35)
+    glow(im, (650, -220, 1280, 400), GOLD, 110, 25)
     d = ImageDraw.Draw(im)
     logo = Image.open(LOGO).convert("RGBA")
     logo.thumbnail((78, 78), Image.Resampling.LANCZOS)
@@ -160,22 +152,39 @@ def build():
     d.text((W//2, 139), "3 ROUNDS  •  60–90 SEC REST  •  QUALITY REPS", font=F["sub"], fill=SILVER, anchor="mm")
     d.line((38, 172, 1042, 172), fill=MUTED, width=2)
 
-    # Compact labels preserve the reference's photo-first hierarchy.
-    label_rows = [420, 696, 973, 1248]
+    # Crop each demonstration from the source sheet and give it a dedicated
+    # image area. Labels live below the image, never over the athlete.
+    crop_boxes = [
+        (105, 170, 520, 462),   # pull-up
+        (555, 310, 1065, 468),  # push-up
+        (115, 500, 500, 770),   # squat
+        (600, 495, 1015, 775),  # dip
+        (65, 785, 510, 1065),   # reverse lunge
+        (535, 800, 1055, 1060), # glute bridge
+        (45, 1070, 500, 1325),  # burpee
+        (505, 1085, 1070, 1325),# hollow hold
+    ]
+    card_w, card_h = 500, 252
+    start_y, row_gap = 192, 16
     for i, (name, reps, target) in enumerate(WORKOUT):
         col, row = i % 2, i // 2
         x = 26 if col == 0 else 554
-        y = label_rows[row]
-        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        ld = ImageDraw.Draw(layer)
-        ld.rounded_rectangle((x, y, x+500, y+58), radius=10, fill=(4, 5, 7, 220), outline=(214,169,24,120), width=2)
-        im.alpha_composite(layer)
+        y = start_y + row * (card_h + row_gap)
+        d.rounded_rectangle((x, y, x+card_w, y+card_h), radius=16, fill="#08090B", outline="#292D34", width=2)
+        crop = source.crop(crop_boxes[i])
+        crop.thumbnail((468, 181), Image.Resampling.LANCZOS)
+        px = x + (card_w - crop.width) // 2
+        py = y + 5 + (181 - crop.height) // 2
+        im.alpha_composite(crop, (px, py))
         d = ImageDraw.Draw(im)
-        d.text((x+18, y+12), name, font=font(HEAD, 31), fill=WHITE)
-        d.text((x+480, y+18), reps, font=F["reps"], fill=GOLD, anchor="ra")
+        d.line((x+14, y+191, x+card_w-14, y+191), fill="#292D34", width=2)
+        d.rectangle((x, y+190, x+7, y+card_h), fill=CRIMSON if col == 0 else GOLD)
+        d = ImageDraw.Draw(im)
+        d.text((x+20, y+205), name, font=font(HEAD, 31), fill=WHITE)
+        d.text((x+480, y+211), reps, font=F["reps"], fill=GOLD, anchor="ra")
 
-    d.line((38, 1301, 1042, 1301), fill=MUTED, width=2)
-    d.text((W//2, 1326), "DISCIPLINE - ACCOUNTABILITY - CONSISTENCY", font=F["footer"], fill=SILVER, anchor="mm")
+    d.line((38, 1282, 1042, 1282), fill=MUTED, width=2)
+    d.text((W//2, 1318), "DISCIPLINE - ACCOUNTABILITY - CONSISTENCY", font=F["footer"], fill=SILVER, anchor="mm")
 
     final = im.convert("RGB")
     final.save(OUT / "full-body-calisthenics.png", optimize=True)
