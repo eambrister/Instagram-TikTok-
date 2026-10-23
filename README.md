@@ -95,3 +95,13 @@ The original 15-second comparison reel is in [`outputs/ctd-same-weight-different
 - Copy the posting text from [`caption.txt`](outputs/ctd-same-weight-different-standards/caption.txt).
 
 The 1080 × 1920 animation uses the confirmed 222-to-142-pound personal story and original Cut Throat Discipline artwork.
+
+## Macro Champions carousel
+
+The four-slide protein, carbohydrate, fiber and plate-building guide is in [`outputs/ctd-macro-champions`](outputs/ctd-macro-champions).
+
+- Download [`final-carousel.zip`](outputs/ctd-macro-champions/final-carousel.zip) for the posting package.
+- Review all four slides in [`overview.jpg`](outputs/ctd-macro-champions/overview.jpg).
+- Copy the post text from [`caption.txt`](outputs/ctd-macro-champions/caption.txt).
+
+Every slide is 1080 × 1350 pixels and includes the established Cut Throat Discipline logo and footer.
