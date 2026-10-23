@@ -23,6 +23,7 @@ HEAD = ROOT / "brand/fonts/BarlowCondensed-ExtraBold.ttf"
 BODY = ROOT / "brand/fonts/Montserrat-Bold.ttf"
 MEDIUM = ROOT / "brand/fonts/Montserrat-Medium.ttf"
 LOGO = ROOT / "outputs/ctd-why-routine-matters/ctd-cinematic-logo.png"
+ANATOMY = OUT / "anatomical-exercises-source.png"
 
 
 def font(path, size):
@@ -137,49 +138,44 @@ WORKOUT = [
 
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
-    im = Image.new("RGBA", (W, H), BLACK)
+    source = Image.open(ANATOMY).convert("RGBA")
+    ratio = max(W / source.width, H / source.height)
+    source = source.resize((round(source.width * ratio), round(source.height * ratio)), Image.Resampling.LANCZOS)
+    left = (source.width - W) // 2
+    top_crop = (source.height - H) // 2
+    im = source.crop((left, top_crop, left + W, top_crop + H))
+    # Protect the typography zones while preserving the rendered anatomy.
+    shade = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(shade)
+    sd.rectangle((0, 0, W, 178), fill=(3, 4, 6, 238))
+    sd.rectangle((0, 1302, W, H), fill=(3, 4, 6, 235))
+    im.alpha_composite(shade)
     d = ImageDraw.Draw(im)
-    # premium understated background
-    glow(im, (-220, -240, 500, 480), CRIMSON, 110, 45)
-    glow(im, (650, -250, 1320, 470), GOLD, 115, 32)
-    d = ImageDraw.Draw(im)
-    for x in range(-200, 1300, 100):
-        d.line((x, 0, x-500, H), fill="#17191D", width=1)
-
     logo = Image.open(LOGO).convert("RGBA")
-    logo.thumbnail((105, 105), Image.Resampling.LANCZOS)
-    im.alpha_composite(logo, (46, 28))
-    d.text((167, 48), "CUTTHROAT", font=F["sub"], fill=WHITE)
-    d.text((167, 80), "DISCIPLINE", font=F["sub"], fill=GOLD)
-    d.text((1030, 50), "SAVE + EXECUTE", font=F["kicker"], fill=SILVER, anchor="ra")
-    d.line((46, 140, 1034, 140), fill=MUTED, width=2)
+    logo.thumbnail((78, 78), Image.Resampling.LANCZOS)
+    im.alpha_composite(logo, (38, 18))
+    d.text((132, 31), "CUTTHROAT DISCIPLINE", font=F["sub"], fill=WHITE)
+    d.text((1040, 34), "SAVE + EXECUTE", font=F["kicker"], fill=SILVER, anchor="ra")
+    d.text((W//2, 82), "FULL BODY CALISTHENICS", font=font(HEAD, 67), fill=GOLD, anchor="mm")
+    d.text((W//2, 139), "3 ROUNDS  •  60–90 SEC REST  •  QUALITY REPS", font=F["sub"], fill=SILVER, anchor="mm")
+    d.line((38, 172, 1042, 172), fill=MUTED, width=2)
 
-    d.text((48, 160), "FULL BODY", font=F["headline"], fill=GOLD)
-    d.text((48, 235), "CALISTHENICS", font=F["headline"], fill=WHITE)
-    d.text((1032, 188), "3 ROUNDS", font=F["name"], fill=CRIMSON, anchor="ra")
-    d.text((1032, 238), "60–90 SEC REST", font=F["sub"], fill=SILVER, anchor="ra")
-    d.text((50, 318), "Control every rep. Stop before technique breaks.", font=F["sub"], fill=SILVER)
-
-    top = 372
-    card_w, card_h = 482, 204
-    gap_x, gap_y = 24, 18
+    # Compact labels preserve the reference's photo-first hierarchy.
+    label_rows = [420, 696, 973, 1248]
     for i, (name, reps, target) in enumerate(WORKOUT):
         col, row = i % 2, i // 2
-        x = 46 + col * (card_w + gap_x)
-        y = top + row * (card_h + gap_y)
-        d.rounded_rectangle((x, y, x+card_w, y+card_h), radius=18, fill=CARD, outline="#292D34", width=2)
-        d.rectangle((x, y, x+8, y+card_h), fill=GOLD if col else CRIMSON)
-        # pictogram stage
-        d.rounded_rectangle((x+22, y+22, x+170, y+178), radius=12, fill="#090A0D", outline="#242830", width=2)
-        pts, equipment = POSES[name]
-        skeleton(d, x+36, y+30, 1.18, pts, equipment)
-        d.text((x+194, y+34), f"{i+1:02d}", font=F["target"], fill=GOLD)
-        d.text((x+194, y+61), name, font=F["name"], fill=WHITE)
-        d.text((x+194, y+112), reps, font=F["reps"], fill=GOLD)
-        d.text((x+194, y+148), target, font=F["target"], fill=SILVER)
+        x = 26 if col == 0 else 554
+        y = label_rows[row]
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ld = ImageDraw.Draw(layer)
+        ld.rounded_rectangle((x, y, x+500, y+58), radius=10, fill=(4, 5, 7, 220), outline=(214,169,24,120), width=2)
+        im.alpha_composite(layer)
+        d = ImageDraw.Draw(im)
+        d.text((x+18, y+12), name, font=font(HEAD, 31), fill=WHITE)
+        d.text((x+480, y+18), reps, font=F["reps"], fill=GOLD, anchor="ra")
 
-    d.line((46, 1281, 1034, 1281), fill=MUTED, width=2)
-    d.text((W//2, 1317), "DISCIPLINE - ACCOUNTABILITY - CONSISTENCY", font=F["footer"], fill=SILVER, anchor="mm")
+    d.line((38, 1301, 1042, 1301), fill=MUTED, width=2)
+    d.text((W//2, 1326), "DISCIPLINE - ACCOUNTABILITY - CONSISTENCY", font=F["footer"], fill=SILVER, anchor="mm")
 
     final = im.convert("RGB")
     final.save(OUT / "full-body-calisthenics.png", optimize=True)

@@ -6,4 +6,4 @@ A single 1080 × 1350 Cut Throat Discipline workout infographic.
 - `preview.jpg` — review image
 - `caption.txt` — posting caption with beginner substitutions
 
-The graphic uses the established logo, black/gold/silver/crimson palette, Barlow Condensed headline treatment, Montserrat support text and standard footer.
+The graphic uses realistic silver-and-gold anatomical exercise illustrations, the established logo, black/gold/silver/crimson palette, Barlow Condensed headline treatment, Montserrat support text and standard footer.
