@@ -8,6 +8,8 @@ Kits: **M** = [Monumental kit](../brand/monumental/STYLE_GUIDE.md) (cinematic, p
 
 ---
 
+> Update: see [`niche-research-2026-10.md`](niche-research-2026-10.md) for topics ranked by what is currently overperforming in the niche.
+
 ## Recommended first five
 
 These suit the Monumental kit best and draw most directly on Edison's own story.
