@@ -6,6 +6,14 @@ New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.m
 
 A second, optional brand kit, **Monumental** (cinematic and photo-led, with editorial serif headlines), is in [`brand/monumental/`](brand/monumental/README.md). Carousel topic ideas are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
 
+## Fat-loss myths that keep you stuck
+
+The first Monumental-kit carousel: eight 1080 × 1350 slides built from Edison's own photos, in [`outputs/edison-ambrister-fat-loss-myths`](outputs/edison-ambrister-fat-loss-myths).
+
+- [Download the posting package](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-fat-loss-myths/final-carousel.zip)
+- [Preview all eight slides](outputs/edison-ambrister-fat-loss-myths/preview.jpg)
+- [Copy the caption](outputs/edison-ambrister-fat-loss-myths/caption.txt)
+
 ## Less Announcing. More Evidence.
 
 The single educational 4:5 post is in [`outputs/ctd-less-talking-more-doing`](outputs/ctd-less-talking-more-doing).

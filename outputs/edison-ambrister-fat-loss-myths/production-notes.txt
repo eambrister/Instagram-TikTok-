@@ -1,0 +1,33 @@
+PRODUCTION NOTES - Fat-loss myths that keep you stuck
+
+Kit: Monumental v1.0, condensed headline variant (chosen for the whole campaign because every myth slide carries a quote, a reply and body copy).
+Canvas: 1080 x 1350, sRGB PNG. 8 slides; 5 myths. The slide count is 8 rather than the kit's default 9 because the two bedroom mirror photos share one diptych slide.
+
+IMAGERY MODE
+Exact-photo mode. Edison's pixels are not reshaped, retouched, smoothed or regenerated. No AI image generation was used.
+A person-segmentation mask (MediaPipe selfie_multiclass_256x256, run locally via ai-edge-litert) separates Edison from the background so only the background is graded: desaturated, deepened and cooled. Edison receives only a light global balance (+5% contrast, slightly warm).
+No sculpture, architecture or other scenery was added. Every pixel comes from the supplied photos.
+Slides 04 and 08 fill the left side with a blurred, darkened copy of the same photo so the text sits on a dark photographic surface.
+Slide 02: the other gym's painted pillar slogan and logo are deepened into shadow so they don't appear in Edison's post.
+Slide 03: cropped to exclude two bystanders.
+
+TYPE
+Headlines: Anton (open-licence substitute; condensed variant of the kit). Body: Montserrat Medium. Utility/footer: Montserrat Bold.
+These are substitutes, not the licensed Heading Now / Gotham.
+
+CHECKS PERFORMED
+- Text placement was checked automatically against the subject mask: 0% of text pixels on Edison for slides 01-07. Slide 08 reports about 36%, but that comes from the blurred background copy of the portrait behind the text, not from Edison himself; confirmed by visual inspection.
+- Contact sheet and full-size inspection of slides 02, 07 and 08; footer readability fixed with a bottom gradient after the first render.
+- Dimensions, folios 01/08-08/08, footer wording, caption length (1,661 characters, 5 hashtags, 21 search tags).
+
+CLAIMS
+General nutrition education only. No statistics, testimonials, client results, prices or offers. No personal transformation numbers (Edison asked to avoid another transformation post).
+The close commits Edison to replying to comments with advice.
+
+OPEN ITEMS
+- Edison should approve the copy before posting.
+- If licensed Heading Now / Gotham files are supplied, re-run tools/build_monumental_fat_loss_myths.py with those fonts.
+
+REBUILD
+python3 tools/build_monumental_fat_loss_myths.py --model <path to selfie_multiclass_256x256.tflite>
+Requires: pillow, numpy, ai-edge-litert. Model: storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite

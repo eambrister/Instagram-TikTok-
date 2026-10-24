@@ -1,0 +1,13 @@
+SOURCE MAP - all photos supplied by Edison, October 2026 (originals unchanged in source-photos/)
+
+01-hook.png                 p01-gym-standing.jpg              crop x0-1170 y586-2048
+02-myth-undereating.png     p03-pec-deck.jpg                  crop x0-1170 y300-1762; third-party gym signage (pillar) deepened into shadow
+03-myth-carbs.png           p04-gym-mirror.jpg                crop x0-1040 y340-1640; crop excludes the two bystanders on the right
+04-myth-protein-labels.png  p09-outdoor.jpg                   full photo at canvas height, placed right; left side is a blurred, deepened copy of the same photo
+05-myth-weekends.png        p08-pool.jpg                      crop x0-1170 y130-1592
+06-myth-scale.png           p06-bedroom-mirror-tank.jpg       left panel, crop x250-1056 full height
+                            p05-bedroom-mirror-shirtless.png  lower-right panel, crop x0-1086 y60-1337
+07-climax.png               p02-home-full-body.jpg            crop x0-1170 y0-1462
+08-close.png                p07-portrait.jpg                  full photo at canvas height, placed right; left side is a blurred, deepened copy of the same photo
+
+All 9 supplied photos are used. No photo is mirrored or flipped.
