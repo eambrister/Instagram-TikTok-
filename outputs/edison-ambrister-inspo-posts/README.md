@@ -1,6 +1,6 @@
 # Inspo posts (6 single-image posts)
 
-Six original 1080 × 1350 (4:5) posts for Instagram and TikTok photo mode, in the core Edison Ambrister kit. They were inspired by Pinterest reference graphics, but every concept was rewritten around Edison's own foods, story and standards. They contain no photos, AI imagery or body-comparison visuals.
+Six original 1080 × 1350 (4:5) posts for Instagram and TikTok photo mode, in the core Edison Ambrister kit. They were inspired by Pinterest reference graphics, but every concept was rewritten around Edison's own foods, story and standards. The fridge, food-swap and grocery posts use the food photography from `outputs/ctd-macro-champions/source-images`. None of the posts use body-comparison visuals.
 
 - [Download all posts (ZIP)](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-inspo-posts/inspo-posts.zip)
 - [Preview all six](overview.jpg)

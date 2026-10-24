@@ -21,6 +21,35 @@ const FOOTER = TOKENS.post.footer;
 const fontUrl = (f) => "file://" + path.join(ROOT, "brand/fonts", f);
 const LOGO = "file://" + path.join(ROOT, "brand/assets/edison-ambrister/edison-ambrister-horizontal.png");
 
+// Food photography reused from the Macro Champions source images (1122 x 1402).
+const SRC = (f) => "file://" + path.join(ROOT, "outputs/ctd-macro-champions/source-images", f);
+const SRC_W = 1122;
+const SRC_H = 1402;
+const FOOD = {
+  chicken: ["01-protein.png", 13, 590, 260, 1110],
+  tuna: ["01-protein.png", 253, 590, 473, 1110],
+  beef: ["01-protein.png", 453, 590, 686, 1115],
+  eggs: ["01-protein.png", 673, 600, 853, 1115],
+  oats: ["02-carbs.png", 13, 490, 213, 1060],
+  rice: ["02-carbs.png", 460, 500, 660, 1060],
+  banana: ["02-carbs.png", 660, 440, 886, 1060],
+  potatoes: ["02-carbs.png", 900, 490, 1113, 1060],
+  avocado: ["03-fiber.png", 446, 550, 673, 1100],
+  raspberries: ["03-fiber.png", 666, 570, 893, 1095],
+  broccoli: ["03-fiber.png", 886, 565, 1119, 1100],
+  plate: ["04-plate.png", 293, 576, 1099, 1216],
+  berries: ["04-plate.png", 853, 400, 1122, 710],
+};
+
+// A w x h tile showing one food, scaled to cover the tile and centered on the food's box.
+function photo(key, w, h, cls = "ph") {
+  const [file, x0, y0, x1, y1] = FOOD[key];
+  const scale = Math.max(w / (x1 - x0), h / (y1 - y0));
+  const left = (w - (x1 - x0) * scale) / 2 - x0 * scale;
+  const top = (h - (y1 - y0) * scale) / 2 - y0 * scale;
+  return `<div class="${cls}" style="width:${w}px;height:${h}px;background:url(${SRC(file)}) ${left.toFixed(1)}px ${top.toFixed(1)}px / ${(SRC_W * scale).toFixed(1)}px ${(SRC_H * scale).toFixed(1)}px no-repeat"></div>`;
+}
+
 const BASE_CSS = `
 @font-face { font-family: Head; src: url(${fontUrl("BarlowCondensed-ExtraBold.ttf")}); }
 @font-face { font-family: Body; src: url(${fontUrl("Montserrat-Medium.ttf")}); font-weight: 500; }
@@ -49,6 +78,7 @@ footer .txt { font-weight: 700; font-size: 17px; letter-spacing: 3px; color: ${C
 .ivory footer .rule { background: ${C.graphite}; opacity: .35; }
 main { position: absolute; top: 148px; left: 50px; right: 50px; bottom: 108px; display: flex; flex-direction: column; }
 main > * { flex-shrink: 0; }
+.ph { border-radius: 14px; flex: none; }
 .note { font-size: 17px; line-height: 1.45; color: ${C.silver}; }
 .ivory .note { color: #4a4d53; }
 `;
@@ -102,12 +132,12 @@ const pin01 = page("", "EDISON EATS", `
 // ------------------------------------------------------------ 02 swaps
 
 const swaps = [
-  ["Pancakes + syrup", "Oatmeal or cream of wheat + fruit"],
-  ["Pizza night", "Lean ground beef + rice bowl"],
-  ["Ribs, mac & coleslaw", "Chicken breast, potatoes, vegetables"],
-  ["Sushi & spring rolls", "Tuna + rice, made at home"],
-  ["Cake & candy", "Fruit"],
-  ["Eating whatever was there", "Repeatable meals, counted"],
+  ["Pancakes + syrup", "Oatmeal or cream of wheat + fruit", "oats"],
+  ["Pizza night", "Lean ground beef + rice bowl", "beef"],
+  ["Ribs, mac & coleslaw", "Chicken breast, potatoes, vegetables", "chicken"],
+  ["Sushi & spring rolls", "Tuna + rice, made at home", "tuna"],
+  ["Cake & candy", "Fruit", "raspberries"],
+  ["Eating whatever was there", "Repeatable meals, counted", "plate"],
 ];
 
 const pin02 = page("ivory", "MY PROOF", `
@@ -115,24 +145,26 @@ const pin02 = page("ivory", "MY PROOF", `
   <div class="head" style="font-size:104px">HELPED ME LOSE <span style="color:${C.crimson}">80 LB</span></div>
   <p style="font-size:24px;line-height:1.4;margin-top:24px;max-width:880px">
     No food is good or bad. These swaps meant fewer calories, more protein and meals I could repeat.</p>
-  <div class="cols"><div class="h">BEFORE</div><div></div><div class="h" style="color:#9a7a0e">NOW</div></div>
+  <div class="cols"><div class="h">BEFORE</div><div></div><div class="h" style="color:#9a7a0e;grid-column:3 / 5">NOW</div></div>
   <div class="swaps">
     ${swaps.map((s) => `
     <div class="swap">
       <div class="old">${s[0]}</div>
       <div class="arrow">→</div>
+      ${photo(s[2], 92, 92)}
       <div class="new head">${s[1]}</div>
     </div>`).join("")}
   </div>
   <p class="note" style="margin-top:auto">My experience: 222 → 142 lb in under two years. Not a promise of your result.</p>
 `, `
-.cols, .swap { display: grid; grid-template-columns: 330px 60px 1fr; align-items: center; }
+.cols, .swap { display: grid; grid-template-columns: 290px 50px 92px 1fr; align-items: center; }
+.swap .new { padding-left: 24px; }
 .cols { margin-top: 24px; font-weight: 700; font-size: 18px; letter-spacing: 4px; color: ${C.graphite}; padding-bottom: 12px;
   border-bottom: 2px solid ${C.obsidian}; }
-.swap { padding: 21px 0; border-bottom: 1px solid #d8cfbd; }
+.swap { padding: 11px 0; border-bottom: 1px solid #d8cfbd; }
 .old { font-size: 27px; color: #6b6e74; text-decoration: line-through; text-decoration-color: ${C.crimson}; text-decoration-thickness: 2px; line-height: 1.25; }
 .arrow { font-size: 34px; color: #9a7a0e; text-align: center; }
-.new { font-size: 48px; line-height: .95; }
+.new { font-size: 44px; line-height: .95; }
 `);
 
 // ------------------------------------------------------------ 03 fridge
@@ -146,7 +178,7 @@ const zones = [
   ["FREEZER", "The backup plan", "Frozen veg, berries, lean meat for bad weeks."],
 ];
 
-const shelfFill = (n, color) => Array.from({ length: n }, () => `<span class="box" style="background:${color}"></span>`).join("");
+const shelf = (keys) => `<div class="shelf">${keys.map((k) => photo(k, 96, 104)).join("")}</div>`;
 
 const pin03 = page("", "EXECUTION SYSTEMS", `
   <div class="head" style="font-size:116px">THE FAT-LOSS</div>
@@ -156,10 +188,10 @@ const pin03 = page("", "EXECUTION SYSTEMS", `
   <div class="grid">
     <div class="fridge">
       <div class="cab">
-        <div class="shelf">${shelfFill(3, "#7a2a33")}</div>
-        <div class="shelf">${shelfFill(3, C.gold)}</div>
-        <div class="shelf">${shelfFill(3, "#c9c2b2")}</div>
-        <div class="drawers"><span></span><span></span></div>
+        ${shelf(["raspberries", "berries", "banana"])}
+        ${shelf(["chicken", "eggs", "beef"])}
+        ${shelf(["rice", "potatoes", "oats"])}
+        <div class="drawers">${photo("broccoli", 148, 120, "ph dr")}${photo("avocado", 148, 120, "ph dr")}</div>
         <div class="door"></div>
       </div>
       <div class="frz"><span></span><span></span><span></span></div>
@@ -174,24 +206,24 @@ const pin03 = page("", "EXECUTION SYSTEMS", `
     </div>
   </div>
 `, `
-.grid { margin-top: 26px; display: grid; grid-template-columns: 340px 1fr; gap: 40px; flex: 1; }
+.grid { margin-top: 26px; display: grid; grid-template-columns: 420px 1fr; gap: 36px; flex: 1; }
 .fridge { display: flex; flex-direction: column; gap: 10px; }
 .cab { position: relative; flex: 1; border: 3px solid ${C.silver}; border-radius: 18px; padding: 20px 64px 20px 18px;
   display: flex; flex-direction: column; justify-content: space-around; background: linear-gradient(#15171b, #0d0e11); }
-.shelf { display: flex; gap: 10px; align-items: flex-end; border-bottom: 3px solid ${C.graphite}; padding-bottom: 10px; height: 90px; }
-.box { flex: 1; height: 54px; border-radius: 8px; opacity: .9; }
-.drawers { display: flex; gap: 10px; height: 110px; }
-.drawers span { flex: 1; border: 3px solid ${C.graphite}; border-radius: 10px; background: rgba(110,140,90,.35); }
+.shelf { display: flex; gap: 10px; align-items: flex-end; border-bottom: 3px solid ${C.graphite}; padding-bottom: 8px; }
+.shelf .ph { border-radius: 10px; }
+.drawers { display: flex; gap: 10px; }
+.drawers .dr { border: 3px solid ${C.graphite}; border-radius: 12px; }
 .door { position: absolute; right: 12px; top: 20px; bottom: 20px; width: 38px; border-left: 3px solid ${C.graphite};
   background: repeating-linear-gradient(transparent 0 70px, ${C.graphite} 70px 74px); }
-.frz { height: 130px; border: 3px solid ${C.silver}; border-radius: 18px; display: flex; gap: 10px; padding: 18px; background: #0f1216; }
+.frz { height: 110px; border: 3px solid ${C.silver}; border-radius: 18px; display: flex; gap: 10px; padding: 18px; background: #0f1216; }
 .frz span { flex: 1; border-radius: 8px; background: rgba(170,176,185,.25); }
 .zones { display: flex; flex-direction: column; justify-content: space-between; }
 .zone { border-left: 3px solid ${C.gold}; padding: 2px 0 2px 20px; }
 .zl { font-weight: 700; font-size: 16px; letter-spacing: 3px; color: ${C.gold}; display: flex; align-items: center; gap: 10px; }
 .dot { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: ${C.gold}; color: ${C.obsidian}; font-size: 15px; letter-spacing: 0; }
-.zt { font-size: 40px; margin-top: 8px; }
-.zd { font-size: 19px; color: ${C.silver}; margin-top: 6px; line-height: 1.3; }
+.zt { font-size: 36px; margin-top: 8px; }
+.zd { font-size: 18px; color: ${C.silver}; margin-top: 6px; line-height: 1.3; }
 `);
 
 // ------------------------------------------------------------ 04 choose your hard
@@ -256,33 +288,37 @@ const pin05 = page("ivory", "EDISON EATS", `
 // ------------------------------------------------------------ 06 grocery list
 
 const groceries = [
-  ["PROTEIN", ["Chicken breast", "Lean ground beef", "Tuna", "Eggs"]],
-  ["CARBS", ["Rice", "Potatoes", "Oatmeal", "Cream of wheat"]],
-  ["PRODUCE", ["Fruit for snacks", "Vegetables for every plate"]],
+  ["PROTEIN", [["chicken", "Chicken breast"], ["beef", "Lean ground beef"], ["tuna", "Tuna"], ["eggs", "Eggs"]]],
+  ["CARBS", [["rice", "Rice"], ["potatoes", "Potatoes"], ["oats", "Oatmeal"], [null, "Cream of wheat"]]],
+  ["FRUIT + VEG", [["banana", "Bananas"], ["raspberries", "Berries"], ["broccoli", "Broccoli"], ["avocado", "Avocado"]]],
 ];
 
-const pin06 = page("", "MY PROOF", `
-  <div class="head" style="font-size:108px">MY FAT-LOSS</div>
-  <div class="head gold" style="font-size:108px">GROCERY LIST</div>
-  <p style="font-size:24px;line-height:1.4;margin-top:20px;max-width:860px">
-    The same 10 foods, most weeks. Fewer decisions means fewer chances to drift.</p>
+const TILE_W = 230;
+const TILE_H = 132;
+
+const pin06 = page("ivory", "MY PROOF", `
+  <div class="head" style="font-size:96px">MY FAT-LOSS</div>
+  <div class="head" style="font-size:96px;color:#9a7a0e">GROCERY LIST</div>
+  <p style="font-size:23px;line-height:1.4;margin-top:16px;max-width:900px">
+    The same short list, most weeks. Fewer decisions means fewer chances to drift.</p>
   <div class="list">
     ${groceries.map((g) => `
     <div class="grp">
       <div class="gh">${g[0]}</div>
-      ${g[1].map((x) => `<div class="item"><span class="chk"></span><span class="head">${x}</span></div>`).join("")}
+      <div class="tiles">
+        ${g[1].map(([k, name]) => `<div class="tile">${k ? photo(k, TILE_W, TILE_H) : `<div class="ph blank head">CREAM<br>OF WHEAT</div>`}<div class="tn">${name}</div></div>`).join("")}
+      </div>
     </div>`).join("")}
   </div>
-  <div class="rule2"><span class="head gold">REPEATABLE BEATS PERFECT.</span></div>
+  <div class="rule2"><span class="head">REPEATABLE BEATS PERFECT.</span></div>
 `, `
-.list { margin: 22px 0 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-.gh { font-weight: 700; font-size: 18px; letter-spacing: 5px; color: ${C.gold}; padding-bottom: 6px; border-bottom: 1px solid ${C.graphite}; margin-bottom: 6px; }
-.item { display: flex; align-items: center; gap: 22px; padding: 2px 0; }
-.item .head { font-size: 46px; }
-.chk { width: 34px; height: 34px; border: 3px solid ${C.gold}; border-radius: 6px; position: relative; flex: none; }
-.chk::after { content: ""; position: absolute; left: 9px; top: 2px; width: 9px; height: 18px; border: solid ${C.gold}; border-width: 0 4px 4px 0; transform: rotate(45deg); }
-.rule2 { border-top: 2px solid ${C.crimson}; padding-top: 16px; }
-.rule2 .head { font-size: 56px; }
+.list { margin: 18px 0 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.gh { font-weight: 700; font-size: 17px; letter-spacing: 5px; color: #9a7a0e; padding-bottom: 6px; border-bottom: 2px solid ${C.obsidian}; margin-bottom: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(4, ${TILE_W}px); justify-content: space-between; }
+.tn { font-weight: 700; font-size: 19px; margin-top: 7px; }
+.blank { width: ${TILE_W}px; height: ${TILE_H}px; background: ${C.obsidian}; color: ${C.gold}; display: grid; place-items: center; text-align: center; font-size: 40px; }
+.rule2 { border-top: 2px solid ${C.crimson}; padding-top: 14px; }
+.rule2 .head { font-size: 52px; }
 `);
 
 const PINS = [

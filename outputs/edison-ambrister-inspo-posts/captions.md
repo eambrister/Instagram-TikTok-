@@ -93,16 +93,16 @@ choose your hard, discipline, fitness motivation, consistency, stop starting ove
 
 ## 06 · My fat-loss grocery list
 
-**TikTok title:** The 10 foods I buy every week
+**TikTok title:** The foods I buy every week
 
 ```
 I don't shop for variety. I shop for repeatability.
 
-These are the 10 foods in my cart most weeks:
+This is what goes in my cart most weeks:
 
 Protein: chicken breast, lean ground beef, tuna, eggs
 Carbs: rice, potatoes, oatmeal, cream of wheat
-Produce: fruit for snacks, vegetables for every plate
+Fruit and veg: bananas, berries, broccoli, avocado
 
 Fewer decisions means fewer chances to drift. When the same foods are always in the house, hitting my protein and calories stops being a daily debate.
 
