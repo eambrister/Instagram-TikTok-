@@ -8,7 +8,7 @@ A second, optional brand kit, **Monumental** (cinematic and photo-led, with edit
 
 ## Fat-loss myths that keep you stuck
 
-The first Monumental-kit carousel: eight 1080 × 1350 slides built from Edison's own photos, in [`outputs/edison-ambrister-fat-loss-myths`](outputs/edison-ambrister-fat-loss-myths).
+The first Monumental-kit carousel: eight 1080 × 1350 typographic slides, in [`outputs/edison-ambrister-fat-loss-myths`](outputs/edison-ambrister-fat-loss-myths).
 
 - [Download the posting package](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-fat-loss-myths/final-carousel.zip)
 - [Preview all eight slides](outputs/edison-ambrister-fat-loss-myths/preview.jpg)
