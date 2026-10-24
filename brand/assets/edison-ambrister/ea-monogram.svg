@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <style>
+    @font-face { font-family: BarlowCTD; src: url("file:///workspace/Instagram-TikTok-/brand/fonts/BarlowCondensed-ExtraBold.ttf"); font-weight: 800; }
+    @font-face { font-family: MontserratCTD; src: url("file:///workspace/Instagram-TikTok-/brand/fonts/Montserrat-Bold.ttf"); font-weight: 700; }
+    .head { font-family: BarlowCTD, 'Arial Narrow', sans-serif; font-weight: 800; }
+    .body { font-family: MontserratCTD, Arial, sans-serif; font-weight: 700; }
+  </style>
+
+
+  <g transform="translate(0 0) scale(1)">
+    <circle cx="500" cy="500" r="430" fill="none" stroke="#D6A918" stroke-width="28"/>
+    <circle cx="500" cy="500" r="392" fill="none" stroke="#F3D878" stroke-width="5" opacity="0.8"/>
+    <circle cx="500" cy="500" r="355" fill="#07080A" fill-opacity="0.88" stroke="#AAB0B9" stroke-width="4" opacity="0.98"/>
+    <text x="238" y="675" class="head" font-size="540" fill="#AAB0B9" stroke="#F3F0E9" stroke-width="3">E</text>
+    <text x="475" y="675" class="head" font-size="540" fill="#D6A918" stroke="#F3D878" stroke-width="3">A</text>
+    <path d="M475 760 L660 225 L710 225 L525 760 Z" fill="#981B2E"/>
+    <path d="M494 740 L665 245" stroke="#F3D878" stroke-width="9" opacity="0.85"/>
+  </g>
+</svg>

@@ -1,9 +1,13 @@
-# Cut Throat Discipline production standards
+# Edison Ambrister production standards
 
 Use these preferences for future carousel work. They record the user's decisions; the brief for a particular post may specify a different campaign palette or tone.
 
 - Canvas: 1080 × 1350 px, 4:5. Do not resize older published sets unless requested.
-- Logo: reuse the canonical gold-and-silver cinematic emblem in `assets/ctd-cinematic-logo.png`. Do not redraw or replace it with a text monogram.
+- Brand name: **Edison Ambrister**. Edison is the brand; do not present the content as a separate company named Cut Throat Discipline.
+- Primary logo: `assets/edison-ambrister/edison-ambrister-horizontal.png`.
+- Compact mark: `assets/edison-ambrister/ea-monogram.png`.
+- Profile mark: `assets/edison-ambrister/edison-ambrister-profile.png`.
+- The former Cut Throat Discipline emblem is retained only for historical output compatibility and must not appear on new work.
 - Footer: **DISCIPLINE - ACCOUNTABILITY - CONSISTENCY**.
 - Requested typography: Heading Now 31–38 Bold for headlines, Gotham for supporting copy. Licensed files have not been supplied.
 - Available temporary typography: Barlow Condensed ExtraBold plus Montserrat Medium/Bold; open font files and OFL licenses are in `fonts/`. Describe substitutes accurately.
@@ -14,4 +18,4 @@ Use these preferences for future carousel work. They record the user's decisions
 
 The burpees campaign uses the supplied brief's obsidian, titanium silver, deep crimson and warm white palette while preserving the established logo.
 
-The full design framework, format families, grid, copy structure and quality-control checklist are in [`CONTENT_SYSTEM.md`](CONTENT_SYSTEM.md). Machine-readable values are in [`tokens.json`](tokens.json), and reusable transparent overlays are in [`templates/`](templates/).
+The full design framework, format families, grid, copy structure and quality-control checklist are in [`CONTENT_SYSTEM.md`](CONTENT_SYSTEM.md). Machine-readable values are in [`tokens.json`](tokens.json), and reusable Edison Ambrister transparent overlays are in [`templates/`](templates/).

@@ -1,6 +1,6 @@
-# Cut Throat Discipline Content
+# Edison Ambrister Content
 
-Social content assets for Cut Throat Discipline.
+Social content assets for the Edison Ambrister personal fitness brand. Older Cut Throat Discipline outputs remain in place as historical work; new content uses the Edison Ambrister identity.
 
 New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.md) and the canonical [`brand/CONTENT_SYSTEM.md`](brand/CONTENT_SYSTEM.md).
 

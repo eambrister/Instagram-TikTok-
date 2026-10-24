@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create reusable transparent CTD overlays for posts and Reels."""
+"""Create reusable transparent Edison Ambrister overlays for posts and Reels."""
 
 from pathlib import Path
 
@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 BRAND = ROOT / "brand"
 OUT = BRAND / "templates"
-LOGO = BRAND / "assets/ctd-cinematic-logo.png"
+LOGO = BRAND / "assets/edison-ambrister/edison-ambrister-horizontal.png"
 FONT = BRAND / "fonts/Montserrat-Bold.ttf"
 SILVER = "#AAB0B9"
 GOLD = "#D6A918"
@@ -21,13 +21,11 @@ def make(size, reel=False):
     im = Image.new("RGBA", size, (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     logo = Image.open(LOGO).convert("RGBA")
-    max_logo = 110 if reel else 88
-    logo.thumbnail((max_logo, max_logo), Image.Resampling.LANCZOS)
+    max_width = 360 if reel else 315
+    logo.thumbnail((max_width, 128 if reel else 112), Image.Resampling.LANCZOS)
     margin = 48 if reel else 46
     im.alpha_composite(logo, (margin, 34 if reel else 28))
     font = ImageFont.truetype(str(FONT), 18 if reel else 16)
-    d.text((margin + logo.width + 18, 58 if reel else 48), "CUTTHROAT", font=font, fill="#F3F0E9")
-    d.text((margin + logo.width + 18, 84 if reel else 72), "DISCIPLINE", font=font, fill=GOLD)
     if not reel:
         d.line((margin, h-72, w-margin, h-72), fill=SILVER, width=2)
         d.text((w//2, h-38), FOOTER, font=font, fill=SILVER, anchor="mm")
@@ -55,10 +53,10 @@ def guide(size, reel=False):
 
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
-    make((1080, 1350)).save(OUT / "ctd-post-overlay-1080x1350.png")
-    make((1080, 1920), True).save(OUT / "ctd-reel-overlay-1080x1920.png")
-    guide((1080, 1350)).save(OUT / "ctd-post-safe-area-guide.png")
-    guide((1080, 1920), True).save(OUT / "ctd-reel-safe-area-guide.png")
+    make((1080, 1350)).save(OUT / "edison-ambrister-post-overlay-1080x1350.png")
+    make((1080, 1920), True).save(OUT / "edison-ambrister-reel-overlay-1080x1920.png")
+    guide((1080, 1350)).save(OUT / "post-safe-area-guide-1080x1350.png")
+    guide((1080, 1920), True).save(OUT / "reel-safe-area-guide-1080x1920.png")
 
 
 if __name__ == "__main__":

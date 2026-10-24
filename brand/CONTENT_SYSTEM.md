@@ -1,10 +1,10 @@
-# Cut Throat Discipline content system
+# Edison Ambrister content system
 
-This is the default framework for every Cut Throat Discipline post. A campaign may introduce a specific visual idea, but it should still look like it came from this system.
+This is the default framework for every Edison Ambrister post. Edison is the brand, so content should connect the expertise, standards and lived experience directly to him. A campaign may introduce a specific visual idea, but it should still look like it came from this system.
 
 ## Brand promise
 
-Cut Throat Discipline helps people replace inconsistent intention with disciplined execution. Every post should do at least one of four jobs:
+Edison Ambrister helps people replace inconsistent intention with disciplined execution. Every post should do at least one of four jobs:
 
 1. **Teach** — give the audience something useful they can apply.
 2. **Challenge** — confront an excuse or weak pattern.
@@ -74,7 +74,9 @@ Use for comparisons, exercise demonstrations, personal process and short lessons
 
 ### Logo
 
-- Use only `assets/ctd-cinematic-logo.png`.
+- Use `assets/edison-ambrister/edison-ambrister-horizontal.png` as the primary content lockup.
+- Use `assets/edison-ambrister/ea-monogram.png` only where the full name cannot remain legible.
+- Use `assets/edison-ambrister/edison-ambrister-profile.png` for square profile applications.
 - Default placement: upper-left.
 - 4:5 size: 72–100 pixels wide.
 - 9:16 size: 88–120 pixels wide.
@@ -193,8 +195,8 @@ Before publishing, verify:
 
 Use small recurring labels to make the feed easier to recognize:
 
-- **CTD TRAINING** — workouts and technique
-- **CTD NUTRITION** — food and macro education
-- **CTD MINDSET** — discipline and execution
-- **CTD PROOF** — personal process and results
-- **CTD SYSTEMS** — routines, tracking and accountability
+- **EDISON TRAINS** — workouts and technique
+- **EDISON EATS** — food, meal preparation and macro education
+- **THE STANDARD** — discipline and execution
+- **MY PROOF** — personal process and results
+- **EXECUTION SYSTEMS** — routines, tracking and accountability

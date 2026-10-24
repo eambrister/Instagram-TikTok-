@@ -1,10 +1,11 @@
-# Claude onboarding: Cut Throat Discipline
+# Claude onboarding: Edison Ambrister
 
-Use this document as the operating context for helping Edison Ambrister create content for **Cut Throat Discipline**. Read it before writing copy, proposing content, designing posts or changing repository files.
+Use this document as the operating context for helping Edison Ambrister build his personal fitness brand under his own name, **Edison Ambrister**. Read it before writing copy, proposing content, designing posts or changing repository files.
 
 ## 1. Brand and creator
 
-- **Brand:** Cut Throat Discipline
+- **Brand:** Edison Ambrister
+- **Brand structure:** Edison is the brand. Do not separate his content, expertise or coaching identity into a different company-facing personality.
 - **Creator:** Edison Ambrister
 - **Instagram:** `@edisonambrister`
 - **TikTok:** `@e.pamb`
@@ -85,11 +86,11 @@ Prioritize saves, shares, profile visits and credible conversations. Do not rely
 
 Use these recurring series labels:
 
-- **CTD TRAINING:** Workouts, technique, exercise selection and progression
-- **CTD NUTRITION:** Protein, carbohydrates, fiber, calories, meal preparation and food comparisons
-- **CTD MINDSET:** Discipline, standards, procrastination and execution
-- **CTD PROOF:** Edison’s transformation, meals, routines and lessons
-- **CTD SYSTEMS:** Planning, tracking, check-ins, habits and accountability
+- **EDISON TRAINS:** Workouts, technique, exercise selection and progression
+- **EDISON EATS:** Protein, carbohydrates, fiber, calories, meal preparation and food comparisons
+- **THE STANDARD:** Discipline, standards, procrastination and execution
+- **MY PROOF:** Edison’s transformation, meals, routines and lessons
+- **EXECUTION SYSTEMS:** Planning, tracking, check-ins, habits and accountability
 
 Recommended content mix:
 
@@ -143,11 +144,13 @@ Read those files before designing anything.
 
 ### Fixed brand elements
 
-- **Official logo:** [`brand/assets/ctd-cinematic-logo.png`](brand/assets/ctd-cinematic-logo.png)
+- **Primary logo:** [`brand/assets/edison-ambrister/edison-ambrister-horizontal.png`](brand/assets/edison-ambrister/edison-ambrister-horizontal.png)
+- **Compact EA mark:** [`brand/assets/edison-ambrister/ea-monogram.png`](brand/assets/edison-ambrister/ea-monogram.png)
+- **Profile image:** [`brand/assets/edison-ambrister/edison-ambrister-profile.png`](brand/assets/edison-ambrister/edison-ambrister-profile.png)
 - **Footer:** `DISCIPLINE - ACCOUNTABILITY - CONSISTENCY`
 - **Instagram posts and carousels:** 1080 × 1350, 4:5
 - **Reels and TikTok:** 1080 × 1920, 9:16
-- **Logo placement:** Upper-left by default
+- **Logo placement:** Upper-left by default, with the full Edison Ambrister lockup preferred whenever it remains readable
 - **Main palette:** Obsidian black, metallic gold, titanium silver, warm white and deep crimson
 
 Color values:
@@ -236,7 +239,7 @@ Before changing files:
 
 Store deliverables under:
 
-`outputs/ctd-<content-name>/`
+`outputs/edison-ambrister-<content-name>/`
 
 Typical package:
 
@@ -252,7 +255,7 @@ Typical package:
 
 Reusable generators belong in `tools/`.
 
-Use the canonical logo from `brand/assets/`, not a copy found in an older output folder.
+Use the canonical Edison Ambrister logo from `brand/assets/edison-ambrister/`, not a copy found in an older output folder.
 
 After building:
 
@@ -281,7 +284,7 @@ Useful references in `outputs/`:
 - `ctd-food-before-after` — personal food transformation carousel
 - `ctd-burpees` — workout education and personal story
 
-Treat these as references, not immutable templates. The newest files in `brand/` are the current source of truth when older work conflicts with them.
+Treat these as structural references, not current identity references. Most were produced under the retired Cut Throat Discipline name. The newest files in `brand/` are the current source of truth when older work conflicts with them.
 
 ## 12. Known lessons from previous revisions
 
@@ -289,7 +292,7 @@ Treat these as references, not immutable templates. The newest files in `brand/`
 - Headlines should be large and use the available canvas.
 - Small, timid typography feels off-brand.
 - Image subjects must remain unobstructed.
-- The official cinematic logo belongs on every designed post when space allows.
+- The Edison Ambrister horizontal logo belongs on every designed post when space allows; use the EA monogram only when the full name would be illegible.
 - The footer must say `DISCIPLINE - ACCOUNTABILITY - CONSISTENCY`.
 - Gold is the principal accent; crimson is secondary.
 - Edison prefers polished, cinematic and premium work over generic templates.
@@ -316,4 +319,4 @@ When Edison dislikes something, identify the visual reason, correct it and show 
 
 Paste this after giving Claude access to the repository:
 
-> You are helping me build Cut Throat Discipline, my fitness coaching and accountability brand. Read `CLAUDE_ONBOARDING.md`, `brand/CONTENT_SYSTEM.md`, `brand/tokens.json` and `brand/README.md` before creating anything. Treat those files as the current source of truth. Review the relevant existing output before designing a new post. Follow the established 4:5 or 9:16 framework, use the official logo and exact footer, keep image subjects unobstructed, verify all fitness and nutrition information, and inspect the final render at phone size. When I give you a clear content topic, carry it through concept, copy, design, quality review, packaging and GitHub delivery rather than stopping at ideas.
+> You are helping me build my personal fitness coaching and accountability brand under my name, Edison Ambrister. I am the brand; do not present the content as a separate brand called Cut Throat Discipline. Read `CLAUDE_ONBOARDING.md`, `brand/CONTENT_SYSTEM.md`, `brand/tokens.json` and `brand/README.md` before creating anything. Treat those files as the current source of truth. Review the relevant existing output for structure while applying the current Edison Ambrister identity. Follow the established 4:5 or 9:16 framework, use the official Edison Ambrister logo and exact footer, keep image subjects unobstructed, verify all fitness and nutrition information, and inspect the final render at phone size. When I give you a clear content topic, carry it through concept, copy, design, quality review, packaging and GitHub delivery rather than stopping at ideas.
