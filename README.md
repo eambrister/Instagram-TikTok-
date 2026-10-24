@@ -6,13 +6,13 @@ New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.m
 
 A second, optional brand kit, **Monumental** (cinematic and photo-led, with editorial serif headlines), is in [`brand/monumental/`](brand/monumental/README.md). Carousel topic ideas are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
 
-## Pinterest pin set
+## Inspo posts
 
-Six original 1000 × 1500 Pinterest pins (nutrients, food swaps, fridge setup, Choose Your Hard, 60 g protein shake, grocery list) are in [`outputs/edison-ambrister-pinterest-pins`](outputs/edison-ambrister-pinterest-pins).
+Six original 1080 × 1350 single-image posts for Instagram and TikTok (nutrients, food swaps, fridge setup, Choose Your Hard, 60 g protein shake, grocery list) are in [`outputs/edison-ambrister-inspo-posts`](outputs/edison-ambrister-inspo-posts).
 
-- [Download all pins](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-pinterest-pins/pinterest-pins.zip)
-- [Preview all six](outputs/edison-ambrister-pinterest-pins/overview.jpg)
-- [Titles, descriptions, boards and schedule](outputs/edison-ambrister-pinterest-pins/pin-copy.md)
+- [Download all posts](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-inspo-posts/inspo-posts.zip)
+- [Preview all six](outputs/edison-ambrister-inspo-posts/overview.jpg)
+- [Captions and schedule](outputs/edison-ambrister-inspo-posts/captions.md)
 
 ## Fat-loss myths that keep you stuck
 
