@@ -6,6 +6,14 @@ New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.m
 
 A second, optional brand kit, **Monumental** (cinematic and photo-led, with editorial serif headlines), is in [`brand/monumental/`](brand/monumental/README.md). Carousel topic ideas are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
 
+## Pinterest pin set
+
+Six original 1000 × 1500 Pinterest pins (nutrients, food swaps, fridge setup, Choose Your Hard, 60 g protein shake, grocery list) are in [`outputs/edison-ambrister-pinterest-pins`](outputs/edison-ambrister-pinterest-pins).
+
+- [Download all pins](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-pinterest-pins/pinterest-pins.zip)
+- [Preview all six](outputs/edison-ambrister-pinterest-pins/overview.jpg)
+- [Titles, descriptions, boards and schedule](outputs/edison-ambrister-pinterest-pins/pin-copy.md)
+
 ## Fat-loss myths that keep you stuck
 
 The first Monumental-kit carousel: eight 1080 × 1350 typographic slides, in [`outputs/edison-ambrister-fat-loss-myths`](outputs/edison-ambrister-fat-loss-myths).
