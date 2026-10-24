@@ -1,6 +1,6 @@
 # Edison Ambrister content system
 
-This is the default framework for every Edison Ambrister post. Edison is the brand, so content should connect the expertise, standards and lived experience directly to him. A campaign may introduce a specific visual idea, but it should still look like it came from this system.
+This is the default framework for every Edison Ambrister post. A second, optional kit for cinematic photo-led carousels lives in [`monumental/STYLE_GUIDE.md`](monumental/STYLE_GUIDE.md); this document stays the default. Edison is the brand, so content should connect the expertise, standards and lived experience directly to him. A campaign may introduce a specific visual idea, but it should still look like it came from this system.
 
 ## Brand promise
 

@@ -19,3 +19,7 @@ Use these preferences for future carousel work. They record the user's decisions
 The burpees campaign uses the supplied brief's obsidian, titanium silver, deep crimson and warm white palette while preserving the established logo.
 
 The full design framework, format families, grid, copy structure and quality-control checklist are in [`CONTENT_SYSTEM.md`](CONTENT_SYSTEM.md). Machine-readable values are in [`tokens.json`](tokens.json), and reusable Edison Ambrister transparent overlays are in [`templates/`](templates/).
+
+## Second brand kit
+
+The optional **Monumental** kit, a cinematic editorial-serif style, is documented in [`monumental/`](monumental/README.md). It is used only on request and does not change any of the core rules above.

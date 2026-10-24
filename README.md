@@ -4,6 +4,8 @@ Social content assets for the Edison Ambrister personal fitness brand. Older Cut
 
 New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.md) and the canonical [`brand/CONTENT_SYSTEM.md`](brand/CONTENT_SYSTEM.md).
 
+A second, optional brand kit, **Monumental** (cinematic and photo-led, with editorial serif headlines), is in [`brand/monumental/`](brand/monumental/README.md). Carousel topic ideas are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
+
 ## Less Announcing. More Evidence.
 
 The single educational 4:5 post is in [`outputs/ctd-less-talking-more-doing`](outputs/ctd-less-talking-more-doing).

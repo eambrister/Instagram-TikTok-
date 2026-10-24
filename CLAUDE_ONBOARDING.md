@@ -142,6 +142,10 @@ The canonical design rules are stored in:
 
 Read those files before designing anything.
 
+### Second brand kit: Monumental
+
+A second, optional visual style lives in [`brand/monumental/`](brand/monumental/README.md). It is a cinematic, photo-led look with editorial serif headlines, bone and antique-gold type, and optional sculpture or architecture metaphors, built from four uploaded guides. It **does not replace** the core system above. Use it only when Edison asks for it or the brief names it. It requires real photos of Edison, and it has its own palette, fonts, layouts and caption system ([`brand/monumental/CAPTION_SYSTEM.md`](brand/monumental/CAPTION_SYSTEM.md)). Carousel topic ideas for both kits are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
+
 ### Fixed brand elements
 
 - **Primary logo:** [`brand/assets/edison-ambrister/edison-ambrister-horizontal.png`](brand/assets/edison-ambrister/edison-ambrister-horizontal.png)
