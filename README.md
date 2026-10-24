@@ -2,6 +2,8 @@
 
 Social content assets for Cut Throat Discipline.
 
+New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.md) and the canonical [`brand/CONTENT_SYSTEM.md`](brand/CONTENT_SYSTEM.md).
+
 ## Less Announcing. More Evidence.
 
 The single educational 4:5 post is in [`outputs/ctd-less-talking-more-doing`](outputs/ctd-less-talking-more-doing).
