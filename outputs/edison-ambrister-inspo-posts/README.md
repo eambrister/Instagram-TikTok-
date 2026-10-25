@@ -1,6 +1,11 @@
 # Inspo posts (6 single-image posts)
 
-Six original 1080 × 1350 (4:5) posts for Instagram and TikTok photo mode, in the core Edison Ambrister kit. They were inspired by Pinterest reference graphics, but every concept was rewritten around Edison's own foods, story and standards. The fridge, food-swap and grocery posts use the food photography from `outputs/ctd-macro-champions/source-images`. None of the posts use body-comparison visuals.
+Six original 1080 × 1350 (4:5) posts for Instagram and TikTok photo mode, in the core Edison Ambrister kit. They were inspired by Pinterest reference graphics, but every concept was rewritten around Edison's own foods, story and standards. Final set, mixing photo and text-only posts. Every post that has real photos keeps them; the rest stay typographic:
+
+- **With photos:** fridge setup, food swaps and grocery list use the food photography from `outputs/ctd-macro-champions/source-images`. Testosterone foods was rebuilt in Canva with AI-generated food photos, with 4 foods instead of 6 (see `captions.md`). The `01-testosterone-nutrient-foods` files here are the earlier text-only backup.
+- **Text only:** the 60 g protein shake and Choose your hard.
+
+None of the posts use body-comparison visuals.
 
 - [Download all posts (ZIP)](https://github.com/eambrister/Instagram-TikTok-/raw/main/outputs/edison-ambrister-inspo-posts/inspo-posts.zip)
 - [Preview all six](overview.jpg)
