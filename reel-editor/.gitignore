@@ -1,0 +1,17 @@
+node_modules/
+.venv/
+cache/
+jobs/
+input/*
+!input/README.md
+references/*.mp4
+references/*.mov
+public/fonts/
+brand-assets/fonts/*
+!brand-assets/fonts/README.md
+licensed-media/**/*.*
+!licensed-media/README.md
+!licensed-media/manifest.json
+outputs/*/qa/*.jpg
+outputs/*
+!outputs/README.md

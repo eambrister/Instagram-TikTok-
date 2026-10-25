@@ -1,0 +1,83 @@
+{
+  "brand": {
+    "name": "Eddie",
+    "handle": null,
+    "logo": null,
+    "showBrandMark": false
+  },
+  "output": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "match60fpsSource": false,
+    "crf": 18,
+    "x264Preset": "medium",
+    "previewSeconds": 8
+  },
+  "colors": {
+    "captionText": "#FFFFFF",
+    "captionHighlight": "#FFD84D",
+    "captionOutline": "#0B0B0D",
+    "panelTop": "#1A1C22",
+    "panelBottom": "#0E0F12",
+    "card": "#16181D",
+    "cardBorder": "rgba(255,255,255,0.10)",
+    "text": "#FFFFFF",
+    "muted": "#A9AEB8",
+    "accent": "#FFD84D",
+    "tiers": { "S": "#FFD84D", "A": "#F2E9D2", "B": "#BDB6A6", "C": "#C9483D", "D": "#8C2B2B", "F": "#1C1D22" }
+  },
+  "captions": {
+    "uppercase": true,
+    "fontSizeMax": 72,
+    "fontSizeMin": 56,
+    "maxWordsPerPhrase": 3,
+    "minWordsPerPhrase": 2,
+    "maxLines": 2,
+    "maxPhraseSeconds": 1.9,
+    "minPhraseSeconds": 0.4,
+    "pauseBreakSeconds": 0.28,
+    "strokePx": 12,
+    "highlight": "active+emphasis",
+    "entranceFrames": 5
+  },
+  "safeArea": { "x0": 80, "x1": 900, "y0": 180, "y1": 1500 },
+  "motion": {
+    "intensity": "medium",
+    "levels": {
+      "light":  { "zoomMax": 1.06, "changeEverySeconds": 4.2, "entranceFrames": 11, "punchChance": 0.0 },
+      "medium": { "zoomMax": 1.12, "changeEverySeconds": 3.2, "entranceFrames": 8,  "punchChance": 0.5 },
+      "high":   { "zoomMax": 1.15, "changeEverySeconds": 2.3, "entranceFrames": 6,  "punchChance": 0.8 }
+    }
+  },
+  "layout": {
+    "explainerPanelHeight": 900,
+    "rankingSpeakerHeight": 900
+  },
+  "edit": {
+    "maxPauseSeconds": 0.6,
+    "keepPauseSeconds": 0.3,
+    "headPadSeconds": 0.12,
+    "tailPadSeconds": 0.45,
+    "silenceDb": -38,
+    "removeRestarts": true,
+    "removeFillers": true
+  },
+  "audio": {
+    "targetLufs": -14,
+    "truePeakDb": -1.5,
+    "lra": 11,
+    "highpassHz": 70,
+    "denoise": "light",
+    "musicDuckDb": -20,
+    "fadeMs": 12
+  },
+  "transcription": {
+    "provider": "local-faster-whisper",
+    "local": { "modelDir": "cache/models/whisper-small-ct2-int8", "threads": 4 },
+    "openai": { "model": "whisper-1", "apiKeyEnv": "OPENAI_API_KEY", "enabled": false },
+    "language": "en",
+    "vocabulary": ["Eddie", "Bahamas", "Nassau", "protein", "macros", "calories", "Greek yogurt"],
+    "uncertainBelow": 0.6
+  }
+}
