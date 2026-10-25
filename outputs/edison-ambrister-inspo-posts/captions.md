@@ -4,11 +4,11 @@ Each post is a single 1080 × 1350 image. Instagram gets the PNG, and TikTok pho
 
 | Date | Post |
 |---|---|
-| Mon 26 Oct, 6 PM | 03 · Fat-loss fridge setup |
-| Tue 27 Oct, 6 PM | 05 · 60 g protein shake |
-| Wed 28 Oct, 6 PM | 04 · Choose your hard |
-| Thu 29 Oct, 6 PM | 06 · Fat-loss grocery list |
-| Fri 30 Oct, 6 PM | 02 · 6 food swaps (80 lb) |
+| Mon 26 Oct, 6 PM | 03 · Fat-loss fridge setup · **scheduled** |
+| Tue 27 Oct, 6 PM | 05 · 60 g protein shake · **scheduled** |
+| Wed 28 Oct, 6 PM | 04 · Choose your hard · **scheduled** |
+| Thu 29 Oct, 6 PM | 06 · Fat-loss grocery list · **scheduled** |
+| Fri 30 Oct, 6 PM | 02 · 6 food swaps (80 lb) · **scheduled** |
 | Sat 31 Oct, 6 PM | 01 · Testosterone nutrients (4 foods, Canva) · **scheduled** |
 
 ---
