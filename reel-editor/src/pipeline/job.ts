@@ -5,7 +5,7 @@ import path from "node:path";
 import { buildAudio, mux } from "./audio";
 import { fitPhrases, segment, toSrt } from "./captions";
 import { loadStyle, type HouseStyle } from "./config";
-import { buildEdl } from "./edl";
+import { buildEdl, snapToSpeech } from "./edl";
 import { chooseFps, detectSilence, makeProxy, probe, type Probe } from "./ingest";
 import { buildPlan, type Direction } from "./planner";
 import { reportMarkdown, runQa } from "./qa";
@@ -95,7 +95,8 @@ export async function runJob(o: JobOptions) {
 
   // 4. Edit decisions -> output timeline
   const silences = await detectSilence(media.audio, style.edit.silenceDb, 0.3);
-  const edl = buildEdl(srcWords, silences, pr.duration, style, { keepPauses: o.direction.keepPauses });
+  const timedWords = snapToSpeech(srcWords, silences);
+  const edl = buildEdl(timedWords, silences, pr.duration, style, { keepPauses: o.direction.keepPauses });
   const segs = buildSegments(edl.keep, fps);
   writeJson(path.join(jobDir, "edl.json"), { cuts: edl.cuts, keep: edl.keep, segments: segs });
   const focusFor = (s0: number, s1: number): Segment["focus"] => {
@@ -106,7 +107,7 @@ export async function runJob(o: JobOptions) {
     return { cx: round(med("cx"), 4), cy: round(med("cy"), 4), w: round(med("w"), 4) };
   };
   const segments = segs.map((s) => ({ ...s, focus: focusFor(s.srcStart, s.srcEnd) }));
-  const outWords = srcWords.map((w) => remapSpan(segs, w)).filter((w): w is NonNullable<typeof w> => w !== null);
+  const outWords = timedWords.map((w) => remapSpan(segs, w)).filter((w): w is NonNullable<typeof w> => w !== null);
 
   // 5. Captions + plan
   const fonts = readJson(rel("cache/fonts.json"));

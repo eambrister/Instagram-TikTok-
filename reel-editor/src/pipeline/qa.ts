@@ -100,7 +100,7 @@ export async function runQa(o: {
 
   // 4. Caption geometry vs safe area, graphics and face (from the plan's shared framing math)
   const sa = plan.style.safeArea;
-  const outOfSafe = plan.captions.filter((c) => c.box.x < sa.x0 - 1 || c.box.x + c.box.w > sa.x1 + 1 || c.box.y < sa.y0 - 1 || c.box.y + c.box.h > sa.y1 + 1);
+  const outOfSafe = plan.captions.filter((c) => !c.suppressed).filter((c) => c.box.x < sa.x0 - 1 || c.box.x + c.box.w > sa.x1 + 1 || c.box.y < sa.y0 - 1 || c.box.y + c.box.h > sa.y1 + 1);
   add("Captions inside content-safe area", outOfSafe.length ? "FAIL" : "PASS", outOfSafe.length ? outOfSafe.map((c) => c.id).join(", ") : `${plan.captions.length} captions within x ${sa.x0}-${sa.x1}, y ${sa.y0}-${sa.y1}`);
   const overlaps: string[] = [];
   const faceHits: string[] = [];

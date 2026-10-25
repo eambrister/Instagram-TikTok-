@@ -501,10 +501,17 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     cy = clamp(cy, sa.y0 + fit.height / 2, sa.y1 - fit.height / 2);
     const box = { x: round(cx - fit.width / 2, 1), y: round(cy - fit.height / 2, 1), w: round(fit.width, 1), h: round(fit.height, 1) };
     // In full layout, a card in the top slot never shares space with the caption band.
-    for (const g of graphics) if (p.start < g.end && g.start < p.end && intersects(box, g.region, 8) && kindAt(p.start) === "full") box.y = round(g.region.y + g.region.h + 30, 1);
+    const suppressed = hookCovers(p);
+    if (!suppressed)
+      for (const g of graphics) if (p.start < g.end && g.start < p.end && intersects(box, g.region, 8) && kindAt(p.start) === "full") box.y = round(g.region.y + g.region.h + 30, 1);
+    if (box.y + box.h > sa.y1) {
+      // No room below the card: put the caption above it instead of leaving the safe area.
+      const g = graphics.find((x) => p.start < x.end && x.start < p.end);
+      if (g) box.y = round(g.region.y - box.h - 30, 1);
+    }
     if (fit.tooLong) flagged.push(`caption "${p.words.map((w) => w.text).join(" ")}" needed a small font (${fit.fontSize}px)`);
     return { id: `c${i}`, start: round(p.start, 3), end: round(p.end, 3), words: p.words.map((w) => ({ text: displayText(w.text, style), start: round(w.start, 3), end: round(w.end, 3), emphasis: w.emphasis, uncertain: w.uncertain })),
-      lines: fit.lines, fontSize: fit.fontSize, box, suppressed: hookCovers(p) };
+      lines: fit.lines, fontSize: fit.fontSize, box, suppressed };
   });
 
   const assets: ScenePlan["assets"] = [

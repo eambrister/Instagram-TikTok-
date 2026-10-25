@@ -36,7 +36,7 @@ export function subtract(keep: Interval[], cuts: Interval[]): Interval[] {
 }
 
 /** Snap kept source intervals to whole frames and lay them end to end on the output timeline. */
-export function buildSegments(keep: Interval[], fps: number, minFrames = 3): TimelineSegment[] {
+export function buildSegments(keep: Interval[], fps: number, minFrames = 8): TimelineSegment[] {
   const segs: TimelineSegment[] = [];
   let outFrame = 0;
   for (const k of normalizeIntervals(keep)) {

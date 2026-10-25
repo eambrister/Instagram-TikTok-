@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { findRestarts, findRetakes } from "../src/pipeline/edl";
+import { findRestarts, findRetakes, snapToSpeech } from "../src/pipeline/edl";
 import { parseNumber, parseRankings, selectMode, parseDirection } from "../src/pipeline/planner";
 
 const words = (s: string, t0 = 0) => s.split(" ").map((text, i) => ({ text, start: t0 + i * 0.3, end: t0 + i * 0.3 + 0.25, p: 0.99 }));
@@ -41,4 +41,10 @@ test("retakes keep only the last full take", () => {
   assert.equal(cuts[0].start, 0);
   assert.equal(cuts[1].end, 20);
   assert.equal(findRetakes(words("Normal is starting over every Monday. Normal is saying tomorrow.")).length, 0);
+});
+
+test("word edges snap to measured speech after a long pause", () => {
+  const [w] = snapToSpeech([{ text: "If", start: 56.96, end: 58.0, p: 0.9 }], [{ start: 50, end: 57.9 }]);
+  assert.equal(w.start, 57.9);
+  assert.equal(w.end, 58.0);
 });

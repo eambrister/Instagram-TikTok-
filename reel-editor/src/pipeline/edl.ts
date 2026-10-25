@@ -64,6 +64,21 @@ export function findRetakes(words: Word[], minWords = 5, window = 30): Cut[] {
   return cuts;
 }
 
+/**
+ * Whisper stretches a word over preceding silence (its start can be ~1 s early after a pause) and sometimes
+ * over following silence. Clip word edges to the audio's measured silence so captions and cuts follow the voice.
+ */
+export function snapToSpeech<T extends Word>(words: T[], silences: Interval[]): T[] {
+  return words.map((w) => {
+    let { start, end } = w;
+    for (const s of silences) {
+      if (s.start <= start + 0.02 && s.end > start && s.end < end - 0.08) start = s.end;
+      if (s.start > start + 0.08 && s.start < end && s.end >= end - 0.02) end = s.start;
+    }
+    return { ...w, start, end };
+  });
+}
+
 export function buildEdl(words: Word[], silences: Interval[], duration: number, style: HouseStyle, opts: { keepPauses?: boolean } = {}): Edl {
   const e = style.edit;
   if (!words.length) return { keep: [{ start: 0, end: duration }], cuts: [] };
@@ -99,7 +114,8 @@ export function buildEdl(words: Word[], silences: Interval[], duration: number, 
         cuts.push({ start: a.end + keepAfter, end: b.start - keepBefore, reason: `pause ${gap.toFixed(2)}s shortened to ${e.keepPauseSeconds}s` });
     }
 
-  const merged = normalizeIntervals(cuts);
+  // Cuts closer than 0.25 s merge: a sliver of a few frames between two cuts is never usable speech.
+  const merged = normalizeIntervals(cuts, 0.25);
   const keep = subtract([{ start: 0, end: duration }], merged);
   return { keep, cuts: cuts.sort((x, y) => x.start - y.start) };
 }
