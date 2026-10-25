@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { findRestarts } from "../src/pipeline/edl";
+import { findRestarts, findRetakes } from "../src/pipeline/edl";
 import { parseNumber, parseRankings, selectMode, parseDirection } from "../src/pipeline/planner";
 
 const words = (s: string, t0 = 0) => s.split(" ").map((text, i) => ({ text, start: t0 + i * 0.3, end: t0 + i * 0.3 + 0.25, p: 0.99 }));
@@ -26,4 +26,19 @@ test("mode selection and overrides", () => {
   assert.equal(selectMode(words("Just show up today."), d).mode, "TALKING_HEAD");
   assert.equal(selectMode(words("Just show up today."), parseDirection("make it a tier list")).mode, "RANKING");
   assert.deepEqual(parseRankings("Eggs=S, Granola = f"), [{ item: "Eggs", tier: "S" }, { item: "Granola", tier: "F" }]);
+});
+
+test("deliberate repetition of complete sentences is kept", () => {
+  assert.equal(findRestarts(words("You are not normal. You are rare. You are abnormal.")).length, 0);
+});
+
+test("retakes keep only the last full take", () => {
+  const w = [...words("If you're up early training when everybody's sleeping, if you wash,", 0),
+    ...words("If you're up early training when everybody's sleeping, if", 10),
+    ...words("If you're up early training when everybody's sleeping. Stay ready.", 20)];
+  const cuts = findRetakes(w);
+  assert.equal(cuts.length, 2);
+  assert.equal(cuts[0].start, 0);
+  assert.equal(cuts[1].end, 20);
+  assert.equal(findRetakes(words("Normal is starting over every Monday. Normal is saying tomorrow.")).length, 0);
 });

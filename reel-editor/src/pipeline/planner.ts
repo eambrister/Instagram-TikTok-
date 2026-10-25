@@ -333,13 +333,19 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
 
   // Hook from the opening words (exact), shown from frame 0.
   const graphics: Graphic[] = [];
-  const firstSentence: TWord[] = [];
+  // Hook = his complete opening sentence (or first clause), never cut mid-thought; up to 10 words.
+  let firstSentence: TWord[] = [];
   for (const w of inp.words) {
-    if (w.start > 3.5 || firstSentence.length >= 7) break;
+    if (firstSentence.length >= 10) break;
     firstSentence.push(w);
     if (sentenceEnd(w.text)) break;
   }
-  const hookEnd = firstSentence.length ? clamp(firstSentence[firstSentence.length - 1].end + 0.5, 2.0, 3.6) : 0;
+  if (firstSentence.length && !sentenceEnd(firstSentence[firstSentence.length - 1].text)) {
+    const comma = firstSentence.map((w) => /,$/.test(w.text)).lastIndexOf(true);
+    firstSentence = comma >= 2 ? firstSentence.slice(0, comma + 1) : [];
+    if (!firstSentence.length) flagged.push("opening sentence is longer than 10 words; no hook title (captions carry the opening)");
+  }
+  const hookEnd = firstSentence.length ? Math.max(2.0, firstSentence[firstSentence.length - 1].end + 0.5) : 0;
 
   // Schedule candidates without overlap (higher priority first, then time).
   const chosen: Candidate[] = [];
@@ -437,15 +443,26 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     return h >= 200 ? { x: sa.x0 + 20, y: sa.y0, w: sa.x1 - sa.x0 - 40, h } : null;
   };
 
+  const lowerSlot = (t0: number, t1: number) => {
+    let faceBottom = sa.y0;
+    for (let t = t0; t < t1; t += 0.5) {
+      const f = faceAt(t, "full");
+      if (f) faceBottom = Math.max(faceBottom, f.y + f.h);
+    }
+    const y = Math.min(faceBottom + 30, sa.y1 - 300);
+    return { x: sa.x0 + 20, y, w: sa.x1 - sa.x0 - 40, h: Math.min(380, sa.y1 - y) };
+  };
+
   if (firstSentence.length && mode !== "RANKING") {
     const kind = kindAt(0);
-    const region = kind === "panel-top" ? panelRegion : topSlot(0, hookEnd) ?? { x: sa.x0 + 20, y: sa.y0, w: sa.x1 - sa.x0 - 40, h: 260 };
+    // Above the head if there is room, otherwise on the chest below the chin, never across the face.
+    const region = kind === "panel-top" ? panelRegion : topSlot(0, hookEnd) ?? lowerSlot(0, hookEnd);
     const title = firstSentence.map((w) => displayText(w.text, style)).join(" ");
     const emphIdx: number[] = [];
     firstSentence.forEach((w, i) => inp.phrases.some((p) => p.words.some((pw) => pw.start === w.start && pw.emphasis)) && emphIdx.push(i));
     graphics.push({ kind: "hook", id: "hook", start: 0, end: round(hookEnd, 3), region,
       data: { kicker: d.topic ? d.topic.toUpperCase() : null, title, highlight: emphIdx, times: firstSentence.map((w) => round(w.start, 3)) }, source: { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
-    if (kind !== "panel-top" && !topSlot(0, hookEnd)) flagged.push("hook title had little room above the face in the opening shot; verify it does not cover the face");
+    if (kind !== "panel-top" && !topSlot(0, hookEnd)) notes.push("hook title placed below the face (no room above the head)");
   }
 
   chosen.forEach((c, i) => {

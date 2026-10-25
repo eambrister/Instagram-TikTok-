@@ -26,7 +26,9 @@ export function findRestarts(words: Word[]): Cut[] {
         if (j + k > words.length) continue;
         let same = true;
         for (let m = 0; m < k; m++) if (!t[i + m] || t[i + m] !== t[j + m]) same = false;
-        if (same && words[j].start - words[i].start < 4) {
+        // A complete sentence said again ("You are not normal. You are rare.") is deliberate, not a restart.
+        const abandonedComplete = /[.!?]$/.test(words[j - 1].text);
+        if (same && words[j].start - words[i].start < 4 && !abandonedComplete) {
           cuts.push({ start: words[i].start, end: words[j].start, reason: `restart: "${words.slice(i, j).map((w) => w.text).join(" ")}"` });
           i = j - 1;
           found = true;
@@ -35,6 +37,28 @@ export function findRestarts(words: Word[]): Cut[] {
     }
     if (!found && i + 1 < words.length && t[i] && t[i] === t[i + 1] && STUTTER_OK.has(t[i]) && words[i + 1].start - words[i].end < 0.6) {
       cuts.push({ start: words[i].start, end: words[i + 1].start, reason: `stutter: "${words[i].text}"` });
+    }
+  }
+  return cuts;
+}
+
+/**
+ * Retakes: the same run of >= 5 words said again within 30 s means an earlier take was abandoned.
+ * Everything from the earlier take's first word up to the later take is removed, so the last take is kept.
+ */
+export function findRetakes(words: Word[], minWords = 5, window = 30): Cut[] {
+  const t = words.map((w) => norm(w.text));
+  const cuts: Cut[] = [];
+  for (let i = 0; i + minWords <= words.length; i++) {
+    for (let j = i + minWords; j + minWords <= words.length && words[j].start - words[i].start <= window; j++) {
+      let k = 0;
+      while (j + k < words.length && i + k < j && t[i + k] && t[i + k] === t[j + k]) k++;
+      if (k >= minWords) {
+        cuts.push({ start: words[i].start, end: words[j].start,
+          reason: `retake: "${words.slice(i, Math.min(j, i + 8)).map((w) => w.text).join(" ")}…" said again at ${words[j].start.toFixed(1)}s, kept the later take` });
+        i = j - 1;
+        break;
+      }
     }
   }
   return cuts;
@@ -58,7 +82,7 @@ export function buildEdl(words: Word[], silences: Interval[], duration: number, 
       cuts.push({ start: Math.max(prevEnd, w.start - 0.03), end: Math.min(nextStart, w.end + 0.03), reason: `filler "${w.text}"` });
     });
 
-  if (e.removeRestarts) cuts.push(...findRestarts(words));
+  if (e.removeRestarts) cuts.push(...findRetakes(words), ...findRestarts(words));
 
   if (!opts.keepPauses)
     for (let i = 0; i + 1 < words.length; i++) {

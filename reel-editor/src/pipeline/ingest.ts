@@ -73,10 +73,12 @@ export function chooseFps(p: Probe, base: number, match60: boolean) {
   return match60 && p.avgFps > 50 ? 60 : base;
 }
 
-/** Proxy keeps zoom headroom (up to 1440 on the short side) but never upscales. */
+/**
+ * Proxy keeps enough pixels for a 1080x1920 crop with ~12% zoom headroom (1210x2150) and never upscales.
+ * A landscape 4K source therefore keeps its full height, so the vertical crop stays native resolution.
+ */
 export function proxySize(p: Probe) {
-  const short = Math.min(p.displayWidth, p.displayHeight);
-  const s = Math.min(1, 1440 / short);
+  const s = Math.min(1, Math.max(1210 / p.displayWidth, 2150 / p.displayHeight));
   const even = (n: number) => Math.max(2, Math.round((n * s) / 2) * 2);
   return { width: even(p.displayWidth), height: even(p.displayHeight) };
 }
