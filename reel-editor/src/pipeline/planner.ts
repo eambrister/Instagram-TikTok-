@@ -294,7 +294,7 @@ export type PlanInput = {
   style: HouseStyle;
   direction: Direction;
   fps: number;
-  proxy: { url: string; width: number; height: number };
+  proxy: { url: string; width: number; height: number; plateUrl: string | null };
   segments: (TimelineSegment & { focus: Segment["focus"] })[];
   words: TWord[]; // output timeline
   phrases: Phrase[];
@@ -314,9 +314,14 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
   const { mode, reason } = selectMode(inp.words, d);
   const panelH = style.layout.explainerPanelHeight;
   const boardH = style.layout.rankingSpeakerHeight;
+  // Backed-out full-screen framing needs a wall plate for the space above the clip.
+  const fullFit = inp.proxy.plateUrl ? style.framing.fullWidthFraction : null;
+  if (style.framing.fullWidthFraction && !fullFit) notes.push("no wall plate, so full-screen shots use the tight crop");
 
   // Zoom headroom: never enlarge past the proxy's native pixels by more than ~6%.
-  const coverFull = Math.max(W / inp.proxy.width, H / inp.proxy.height);
+  const coverFull = fullFit
+    ? Math.min(Math.max(W / inp.proxy.width, H / inp.proxy.height), W / (inp.proxy.width * fullFit))
+    : Math.max(W / inp.proxy.width, H / inp.proxy.height);
   const maxZoom = round(clamp(Math.max(1 / coverFull, 1.06), 1, lvl.zoomMax), 3);
   if (1 / coverFull < lvl.zoomMax) notes.push(`zoom capped at ${maxZoom}x by source resolution (${inp.proxy.width}x${inp.proxy.height})`);
   if (coverFull > 1.05) notes.push(`source is upscaled ${coverFull.toFixed(2)}x to fill 1080x1920; expect some softness`);
@@ -430,7 +435,7 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
   const panelRegion = { x: sa.x0, y: sa.y0, w: sa.x1 - sa.x0, h: panelH - sa.y0 - 120 };
   const faceAt = (t: number, kind: LayoutSpan["kind"]) => {
     const seg = segAt(t);
-    const fr = speakerFrame(kind, W, H, panelH, boardH);
+    const fr = speakerFrame(kind, W, H, panelH, boardH, fullFit);
     return faceRect(fr, inp.proxy.width, inp.proxy.height, seg.focus, zoomOf(t));
   };
   const topSlot = (t0: number, t1: number) => {
@@ -521,13 +526,13 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
 
   const plan: ScenePlan = {
     version: 1, jobId: inp.jobId, mode, modeReason: reason, intensity: d.intensity, fps, width: W, height: H, duration: round(duration, 4), preview: null,
-    source: { url: inp.proxy.url, width: inp.proxy.width, height: inp.proxy.height, fps, maxZoom },
+    source: { url: inp.proxy.url, width: inp.proxy.width, height: inp.proxy.height, fps, maxZoom, plateUrl: inp.proxy.plateUrl },
     segments: segments.map((s) => ({ srcStart: s.srcStart, srcEnd: s.srcEnd, outStart: s.outStart, outEnd: s.outEnd, focus: s.focus })),
     layout, zooms, captions, graphics,
     tierBoard: mode === "RANKING" ? { title: d.topic ? d.topic.toUpperCase() : null, events: tierEvents } : null,
     style: {
       colors: style.colors, captionStrokePx: style.captions.strokePx, captionHighlight: style.captions.highlight,
-      entranceFrames: lvl.entranceFrames, captionEntranceFrames: style.captions.entranceFrames, panelHeight: panelH, boardSpeakerHeight: boardH, safeArea: sa,
+      entranceFrames: lvl.entranceFrames, captionEntranceFrames: style.captions.entranceFrames, panelHeight: panelH, boardSpeakerHeight: boardH, fullWidthFraction: fullFit, safeArea: sa,
     },
     fonts: inp.fonts, assets, notes,
   };

@@ -22,7 +22,7 @@ const LETTER_SPACING = 4;
 // Middle of the letters, set so the head (top at about y = 792 here) covers the lower half.
 const WORD_CENTER_Y = 790;
 // Length of the effect, so its exit timing holds when it plays inside a longer sequence.
-const TEXT_BEHIND_FRAMES = 90;
+export const TEXT_BEHIND_FRAMES = 90;
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 // Biggest size up to LETTER_HEIGHT that still fits inside the safe zone.
@@ -38,7 +38,8 @@ const fitFontSize = (word: string) => {
   return width <= SAFE_WIDTH ? wanted : wanted * (SAFE_WIDTH / width);
 };
 
-export const TextBehind: React.FC<TextBehindProps> = ({ word, startFrom = textBehindDefaults.startFrom! }) => {
+// The word rising in, lifting slowly, then dropping out, over TEXT_BEHIND_FRAMES. Its letters are centred on centerY.
+export const RisingWord: React.FC<{ word: string; centerY: number }> = ({ word, centerY }) => {
   const frame = useCurrentFrame();
   const fontSize = fitFontSize(word);
 
@@ -48,35 +49,39 @@ export const TextBehind: React.FC<TextBehindProps> = ({ word, startFrom = textBe
   const y = (1 - rise) * 140 - lift + fall * 120;
 
   return (
-    <BehindMe framing={{ startFrom, centerX: 0.572 }}>
+    <div
+      style={{
+        position: "absolute",
+        left: SAFE_LEFT,
+        width: SAFE_WIDTH,
+        top: centerY,
+        display: "flex",
+        justifyContent: "center",
+        transform: `translateY(calc(-50% + ${y}px))`,
+      }}
+    >
       <div
         style={{
-          position: "absolute",
-          left: SAFE_LEFT,
-          width: SAFE_WIDTH,
-          top: WORD_CENTER_Y,
-          display: "flex",
-          justifyContent: "center",
-          transform: `translateY(calc(-50% + ${y}px))`,
+          fontFamily: DISPLAY_FONT,
+          fontSize,
+          // Line box equal to the capitals, so the word's centre is the letters' centre.
+          lineHeight: `${CAP_HEIGHT_PER_EM}em`,
+          letterSpacing: LETTER_SPACING,
+          color: "white",
+          whiteSpace: "nowrap",
+          opacity: rise * (1 - fall),
+          filter: `blur(${(1 - rise) * 18 + fall * 10}px)`,
+          textShadow: "0 10px 50px rgba(0,0,0,0.3)",
         }}
       >
-        <div
-          style={{
-            fontFamily: DISPLAY_FONT,
-            fontSize,
-            // Line box equal to the capitals, so the word's centre is the letters' centre.
-            lineHeight: `${CAP_HEIGHT_PER_EM}em`,
-            letterSpacing: LETTER_SPACING,
-            color: "white",
-            whiteSpace: "nowrap",
-            opacity: rise * (1 - fall),
-            filter: `blur(${(1 - rise) * 18 + fall * 10}px)`,
-            textShadow: "0 10px 50px rgba(0,0,0,0.3)",
-          }}
-        >
-          {word}
-        </div>
+        {word}
       </div>
-    </BehindMe>
+    </div>
   );
 };
+
+export const TextBehind: React.FC<TextBehindProps> = ({ word, startFrom = textBehindDefaults.startFrom! }) => (
+  <BehindMe framing={{ startFrom, centerX: 0.572 }}>
+    <RisingWord word={word} centerY={WORD_CENTER_Y} />
+  </BehindMe>
+);

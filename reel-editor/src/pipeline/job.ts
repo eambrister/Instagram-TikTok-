@@ -91,6 +91,18 @@ export async function runJob(o: JobOptions) {
     mark("faces", facesKey);
   }
   const faces = readJson(facesFile);
+
+  // 3b. Wall plate for backed-out full-screen framing
+  const plateFile = path.join(jobDir, "plate.png");
+  let plateUrl: string | null = null;
+  if (style.framing.fullWidthFraction) {
+    const plateKey = hashOf({ ingestKey, v: 1 });
+    if (!done("plate", plateKey) || !existsSync(plateFile)) {
+      await timed("plate", () => py("plate.py", [media.proxy, plateFile], { allowFail: true }));
+      if (existsSync(plateFile)) mark("plate", plateKey);
+    }
+    if (existsSync(plateFile)) plateUrl = `jobs/${jobId}/plate.png`;
+  }
   const sourceFaceRate = faces.samples ? faces.faces.length / faces.samples : null;
 
   // 4. Edit decisions -> output timeline
@@ -116,7 +128,7 @@ export async function runJob(o: JobOptions) {
   const fits = await fitPhrases(phrases, fonts.caption.file, style.safeArea.x1 - style.safeArea.x0 - 20, style);
   const { plan: rawPlan, flagged } = buildPlan({
     jobId, style, direction: o.direction, fps,
-    proxy: { url: `jobs/${jobId}/proxy.mp4`, width: media.width, height: media.height },
+    proxy: { url: `jobs/${jobId}/proxy.mp4`, width: media.width, height: media.height, plateUrl },
     segments, words: outWords, phrases, fits,
     fonts: { heading: { url: fonts.heading.url, family: fonts.heading.family, source: fonts.heading.source },
       caption: { url: fonts.caption.url, family: fonts.caption.family, source: fonts.caption.source },

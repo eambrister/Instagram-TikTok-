@@ -1,20 +1,38 @@
 // Speaker framing shared by planner (collision checks) and renderer, so both agree on where the face is.
 import type { ScenePlan, Segment, ZoomKey } from "./plan";
 
-export type Frame = { x: number; y: number; w: number; h: number; targetY: number };
+// widthFraction: show this share of the source width across the frame (backed-out framing), clip at the bottom.
+export type Frame = { x: number; y: number; w: number; h: number; targetY: number; widthFraction?: number | null };
 
-export function speakerFrame(kind: "full" | "panel-top" | "board-bottom", W: number, H: number, panelH: number, boardSpeakerH: number): Frame {
+export function speakerFrame(kind: "full" | "panel-top" | "board-bottom", W: number, H: number, panelH: number, boardSpeakerH: number,
+  fullWidthFraction: number | null = null): Frame {
   if (kind === "panel-top") return { x: 0, y: panelH, w: W, h: H - panelH, targetY: 0.4 };
   if (kind === "board-bottom") return { x: 0, y: 0, w: W, h: boardSpeakerH, targetY: 0.42 };
-  return { x: 0, y: 0, w: W, h: H, targetY: 0.34 };
+  return { x: 0, y: 0, w: W, h: H, targetY: 0.34, widthFraction: fullWidthFraction };
 }
 
 export const DEFAULT_FOCUS = { cx: 0.5, cy: 0.38, w: 0.3 };
 
-/** Cover-fit the proxy into the frame, zoomed, with the face placed at targetY and edges clamped. */
+/**
+ * Cover-fit the proxy into the frame, zoomed, with the face placed at targetY and edges clamped.
+ * With a widthFraction the shot is backed out instead: it sits on the bottom edge, zooms about the face,
+ * and the space above it is left for the wall plate.
+ */
 export function speakerTransform(f: Frame, pw: number, ph: number, focus: Segment["focus"], zoom: number) {
   const fc = focus ?? DEFAULT_FOCUS;
-  const s = Math.max(f.w / pw, f.h / ph) * zoom;
+  const cover = Math.max(f.w / pw, f.h / ph);
+  if (f.widthFraction && f.w / (pw * f.widthFraction) < cover) {
+    const s0 = f.w / (pw * f.widthFraction);
+    const s = s0 * zoom;
+    const w = pw * s;
+    const h = ph * s;
+    const tx = Math.min(0, Math.max(f.w - w, f.w / 2 - fc.cx * w));
+    // Bottom-aligned at zoom 1; zooming keeps the face where it was, so the bottom edge stays covered.
+    const faceY = f.h - ph * s0 + fc.cy * ph * s0;
+    const ty = faceY - fc.cy * h;
+    return { s, tx, ty, w, h };
+  }
+  const s = cover * zoom;
   const w = pw * s;
   const h = ph * s;
   let tx = f.w / 2 - fc.cx * w;

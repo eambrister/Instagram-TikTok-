@@ -54,6 +54,9 @@
     "explainerPanelHeight": 900,
     "rankingSpeakerHeight": 900
   },
+  "framing": {
+    "fullWidthFraction": 0.52
+  },
   "edit": {
     "maxPauseSeconds": 0.6,
     "keepPauseSeconds": 0.3,

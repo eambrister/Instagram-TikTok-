@@ -9,7 +9,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { Footage, Framing, boxStyle, clipBox } from "./Footage";
+import { Box, Footage, Framing, boxStyle, clipBox } from "./Footage";
 import { AUDIT, SOURCE_CLIP } from "./settings";
 
 type MaskMeta = { fps: number; frameCount: number; frameTimes?: number[] };
@@ -78,11 +78,11 @@ const useLoadedImage = (url: string | null) => {
  * The person mask for the current frame of a framed clip: where the clip sits, and a CSS mask
  * style that keeps only the person when applied to an element covering `box`.
  */
-export const usePersonMask = (framing: Framing, maskDir = "mask") => {
+export const usePersonMask = (framing: Framing, maskDir = "mask", boxOverride?: Box) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const meta = useMaskMeta(maskDir);
-  const box = clipBox(framing);
+  const box = boxOverride ?? clipBox(framing);
 
   // Pick the mask frame showing the same moment of the clip as the video layer.
   const index = meta ? maskIndexAt(meta, (frame + framing.startFrom) / fps) : null;

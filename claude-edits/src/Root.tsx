@@ -11,6 +11,7 @@ import { TextBehind, textBehindDefaults } from "./compositions/TextBehind";
 import { ColorGrade, colorGradeDefaults } from "./compositions/ColorGrade";
 import { ChatRender, chatRenderDefaults, chatRenderMetadata } from "./compositions/ChatRender";
 import { FullReel, fullReelDefaults, fullReelMetadata } from "./compositions/FullReel";
+import { ReelTextBehind, reelTextBehindDefaults, reelTextBehindMetadata } from "./compositions/ReelTextBehind";
 
 // Every effect is registered here as its own composition, named after the effect.
 export const RemotionRoot: React.FC = () => {
@@ -105,6 +106,16 @@ export const RemotionRoot: React.FC = () => {
         height={HEIGHT}
         defaultProps={fullReelDefaults}
         calculateMetadata={fullReelMetadata}
+      />
+      <Composition
+        id="ReelTextBehind"
+        component={ReelTextBehind}
+        durationInFrames={300}
+        fps={FPS}
+        width={WIDTH}
+        height={HEIGHT}
+        defaultProps={reelTextBehindDefaults}
+        calculateMetadata={reelTextBehindMetadata}
       />
     </>
   );

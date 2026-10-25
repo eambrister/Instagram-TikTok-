@@ -16,6 +16,9 @@ export const houseStyleSchema = z.object({
   safeArea: z.object({ x0: z.number(), x1: z.number(), y0: z.number(), y1: z.number() }),
   motion: z.object({ intensity: z.enum(["light", "medium", "high"]), levels: z.object({ light: level, medium: level, high: level }) }),
   layout: z.object({ explainerPanelHeight: z.number(), rankingSpeakerHeight: z.number() }),
+  // Share of the source width shown across a full-screen speaker shot. null = fill the frame (tightest crop).
+  // A smaller share backs the camera out; the clip then sits at the bottom with matched wall above it.
+  framing: z.object({ fullWidthFraction: z.number().min(0.2).max(1).nullable() }).default({ fullWidthFraction: null }),
   edit: z.object({ maxPauseSeconds: z.number(), keepPauseSeconds: z.number(), headPadSeconds: z.number(), tailPadSeconds: z.number(),
     silenceDb: z.number(), removeRestarts: z.boolean(), removeFillers: z.boolean() }),
   audio: z.object({ targetLufs: z.number(), truePeakDb: z.number(), lra: z.number(), highpassHz: z.number(), denoise: z.enum(["off", "light"]),

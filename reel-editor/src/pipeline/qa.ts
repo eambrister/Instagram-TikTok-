@@ -115,7 +115,7 @@ export async function runQa(o: {
     const t = c.start + 0.05;
     const kind = layoutAt(plan, t);
     const seg = plan.segments[segmentIndexAtOut(plan.segments, t)];
-    const f = faceRect(speakerFrame(kind, plan.width, plan.height, plan.style.panelHeight, plan.style.boardSpeakerHeight), plan.source.width, plan.source.height, seg.focus, zoomAt(plan.zooms, t, fps, plan.source.maxZoom));
+    const f = faceRect(speakerFrame(kind, plan.width, plan.height, plan.style.panelHeight, plan.style.boardSpeakerHeight, plan.style.fullWidthFraction), plan.source.width, plan.source.height, seg.focus, zoomAt(plan.zooms, t, fps, plan.source.maxZoom));
     if (f && intersects(c.box, { x: f.x, y: f.y + f.h * 0.15, w: f.w, h: f.h * 0.85 })) faceHits.push(`${c.id}@${c.start.toFixed(1)}s`);
   }
   add("Captions clear of graphics", overlaps.length ? "FAIL" : "PASS", overlaps.length ? overlaps.join(", ") : "no time-overlapping caption/graphic boxes intersect");
