@@ -48,7 +48,8 @@ const EndGrid: React.FC<{ callToAction: string }> = ({ callToAction }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const pop = spring({ frame: frame - 8, fps, config: { damping: 11, stiffness: 180, mass: 0.6 } });
-  const { fontSize } = fitText({ text: callToAction, withinWidth: SAFE_WIDTH - 60, fontFamily: DISPLAY_FONT });
+  // Leaves room for the pill's padding and the pop's overshoot inside the safe zone.
+  const { fontSize } = fitText({ text: callToAction, withinWidth: SAFE_WIDTH - 140, fontFamily: DISPLAY_FONT });
   return (
     <AbsoluteFill style={{ backgroundColor: AUDIT ? undefined : "#0E0E10" }}>
       {EFFECT_ORDER.map((id, i) => (
