@@ -9,7 +9,7 @@ Each post is a single 1080 × 1350 image. Instagram gets the PNG, and TikTok pho
 | Wed 28 Oct, 6 PM | 04 · Choose your hard |
 | Thu 29 Oct, 6 PM | 06 · Fat-loss grocery list |
 | Fri 30 Oct, 6 PM | 02 · 6 food swaps (80 lb) |
-| Sat 31 Oct, 6 PM | 01 · Testosterone nutrients |
+| Sat 31 Oct, 6 PM | 01 · Testosterone nutrients (4 foods, Canva) · **scheduled** |
 
 ---
 
@@ -140,21 +140,21 @@ Which swap would be hardest for you?
 food swaps, healthy food swaps, weight loss journey, lose 80 pounds, fat loss meals, high protein meals, meal prep ideas, calorie deficit, weight loss transformation, online fitness coach, bahamas fitness coach, edison ambrister
 ```
 
-## 01 · Testosterone nutrients: 6 foods
+## 01 · Testosterone nutrients: 4 foods
 
-**TikTok title:** 6 foods for the nutrients behind normal testosterone
+Built in Canva with AI-generated food photos (design "Blank black Instagram post", ID `DAHY906hxLw`), exported at 1080 × 1440 and scheduled in Metricool for Sat 31 Oct, 6 PM ET. It's labeled as AI-generated on Instagram. The 6-food PNG in this folder is the earlier text-only version and isn't scheduled.
+
+**TikTok title:** 4 foods for the nutrients behind normal testosterone
 
 ```
-No food will "boost" your testosterone past normal. But a shortfall in a few nutrients can hold it below normal.
+No food will "boost" your testosterone past normal. But a shortfall in a couple of nutrients can hold it below normal.
 
-The three to watch: zinc, vitamin D and selenium.
+Two to watch: zinc and vitamin D.
 
 1. Oysters: the top zinc source, about 32 mg per 3 oz cooked
-2. Lean beef: about 5 mg zinc per 3 oz cooked
+2. Lean beef: about 5 mg zinc per 3 oz cooked, plus protein
 3. Pumpkin seeds: about 2 mg zinc per ounce
 4. Salmon: vitamin D and omega-3, about 14 mcg vitamin D per 3 oz sockeye
-5. Eggs: keep the yolk, about 1 mcg vitamin D each
-6. Brazil nuts: 1–2 cover your selenium for the day. Don't overdo it
 
 Sleep, training, and staying lean matter just as much.
 
@@ -166,5 +166,5 @@ Save this for your next grocery run.
 
 #mensnutrition #testosterone #healthyeating #nutritiontips #bahamasfitness
 
-testosterone foods, foods for testosterone, zinc foods, vitamin d foods, selenium, brazil nuts, mens health, mens nutrition, hormone health, healthy eating for men, online fitness coach, bahamas fitness coach, edison ambrister
+testosterone foods, foods for testosterone, zinc foods, vitamin d foods, oysters, salmon, pumpkin seeds, mens health, mens nutrition, hormone health, online fitness coach, bahamas fitness coach, edison ambrister
 ```
