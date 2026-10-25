@@ -1,6 +1,7 @@
 import { Config } from "@remotion/cli/config";
 
 Config.setVideoImageFormat("jpeg");
+Config.setJpegQuality(95);
 Config.setOverwriteOutput(true);
 Config.setCodec("h264");
 // Use the Chromium already installed in this environment instead of downloading one.

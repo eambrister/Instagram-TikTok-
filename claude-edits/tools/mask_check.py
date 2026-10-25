@@ -13,7 +13,17 @@ ROOT = Path(__file__).resolve().parent.parent
 meta = json.loads((ROOT / "public/mask/meta.json").read_text())
 count = int(sys.argv[1]) if len(sys.argv) > 1 else 5
 total = meta["frameCount"]
-picks = [round(i * (total - 1) / (count - 1)) for i in range(count)]
+
+
+def has_person(i):
+    m = cv2.imread(str(ROOT / f"public/mask/frames/mask_{i:05d}.png"), cv2.IMREAD_GRAYSCALE)
+    return (m > 128).mean() > 0.01
+
+
+# Spread the checks over the part of the clip where someone is on camera.
+first = next(i for i in range(0, total, 5) if has_person(i))
+last = next(i for i in range(total - 1, 0, -5) if has_person(i))
+picks = [round(first + i * (last - first) / (count - 1)) for i in range(count)]
 cap = cv2.VideoCapture(str(ROOT / "public" / meta["source"]))
 out_dir = ROOT / "out" / "stills"
 out_dir.mkdir(parents=True, exist_ok=True)
@@ -30,11 +40,14 @@ for f in picks:
     overlay[edges > 0] = (0, 0, 255)
     # Close-up around the top of the person (hair and shoulders).
     ys, xs = np.nonzero(mask > 128)
-    top, cx = int(ys.min()), int(np.median(xs))
+    if len(ys):
+        top, cx = int(ys.min()), int(np.median(xs))
+    else:  # nobody in shot: the mask should be all black
+        top, cx = frame.shape[0] // 3, frame.shape[1] // 2
     x0 = max(0, min(frame.shape[1] - 540, cx - 270))
     y0 = max(0, min(frame.shape[0] - 540, top - 120))
     crop = np.hstack([overlay[y0:y0 + 540, x0:x0 + 540], cv2.cvtColor(mask[y0:y0 + 540, x0:x0 + 540], cv2.COLOR_GRAY2BGR)])
-    small = lambda im: cv2.resize(im, (540, 960), interpolation=cv2.INTER_AREA)
+    small = lambda im: cv2.resize(im, (540, round(540 * im.shape[0] / im.shape[1])), interpolation=cv2.INTER_AREA)
     row = np.hstack([small(frame), small(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)), small(overlay)])
     crop = cv2.resize(crop, (row.shape[1], row.shape[1] // 2), interpolation=cv2.INTER_CUBIC)
     sheet = np.vstack([row, crop])

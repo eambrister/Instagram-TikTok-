@@ -105,11 +105,47 @@ def frame_times(path):
     return [t - times[0] for t in times]
 
 
+def keep_main_person(m8):
+    """Remove stray patches (shadows, darker wall) that aren't connected to the person.
+
+    A seated person runs off the bottom of the frame, so pieces touching the bottom edge are kept.
+    If nothing touches the bottom (someone walking in), the largest piece is kept.
+    """
+    solid = (m8 > 128).astype(np.uint8)
+    n, labels, stats, _ = cv2.connectedComponentsWithStats(solid, connectivity=8)
+    if n <= 2:
+        return m8
+    h = m8.shape[0]
+    keep = [i for i in range(1, n) if stats[i, 1] + stats[i, 3] >= h]
+    if not keep:
+        keep = [1 + int(np.argmax(stats[1:, 4]))]
+    kept = np.isin(labels, keep).astype(np.uint8)
+    # Grow the kept area a little so its soft edge survives; everything else goes black.
+    kept = cv2.dilate(kept, np.ones((25, 25), np.uint8))
+    return np.where(kept > 0, m8, 0).astype(np.uint8)
+
+
+def clean_existing(out):
+    """Apply keep_main_person to an already made mask, in place."""
+    changed = 0
+    for path in sorted((out / "frames").glob("mask_*.png")):
+        m8 = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
+        cleaned = keep_main_person(m8)
+        if not np.array_equal(cleaned, m8):
+            cv2.imwrite(str(path), cleaned, [cv2.IMWRITE_PNG_COMPRESSION, 6])
+            changed += 1
+    return changed
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("input", nargs="?", default=str(ROOT / "public" / "talking.mp4"))
     ap.add_argument("--out", default=str(ROOT / "public" / "mask"))
+    ap.add_argument("--clean-only", action="store_true", help="only remove stray patches from an existing mask")
     args = ap.parse_args()
+    if args.clean_only:
+        print(f"Cleaned {clean_existing(Path(args.out))} frames")
+        return
 
     src = Path(args.input)
     out = Path(args.out)
@@ -177,7 +213,7 @@ def main():
             t = t * t * (3 - 2 * t)
             m = cv2.resize(t, (w, h), interpolation=cv2.INTER_LINEAR)
             m = cv2.GaussianBlur(m, (0, 0), feather)
-            m8 = (m * 255 + 0.5).astype(np.uint8)
+            m8 = keep_main_person((m * 255 + 0.5).astype(np.uint8))
 
             cv2.imwrite(str(frames_dir / f"mask_{n:05d}.png"), m8, [cv2.IMWRITE_PNG_COMPRESSION, 6])
             n += 1
@@ -190,22 +226,14 @@ def main():
     if n != len(times):
         sys.exit(f"Frame count mismatch: decoded {n}, timestamps {len(times)}")
 
-    # Black and white video of the mask, with every frame at the same time as in the clip.
-    concat = out / "frames.ffconcat"
-    lines = ["ffconcat version 1.0"]
-    for i in range(n):
-        dur = (times[i + 1] - times[i]) if i + 1 < n else float(1 / fps)
-        lines += [f"file frames/mask_{i:05d}.png", f"duration {dur:.6f}"]
-    lines.append(f"file frames/mask_{n - 1:05d}.png")
-    concat.write_text("\n".join(lines) + "\n")
+    # Black and white video of the mask: one frame per mask frame, at the clip's frame rate.
+    # (The PNGs plus frameTimes in meta.json carry each frame's exact time.)
     subprocess.run(
-        ["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
-         "-fps_mode", "vfr", "-frames:v", str(n), "-video_track_timescale", "600",
+        ["ffmpeg", "-v", "error", "-y", "-framerate", r_rate, "-i", str(frames_dir / "mask_%05d.png"),
          "-c:v", "libx264", "-crf", "12", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
          str(out / "talking-mask.mp4")],
         check=True,
     )
-    concat.unlink()
 
     meta = {"source": src.name, "width": w, "height": h, "fps": float(fps), "fpsRational": r_rate,
             "frameCount": n, "frameTimes": [round(t, 6) for t in times]}

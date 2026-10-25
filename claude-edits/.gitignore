@@ -5,3 +5,6 @@ __pycache__/
 # Source clip and generated media are too large for git; keep them in Drive.
 public/talking.mp4
 public/mask/
+# Scratch output: audit frames and full-size stills (the contact sheets are kept).
+out/audit/
+out/stills/*.png

@@ -4,7 +4,7 @@ import { SafeArea } from "../SafeArea";
 
 // Checks BehindMe: the word should sit behind the person and in front of the background.
 export const BehindMeTest: React.FC = () => (
-  <BehindMe>
+  <BehindMe framing={{ startFrom: 600 }}>
     <SafeArea style={{ justifyContent: "center", alignItems: "center" }}>
       <div
         style={{
@@ -14,7 +14,7 @@ export const BehindMeTest: React.FC = () => (
           lineHeight: 0.85,
           color: "#ffd400",
           textAlign: "center",
-          marginTop: -560,
+          marginTop: -300,
         }}
       >
         BEHIND
