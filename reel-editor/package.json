@@ -1,0 +1,34 @@
+{
+  "name": "eddie-reel-editor",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Automated vertical reel editor for Eddie's fitness videos (Remotion + FFmpeg + local Whisper).",
+  "type": "module",
+  "scripts": {
+    "edit": "tsx src/cli/edit.ts",
+    "batch": "tsx src/cli/batch.ts",
+    "demo": "tsx src/cli/demo.ts",
+    "studio": "remotion studio src/remotion/index.ts",
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "setup": "tsx src/cli/setup.ts"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.2.8",
+    "@remotion/bundler": "4.0.533",
+    "@remotion/cli": "4.0.533",
+    "@remotion/fonts": "4.0.533",
+    "@remotion/layout-utils": "4.0.533",
+    "@remotion/renderer": "4.0.533",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.533",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.0",
+    "@types/react": "18.3.23",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  }
+}
