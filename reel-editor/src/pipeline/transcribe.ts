@@ -55,10 +55,14 @@ export async function transcribe(asrWav: string, sourceSha: string, style: House
   return full;
 }
 
-/** Apply reviewed corrections (word nearest `at` whose text matches `from`). Timing is preserved. */
-export function applyCorrections(words: Word[], corrections: Correction[]): { words: Word[]; applied: string[] } {
-  const out = words.map((w) => ({ ...w }));
+/**
+ * Apply reviewed corrections (word nearest `at` whose text matches `from`). Timing is preserved.
+ * `to: ""` deletes a word Eddie did not say; its span is returned as `notSpeech` so the edit treats it as silence.
+ */
+export function applyCorrections(words: Word[], corrections: Correction[]): { words: Word[]; applied: string[]; notSpeech: { start: number; end: number }[] } {
+  const out: (Word & { deleted?: boolean })[] = words.map((w) => ({ ...w }));
   const applied: string[] = [];
+  const notSpeech: { start: number; end: number }[] = [];
   for (const c of corrections) {
     const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9']/g, "");
     let best = -1;
@@ -67,14 +71,18 @@ export function applyCorrections(words: Word[], corrections: Correction[]): { wo
       const d = Math.abs(w.start - c.at);
       if (norm(w.text) === norm(c.from) && d < bestD) (best = i), (bestD = d);
     });
-    if (best >= 0) {
+    if (best >= 0 && c.to === "") {
+      out[best].deleted = true;
+      notSpeech.push({ start: out[best].start, end: out[best].end });
+      applied.push(`removed "${c.from}" @${c.at}s (not said)`);
+    } else if (best >= 0) {
       const punct = out[best].text.match(/[.,!?;:]+$/)?.[0] ?? "";
       out[best].text = c.to + (c.to.match(/[.,!?;:]$/) ? "" : punct);
       out[best].p = 1;
       applied.push(`${c.from} -> ${c.to} @${c.at}s`);
     }
   }
-  return { words: out, applied };
+  return { words: out.filter((w) => !w.deleted).map(({ deleted, ...w }) => w), applied, notSpeech };
 }
 
 const NUMBER_RE = /^\$?\d|^(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|half)\b/i;

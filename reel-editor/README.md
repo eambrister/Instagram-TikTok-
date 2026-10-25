@@ -19,7 +19,8 @@ Or ask Claude Code: **"Edit this in my saved style."** (see `CLAUDE.md`).
 | `--direction "keep the pauses, less motion"` | Plain-language notes (mode, motion, pauses, no zooms, no graphics) |
 | `--topic "Breakfast habits"` | Small label above the hook / board title (never put in his mouth) |
 | `--rankings "Eggs=S, Granola=F"` | Explicit ranking instructions for RANKING mode |
-| `--music licensed-media/music/x.mp3` | Optional licensed music, ducked under speech |
+| `--music original` | Compose an original instrumental bed for this video (no licensing needed), kept ~16-23 dB under the voice |
+| `--music licensed-media/music/x.mp3` | Use your own licensed track instead, same ducking |
 | `--preview-only` | Stop after the short preview |
 | `--force` | Ignore completed stages and redo everything |
 

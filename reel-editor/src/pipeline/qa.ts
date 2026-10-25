@@ -1,13 +1,13 @@
 // Post-render quality gates. Each check reports PASS / WARN / FAIL / NOT CHECKED with evidence.
 // Visual judgement (does it look good?) is NOT automated: contact sheets and motion strips are produced
 // for a human or Claude to inspect, and the report says so.
-import { openSync, readSync, closeSync, statSync } from "node:fs";
+import { closeSync, existsSync, openSync, readSync, statSync } from "node:fs";
 import path from "node:path";
 import type { ScenePlan } from "../shared/plan";
 import { faceRect, intersects, layoutAt, speakerFrame, zoomAt } from "../shared/framing";
 import { cutPoints, segmentIndexAtOut } from "../shared/timeline";
 import { boardStateAt } from "../shared/tierboard";
-import { measureLoudness } from "./audio";
+import { measureLoudness, speechMasking } from "./audio";
 import type { HouseStyle } from "./config";
 import { probe } from "./ingest";
 import { py, readJson, run } from "./util";
@@ -82,6 +82,12 @@ export async function runQa(o: {
   const m = await measureLoudness(final);
   const loudOk = Math.abs(m.integratedLufs - style.audio.targetLufs) <= 1 && m.truePeakDb <= -1.0;
   add("Loudness and true peak (measured on the AAC export)", loudOk ? "PASS" : "WARN", `${m.integratedLufs} LUFS integrated (target ${style.audio.targetLufs}), true peak ${m.truePeakDb} dBTP, sample peak ${m.maxVolumeDb} dB, LRA ${m.lra} LU`);
+  const musicStem = path.join(o.jobDir, "stem-music.wav");
+  if (plan.notes.some((n) => n.startsWith("music:")) && existsSync(musicStem)) {
+    const mk = await speechMasking(path.join(o.jobDir, "stem-voice.wav"), musicStem);
+    add("Music stays under the voice while speaking", mk.median >= style.audio.musicUnderVoiceDb - 1 && mk.p10 >= 10 ? "PASS" : "WARN",
+      `median ${mk.median} dB under the voice, 10th percentile ${mk.p10} dB, closest ${mk.min} dB (0.4 s windows with speech)`);
+  }
   add("No audio clipping", m.maxVolumeDb < -0.1 ? "PASS" : "FAIL", `max sample ${m.maxVolumeDb} dBFS`);
 
   // 3. First/last frames, contact sheet, motion strips (for visual review)

@@ -79,7 +79,7 @@ export async function runJob(o: JobOptions) {
   const tr = await timed("transcribe", () => transcribe(media.asr, sourceSha, style));
   const corrFile = path.join(jobDir, "corrections.json");
   const corrections: Correction[] = existsSync(corrFile) ? readJson(corrFile) : [];
-  const { words: srcWords, applied } = applyCorrections(tr.words, corrections);
+  const { words: srcWords, applied, notSpeech } = applyCorrections(tr.words, corrections);
   writeFileSync(path.join(jobDir, "transcript.txt"), srcWords.map((w) => `${w.start.toFixed(2)}\t${w.p ?? ""}\t${w.text}`).join("\n"));
   if (!srcWords.length) throw new Error("No speech was transcribed. Check that the recording has audible speech.");
 
@@ -94,7 +94,8 @@ export async function runJob(o: JobOptions) {
   const sourceFaceRate = faces.samples ? faces.faces.length / faces.samples : null;
 
   // 4. Edit decisions -> output timeline
-  const silences = await detectSilence(media.audio, style.edit.silenceDb, 0.3);
+  // Words Eddie confirmed he did not say count as silence when deciding pause trims.
+  const silences = [...(await detectSilence(media.audio, style.edit.silenceDb, 0.3)), ...notSpeech].sort((a, b) => a.start - b.start);
   const timedWords = snapToSpeech(srcWords, silences);
   const edl = buildEdl(timedWords, silences, pr.duration, style, { keepPauses: o.direction.keepPauses });
   const segs = buildSegments(edl.keep, fps);
@@ -141,11 +142,22 @@ export async function runJob(o: JobOptions) {
   for (const f of flagged) log("flag", f);
 
   // 7. Audio (shared by preview and final)
-  const audioKey = hashOf({ segs: plan.segments.map((s) => [s.srcStart, s.srcEnd]), a: style.audio, music: o.music, ingestKey });
+  // "--music original": compose an original bed (scripts/make_music.py) matched to this video's length.
+  let music = o.music;
+  if (music === "original") {
+    music = path.join(jobDir, "music-original.wav");
+    const musicKey = hashOf({ d: plan.duration, seed: sourceSha.slice(0, 6), v: readFileSync(rel("scripts/make_music.py"), "utf8") });
+    if (!done("music", musicKey) || !existsSync(music)) {
+      await timed("music", () => py("make_music.py", [music!, String(plan.duration + 0.1), "--seed", String(parseInt(sourceSha.slice(0, 6), 16))]));
+      mark("music", musicKey);
+    }
+    plan.notes.push("music: original instrumental composed by scripts/make_music.py for this video (no third-party audio)");
+  } else if (music) plan.notes.push(`music: ${music} (must be licensed; record it in licensed-media/manifest.json)`);
+  const audioKey = hashOf({ segs: plan.segments.map((s) => [s.srcStart, s.srcEnd]), a: style.audio, music, musicV: music ? readFileSync(music).length : 0, ingestKey });
   const audioFinal = path.join(jobDir, "audio-final.wav");
   if (!done("audio", audioKey) || !existsSync(audioFinal)) {
-    const r = await timed("audio", () => buildAudio(plan, media.audio, jobDir, style, o.music));
-    writeJson(path.join(jobDir, "audio-measure.json"), r.measure);
+    const r = await timed("audio", () => buildAudio(plan, media.audio, jobDir, style, music));
+    writeJson(path.join(jobDir, "audio-measure.json"), { ...r.measure, musicUnderVoiceDb: r.musicUnderVoiceDb });
     mark("audio", audioKey);
   }
 

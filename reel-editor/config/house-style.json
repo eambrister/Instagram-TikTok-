@@ -69,7 +69,7 @@
     "lra": 11,
     "highpassHz": 70,
     "denoise": "light",
-    "musicDuckDb": -20,
+    "musicUnderVoiceDb": 16,
     "fadeMs": 12
   },
   "transcription": {
