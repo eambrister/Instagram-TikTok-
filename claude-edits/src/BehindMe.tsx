@@ -11,7 +11,23 @@ import {
 } from "remotion";
 import { SOURCE_CLIP } from "./settings";
 
-type MaskMeta = { fps: number; frameCount: number };
+type MaskMeta = { fps: number; frameCount: number; frameTimes?: number[] };
+
+// Index of the last mask frame shown at or before time t (seconds), matching what the video shows.
+const maskIndexAt = (meta: MaskMeta, t: number) => {
+  const times = meta.frameTimes;
+  if (!times || times.length === 0) {
+    return Math.min(meta.frameCount - 1, Math.max(0, Math.floor(t * meta.fps + 1e-3)));
+  }
+  let lo = 0;
+  let hi = times.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (times[mid] <= t + 1e-4) lo = mid;
+    else hi = mid - 1;
+  }
+  return lo;
+};
 
 const maskFrameUrl = (maskDir: string, index: number) =>
   staticFile(`${maskDir}/frames/mask_${String(index).padStart(5, "0")}.png`);
@@ -64,6 +80,8 @@ const useLoadedImage = (url: string | null) => {
  * with the mask in public/mask (person white, background black).
  *
  * startFrom: skip this many frames of the clip (in this composition's fps), like OffthreadVideo.
+ * position: which part of the clip to show when it's cropped to fill the frame, as CSS
+ *   object-position, e.g. "70% 50%" to frame someone right of centre in a horizontal clip.
  */
 export const BehindMe: React.FC<{
   children?: React.ReactNode;
@@ -71,25 +89,36 @@ export const BehindMe: React.FC<{
   maskDir?: string;
   startFrom?: number;
   muted?: boolean;
-}> = ({ children, src = staticFile(SOURCE_CLIP), maskDir = "mask", startFrom = 0, muted = false }) => {
+  position?: string;
+}> = ({
+  children,
+  src = staticFile(SOURCE_CLIP),
+  maskDir = "mask",
+  startFrom = 0,
+  muted = false,
+  position = "50% 50%",
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const meta = useMaskMeta(maskDir);
 
   // Pick the mask frame showing the same moment of the clip as the video layer.
-  const index = meta
-    ? Math.min(meta.frameCount - 1, Math.max(0, Math.floor(((frame + startFrom) / fps) * meta.fps + 1e-3)))
-    : null;
+  const index = meta ? maskIndexAt(meta, (frame + startFrom) / fps) : null;
   const maskUrl = index === null ? null : maskFrameUrl(maskDir, index);
   useLoadedImage(maskUrl);
 
-  const videoStyle: React.CSSProperties = { width: "100%", height: "100%", objectFit: "cover" };
+  const videoStyle: React.CSSProperties = {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    objectPosition: position,
+  };
   const maskStyle: React.CSSProperties = maskUrl
     ? {
         maskImage: `url("${maskUrl}")`,
         maskMode: "luminance",
         maskSize: "cover",
-        maskPosition: "center",
+        maskPosition: position,
         maskRepeat: "no-repeat",
       }
     : { visibility: "hidden" };

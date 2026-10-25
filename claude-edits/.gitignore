@@ -2,3 +2,6 @@ node_modules/
 .venv/
 tools/models/
 __pycache__/
+# Source clip and generated media are too large for git; keep them in Drive.
+public/talking.mp4
+public/mask/
