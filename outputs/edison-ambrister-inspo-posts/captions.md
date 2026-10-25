@@ -142,7 +142,7 @@ food swaps, healthy food swaps, weight loss journey, lose 80 pounds, fat loss me
 
 ## 01 · Testosterone nutrients: 4 foods
 
-Built in Canva with AI-generated food photos (design "Blank black Instagram post", ID `DAHY906hxLw`), exported at 1080 × 1440 and scheduled in Metricool for Sat 31 Oct, 6 PM ET. It's labeled as AI-generated on Instagram. The 6-food PNG in this folder is the earlier text-only version and isn't scheduled.
+Built in Canva with AI-generated food photos (design "Blank black Instagram post", ID `DAHY906hxLw`), exported at 1080 × 1440 and scheduled in Metricool for Sat 31 Oct, 6 PM ET.. The 6-food PNG in this folder is the earlier text-only version and isn't scheduled.
 
 **TikTok title:** 4 foods for the nutrients behind normal testosterone
 
