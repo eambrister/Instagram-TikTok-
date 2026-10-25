@@ -6,13 +6,15 @@ import { writeFileSync } from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { runJob } from "../pipeline/job";
-import { parseDirection } from "../pipeline/planner";
+import { parseDirection, parseRankings } from "../pipeline/planner";
 import { ensureDir, exists, rel, run } from "../pipeline/util";
 
 const { values } = parseArgs({ options: { only: { type: "string" }, "preview-only": { type: "boolean", default: false }, force: { type: "boolean", default: false } } });
 
 type Line = { text: string; pauseAfter: number };
-const DEMOS: Record<string, { lines: Line[]; video: "portrait-hdr-vfr" | "landscape-rotated" | "portrait-sdr"; mode: string }> = {
+// The flite test voice mangles "F tier" ("aft heaver"), so the ranking demo uses explicit --rankings, the same
+// route Eddie uses when a spoken rank is unclear. Spoken-tier parsing is covered by unit tests on text.
+const DEMOS: Record<string, { lines: Line[]; video: "portrait-hdr-vfr" | "landscape-rotated" | "portrait-sdr"; mode: string; rankings?: string; topic?: string }> = {
   "talking-head": {
     video: "portrait-sdr",
     mode: "auto",
@@ -38,12 +40,14 @@ const DEMOS: Record<string, { lines: Line[]; video: "portrait-hdr-vfr" | "landsc
   ranking: {
     video: "landscape-rotated",
     mode: "auto",
+    rankings: "Memory=F, Notebook=B, Photos=A, Coach=S",
+    topic: "Tracking progress",
     lines: [
       { text: "Ranking ways to track your progress.", pauseAfter: 0.3 },
-      { text: "Guessing is F tier.", pauseAfter: 0.5 },
+      { text: "Memory is F tier.", pauseAfter: 0.5 },
       { text: "A notebook is B tier.", pauseAfter: 0.5 },
       { text: "Weekly photos are A tier.", pauseAfter: 0.5 },
-      { text: "Weekly check-ins go straight to S tier.", pauseAfter: 0.5 },
+      { text: "A coach goes straight to S tier.", pauseAfter: 0.5 },
     ],
   },
 };
@@ -99,7 +103,10 @@ async function main() {
     const d = DEMOS[n];
     const file = await synth(n, d.lines, d.video, dir);
     console.log(`\n=== demo: ${n} (${file})`);
-    await runJob({ input: file, direction: parseDirection(""), music: null, previewOnly: values["preview-only"]!, force: values.force! });
+    const direction = parseDirection("");
+    if (d.rankings) direction.rankings = parseRankings(d.rankings);
+    if (d.topic) direction.topic = d.topic;
+    await runJob({ input: file, direction, music: null, previewOnly: values["preview-only"]!, force: values.force! });
   }
 }
 

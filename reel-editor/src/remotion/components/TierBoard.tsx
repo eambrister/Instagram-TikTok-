@@ -26,7 +26,7 @@ export const TierBoard: React.FC<{ plan: ScenePlan; mediaBase: string }> = ({ pl
   const board = plan.tierBoard!;
   const st = boardStateAt(board.events, t);
   const g = boardGeometry(plan);
-  const spacing = (tier: string) => Math.min(g.itemSize * 1.9 + 10, (g.right - g.itemX0) / Math.max(1, st.rows[tier as Tier].length));
+  const spacing = (tier: string) => Math.min(g.itemSize * 3.4 + 10, (g.right - g.itemX0) / Math.max(1, st.rows[tier as Tier].length));
   const slotX = (tier: string, slot: number) => g.itemX0 + slot * spacing(tier);
   const rowY = (tier: string) => g.top + TIERS.indexOf(tier as never) * g.rowH;
   const firstIntro = board.events.length ? Math.min(...board.events.map((e) => e.introAt)) : Infinity;

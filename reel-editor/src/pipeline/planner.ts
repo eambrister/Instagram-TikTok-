@@ -147,14 +147,19 @@ function findCandidates(words: TWord[]): { cands: Candidate[]; flagged: string[]
     const unitInline = /%$/.test(words[i].text) ? "%" : null;
     const unit = unitInline ?? (unitW && UNITS.has(lc(unitW.text)) ? lc(unitW.text) : null);
     if (!unit || n.value <= 0) continue;
-    const span = words.slice(Math.max(0, i - 3), Math.min(words.length, i + n.n + 3));
+    // Quote = the sentence around the number (no words from neighbouring sentences).
+    let s0 = i;
+    while (s0 > 0 && i - s0 < 4 && !sentenceEnd(words[s0 - 1].text)) s0--;
+    let s1 = i + n.n;
+    while (s1 < words.length - 1 && s1 - i < n.n + 3 && !sentenceEnd(words[s1].text)) s1++;
+    const span = words.slice(s0, s1 + 1);
     const conf = minConf(words.slice(i, i + n.n + (unitInline ? 0 : 1)));
     if (conf < 0.85) {
       flagged.push(`"${quoteOf(words.slice(i, i + n.n + 1))}" at ${words[i].start.toFixed(2)}s: number confidence ${conf.toFixed(2)} — not animated, please confirm`);
       i += n.n;
       continue;
     }
-    cands.push({ kind: "counter", at: words[i].start - 0.15, end: words[i].start + 2.8, priority: 3, confidence: conf,
+    cands.push({ kind: "counter", at: words[i].start, end: words[i].start + 2.8, priority: 3, confidence: conf,
       data: { value: n.value, decimals: n.decimals, unit: unit === "%" ? "PERCENT" : unit.toUpperCase(), caption: quoteOf(span).toUpperCase(), estimate: false },
       quote: quoteOf(span) });
     i += n.n;

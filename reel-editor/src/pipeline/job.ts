@@ -1,6 +1,6 @@
 // One isolated job per recording: jobs/<id>/ holds working files, outputs/<id>/ the deliverables.
 // Stages record an input hash in stages.json, so an interrupted job resumes from the last completed stage.
-import { copyFileSync, existsSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { buildAudio, mux } from "./audio";
 import { fitPhrases, segment, toSrt } from "./captions";
@@ -27,6 +27,14 @@ export type JobOptions = {
 };
 
 type Stages = Record<string, { key: string; at: string }>;
+
+function rendererCodeHash() {
+  const files: string[] = [];
+  const walk = (d: string) => readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : files.push(path.join(d, e.name))));
+  walk(rel("src/remotion"));
+  walk(rel("src/shared"));
+  return hashOf(files.sort().map((f) => readFileSync(f, "utf8")));
+}
 
 export async function runJob(o: JobOptions) {
   const input = path.resolve(o.input);
@@ -126,7 +134,8 @@ export async function runJob(o: JobOptions) {
     throw new Error(`Scene plan rejected (${v.errors.length} problems):\n- ${v.errors.slice(0, 15).join("\n- ")}`);
   }
   const plan = v.plan;
-  const planKey = hashOf(plan);
+  // Render stages also depend on the renderer code, so editing a component invalidates old renders.
+  const planKey = hashOf({ plan, code: rendererCodeHash() });
   log("plan", `${plan.mode} — ${plan.modeReason}; ${plan.duration.toFixed(1)}s from ${pr.duration.toFixed(1)}s, ${plan.segments.length} segments, ${plan.captions.length} captions, ${plan.graphics.length} graphics${plan.tierBoard ? `, ${plan.tierBoard.events.length} tier items` : ""}`);
   for (const f of flagged) log("flag", f);
 

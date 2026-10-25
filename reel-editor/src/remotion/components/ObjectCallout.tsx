@@ -21,7 +21,7 @@ export const ObjectCallout: React.FC<{
         filter: "drop-shadow(0 16px 24px rgba(0,0,0,0.45))" }} />
     );
   }
-  const fs = Math.max(18, size * 0.2);
+  const fs = Math.min(72, Math.max(22, size * 0.36));
   return (
     <div style={{ maxWidth: maxWidth ?? size * 2.6, boxSizing: "border-box", padding: `${fs * 0.45}px ${fs * 0.8}px`, borderRadius: fs * 0.6, background: `linear-gradient(160deg, ${c.card}, ${c.panelBottom})`,
       border: `2px solid ${c.cardBorder}`, boxShadow: shadow.soft, fontFamily: plan.fonts.heading.family, fontSize: fs, color: c.text, whiteSpace: "nowrap",
