@@ -8,7 +8,9 @@ import { ensureDir, exists, hashOf, log, py, readJson, rel, writeJson } from "./
 
 export type Word = { text: string; start: number; end: number; p: number | null };
 export type Transcript = { engine: string; model: string; language: string; words: Word[]; cacheKey: string };
-export type Correction = { at: number; from: string; to: string };
+// to: "" = not said (removed and treated as silence). join: true = the tail of the previous word, split off by
+// the recogniser (removed from captions, its audio kept as part of the previous word).
+export type Correction = { at: number; from: string; to: string; join?: boolean };
 
 export async function transcribe(asrWav: string, sourceSha: string, style: HouseStyle): Promise<Transcript> {
   const t = style.transcription;
@@ -71,7 +73,11 @@ export function applyCorrections(words: Word[], corrections: Correction[]): { wo
       const d = Math.abs(w.start - c.at);
       if (norm(w.text) === norm(c.from) && d < bestD) (best = i), (bestD = d);
     });
-    if (best >= 0 && c.to === "") {
+    if (best > 0 && c.join) {
+      out[best - 1].end = Math.max(out[best - 1].end, out[best].end);
+      out[best].deleted = true;
+      applied.push(`joined "${c.from}" @${c.at}s into the word before it`);
+    } else if (best >= 0 && c.to === "") {
       out[best].deleted = true;
       notSpeech.push({ start: out[best].start, end: out[best].end });
       applied.push(`removed "${c.from}" @${c.at}s (not said)`);

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { findRestarts, findRetakes, snapToSpeech } from "../src/pipeline/edl";
 import { parseNumber, parseRankings, selectMode, parseDirection } from "../src/pipeline/planner";
+import { applyCorrections } from "../src/pipeline/transcribe";
 
 const words = (s: string, t0 = 0) => s.split(" ").map((text, i) => ({ text, start: t0 + i * 0.3, end: t0 + i * 0.3 + 0.25, p: 0.99 }));
 
@@ -47,4 +48,18 @@ test("word edges snap to measured speech after a long pause", () => {
   const [w] = snapToSpeech([{ text: "If", start: 56.96, end: 58.0, p: 0.9 }], [{ start: 50, end: 57.9 }]);
   assert.equal(w.start, 57.9);
   assert.equal(w.end, 58.0);
+});
+
+test("a joined correction keeps the audio of a split word but drops its caption", () => {
+  const w = [
+    { text: "abnormal.", start: 71.64, end: 72.4, p: 0.97 },
+    { text: "normal.", start: 72.44, end: 73.1, p: 0.14 },
+  ];
+  const joined = applyCorrections(w, [{ at: 72.44, from: "normal.", to: "", join: true }]);
+  assert.deepEqual(joined.words.map((x) => x.text), ["abnormal."]);
+  assert.equal(joined.words[0].end, 73.1);
+  assert.equal(joined.notSpeech.length, 0);
+  const removed = applyCorrections(w, [{ at: 72.44, from: "normal.", to: "" }]);
+  assert.equal(removed.words[0].end, 72.4);
+  assert.equal(removed.notSpeech.length, 1);
 });
