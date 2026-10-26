@@ -10,3 +10,4 @@ out/audit/
 out/stills/*.png
 public/reel/
 public/reel-mask/
+public/reel-mask-*/
