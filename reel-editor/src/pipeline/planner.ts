@@ -16,6 +16,9 @@ export type Direction = {
   keepPauses: boolean;
   zooms: boolean;
   graphics: boolean;
+  // Hook title shown in full from the first frame and kept at the top for the whole video;
+  // the opening words then get normal captions.
+  pinHook: boolean;
   topic: string | null;
   rankings: { item: string; tier: Tier }[];
   notes: string[];
@@ -28,7 +31,7 @@ const STOP = new Set(["the", "a", "an", "and", "or", "but", "so", "to", "of", "i
 /** Plain-language direction -> structured options (also used for --direction on the CLI). */
 export function parseDirection(text: string, base: Partial<Direction> = {}): Direction {
   const t = text.toLowerCase();
-  const d: Direction = { mode: "auto", intensity: "medium", keepPauses: false, zooms: true, graphics: true, topic: null, rankings: [], notes: [], ...base };
+  const d: Direction = { mode: "auto", intensity: "medium", keepPauses: false, zooms: true, graphics: true, pinHook: false, topic: null, rankings: [], notes: [], ...base };
   if (/\b(tier|ranking|rank)\b/.test(t)) d.mode = "RANKING";
   else if (/\b(explainer|explain|split[- ]screen|panel)\b/.test(t)) d.mode = "EXPLAINER";
   else if (/\b(talking[- ]head|simple|minimal|clean)\b/.test(t)) d.mode = "TALKING_HEAD";
@@ -37,6 +40,7 @@ export function parseDirection(text: string, base: Partial<Direction> = {}): Dir
   if (/(keep (the )?pauses|don't cut|no cuts)/.test(t)) d.keepPauses = true;
   if (/no zoom/.test(t)) d.zooms = false;
   if (/no graphics/.test(t)) d.graphics = false;
+  if (/(pin|keep|hold)( the)? (title|hook)|(title|hook) (at|on) (the )?top/.test(t)) d.pinHook = true;
   if (text.trim()) d.notes.push(`direction: "${text.trim()}"`);
   return d;
 }
@@ -461,13 +465,16 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
   if (firstSentence.length && mode !== "RANKING") {
     const kind = kindAt(0);
     // Above the head if there is room, otherwise on the chest below the chin, never across the face.
-    const region = kind === "panel-top" ? panelRegion : topSlot(0, hookEnd) ?? lowerSlot(0, hookEnd);
+    const titleEnd = d.pinHook ? duration : hookEnd;
+    const region = kind === "panel-top" ? panelRegion : topSlot(0, titleEnd) ?? lowerSlot(0, titleEnd);
     const title = firstSentence.map((w) => displayText(w.text, style)).join(" ");
     const emphIdx: number[] = [];
     firstSentence.forEach((w, i) => inp.phrases.some((p) => p.words.some((pw) => pw.start === w.start && pw.emphasis)) && emphIdx.push(i));
-    graphics.push({ kind: "hook", id: "hook", start: 0, end: round(hookEnd, 3), region,
-      data: { kicker: d.topic ? d.topic.toUpperCase() : null, title, highlight: emphIdx, times: firstSentence.map((w) => round(w.start, 3)) }, source: { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
-    if (kind !== "panel-top" && !topSlot(0, hookEnd)) notes.push("hook title placed below the face (no room above the head)");
+    graphics.push({ kind: "hook", id: "hook", start: 0, end: round(titleEnd, 3), region,
+      data: { kicker: d.topic ? d.topic.toUpperCase() : null, title, highlight: emphIdx,
+        times: firstSentence.map((w) => (d.pinHook ? 0 : round(w.start, 3))) }, source: { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
+    if (kind !== "panel-top" && !topSlot(0, titleEnd)) notes.push("hook title placed below the face (no room above the head)");
+    if (d.pinHook) notes.push("hook title pinned at the top for the whole video");
   }
 
   chosen.forEach((c, i) => {
@@ -490,7 +497,7 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
   // Captions whose words are all inside the hook title are not drawn twice (they stay in the SRT).
   const hook = graphics.find((g) => g.kind === "hook");
   const hookWords = new Set(firstSentence.map((w) => w.start));
-  const hookCovers = (p: Phrase) => !!hook && p.start < hook.end && p.words.every((w) => hookWords.has(w.start));
+  const hookCovers = (p: Phrase) => !d.pinHook && !!hook && p.start < hook.end && p.words.every((w) => hookWords.has(w.start));
 
   // Caption placement by layout and face position.
   const captions = inp.phrases.map((p, i) => {

@@ -12,6 +12,7 @@ import { ColorGrade, colorGradeDefaults } from "./compositions/ColorGrade";
 import { ChatRender, chatRenderDefaults, chatRenderMetadata } from "./compositions/ChatRender";
 import { FullReel, fullReelDefaults, fullReelMetadata } from "./compositions/FullReel";
 import { ReelTextBehind, reelTextBehindDefaults, reelTextBehindMetadata } from "./compositions/ReelTextBehind";
+import { AbnormalReel, abnormalReelDefaults, abnormalReelMetadata } from "./compositions/AbnormalReel";
 
 // Every effect is registered here as its own composition, named after the effect.
 export const RemotionRoot: React.FC = () => {
@@ -116,6 +117,16 @@ export const RemotionRoot: React.FC = () => {
         height={HEIGHT}
         defaultProps={reelTextBehindDefaults}
         calculateMetadata={reelTextBehindMetadata}
+      />
+      <Composition
+        id="AbnormalReel"
+        component={AbnormalReel}
+        durationInFrames={1274}
+        fps={FPS}
+        width={WIDTH}
+        height={HEIGHT}
+        defaultProps={abnormalReelDefaults}
+        calculateMetadata={abnormalReelMetadata}
       />
     </>
   );

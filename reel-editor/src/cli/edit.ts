@@ -1,5 +1,5 @@
 // npm run edit -- --input "input/my video.mov" [--mode auto|talking_head|explainer|ranking] [--intensity light|medium|high]
-//   [--direction "plain-language notes"] [--topic "..."] [--rankings "Eggs=S, Granola=F"] [--music licensed-media/music/x.mp3]
+//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--rankings "Eggs=S, Granola=F"] [--music licensed-media/music/x.mp3]
 //   [--preview-only] [--force]
 import { parseArgs } from "node:util";
 import { parseDirection, parseRankings } from "../pipeline/planner";
@@ -12,6 +12,7 @@ const { values } = parseArgs({
     intensity: { type: "string" },
     direction: { type: "string", default: "" },
     topic: { type: "string" },
+    "pin-title": { type: "boolean", default: false },
     rankings: { type: "string" },
     music: { type: "string" },
     "preview-only": { type: "boolean", default: false },
@@ -33,6 +34,7 @@ if (values.mode && values.mode !== "auto") {
 }
 if (values.intensity) d.intensity = values.intensity as any;
 if (values.topic) d.topic = values.topic;
+if (values["pin-title"]) d.pinHook = true;
 if (values.rankings) d.rankings = parseRankings(values.rankings);
 
 runJob({ input: values.input, direction: d, music: values.music ?? null, previewOnly: values["preview-only"]!, force: values.force!,

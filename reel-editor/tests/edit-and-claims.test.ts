@@ -63,3 +63,9 @@ test("a joined correction keeps the audio of a split word but drops its caption"
   assert.equal(removed.words[0].end, 72.4);
   assert.equal(removed.notSpeech.length, 1);
 });
+
+test("direction can pin the hook title for the whole video", () => {
+  assert.equal(parseDirection("pin the title at the top").pinHook, true);
+  assert.equal(parseDirection("keep the hook").pinHook, true);
+  assert.equal(parseDirection("less motion").pinHook, false);
+});
