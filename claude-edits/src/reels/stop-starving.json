@@ -1,0 +1,25 @@
+{
+  "video": "reel/stop-starving.mp4",
+  "maskDir": "reel-mask-stop-starving",
+  "beats": [
+    { "from": 0.2, "to": 2.9, "side": "left", "label": "STOP STARVING", "art": "EmptyPlate" },
+    { "from": 3.0, "to": 5.6, "side": "right", "label": "CRASH DIETS", "art": "Lightning" },
+    { "from": 5.75, "to": 7.9, "side": "left", "label": "WHEN YOU FAIL", "art": "BrokenLink" },
+    { "from": 7.97, "to": 10.3, "side": "right", "label": "YOUR FRIDGE", "art": "Fridge" },
+    { "from": 10.4, "to": 13.3, "side": "left", "label": "TIRED. MOODY.", "art": "BatteryLow" },
+    { "from": 13.4, "to": 15.9, "side": "right", "label": "NEVER WORK", "art": "SquarePeg" },
+    { "from": 16.1, "to": 19.6, "side": "left", "label": "BLAME YOURSELF", "art": "MondayLoop" },
+    { "from": 19.75, "to": 22.7, "side": "right", "label": "NOT DISCIPLINE", "art": "Lightbulb" },
+    { "from": 26.0, "to": 28.4, "side": "left", "label": "CONSISTENT", "art": "Flame" },
+    { "from": 28.4, "to": 30.6, "side": "right", "label": "QUIT IN 10 DAYS", "art": "StreakCalendar" },
+    { "from": 30.7, "to": 32.4, "side": "left", "label": "ENOUGH PROTEIN", "art": "FoodLog" },
+    { "from": 32.4, "to": 34.2, "side": "right", "label": "REAL FOOD", "art": "Apple" },
+    { "from": 34.2, "to": 36.0, "side": "left", "label": "TRAIN HARD", "art": "Dumbbell" },
+    { "from": 36.0, "to": 38.7, "side": "right", "label": "LOSE THE WEIGHT", "art": "Feather" },
+    { "from": 40.2, "to": 43.0, "side": "left", "label": "NOT BY STARVING", "art": "EmptyPlate" },
+    { "from": 43.0, "to": 45.7, "side": "right", "label": "CREATED A PLAN", "art": "Target" },
+    { "from": 45.7, "to": 48.7, "side": "left", "label": "ATE REAL FOOD", "art": "Apple" },
+    { "from": 48.8, "to": 53.4, "side": "right", "label": "COMMENT BELOW", "art": "CommentTyping", "artProps": { "word": "DIET" } }
+  ],
+  "word": { "text": "PLAN", "at": 22.96, "centerY": 610 }
+}

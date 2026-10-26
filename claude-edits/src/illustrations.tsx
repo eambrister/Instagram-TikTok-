@@ -474,3 +474,50 @@ export const Chair: React.FC<{ t: number }> = ({ t }) => (
     <path d="M150 52 L162 58" {...accentLine} strokeWidth={6} />
   </Svg>
 );
+
+// "Stop starving yourself": an empty plate with a fork and knife, a hungry rumble wobbling over it.
+export const EmptyPlate: React.FC<{ t: number }> = ({ t }) => {
+  const rumble = interpolate(t, [10, 22], [0, 1], clamp);
+  const wob = Math.sin(t / 3) * 3 * rumble;
+  return (
+    <Svg>
+      <circle cx={100} cy={112} r={58} {...line} />
+      <circle cx={100} cy={112} r={34} {...line} stroke={MUTED} strokeWidth={6} />
+      <path d="M22 70 V104 M14 70 V92 Q14 104 22 104 Q30 104 30 92 V70 M22 104 V170" {...line} strokeWidth={7} />
+      <path d="M178 70 Q166 92 172 118 H178 V170" {...line} strokeWidth={7} />
+      <path d={`M70 ${36 + wob} Q85 ${24 - wob} 100 ${36 + wob} T130 ${36 + wob}`} {...accentLine} opacity={rumble}
+        style={draw(t, 10, 12, 80)} />
+    </Svg>
+  );
+};
+
+// "Eating everything inside your fridge": the fridge door swings open and the light comes on.
+export const Fridge: React.FC<{ t: number }> = ({ t }) => {
+  const open = interpolate(t, [8, 22], [0, 1], { ...clamp, easing: Easing.out(Easing.back(1.6)) });
+  return (
+    <Svg>
+      <rect x={52} y={22} width={96} height={160} rx={14} {...line} />
+      <path d="M52 80 H148" {...line} />
+      <rect x={60} y={30} width={80} height={144} rx={8} fill={ACCENT} opacity={0.85 * open} />
+      <path d="M66 104 H134 M66 140 H134" {...line} stroke="#111" strokeWidth={6} opacity={open} />
+      <g style={{ transformOrigin: "52px 100px", transform: `perspective(400px) rotateY(${-110 * open}deg)` }}>
+        <rect x={52} y={22} width={96} height={160} rx={14} {...line} fill="#1b1b1b" />
+        <path d="M52 80 H148 M132 44 V64 M132 96 V128" {...line} />
+      </g>
+    </Svg>
+  );
+};
+
+// "Eat real food": an apple whose leaf sprouts.
+export const Apple: React.FC<{ t: number }> = ({ t }) => {
+  const leaf = interpolate(t, [10, 22], [0, 1], { ...clamp, easing: Easing.out(Easing.back(2)) });
+  return (
+    <Svg>
+      <path d="M100 66 C70 44 26 58 30 108 C34 152 66 186 100 172 C134 186 166 152 170 108 C174 58 130 44 100 66 Z" {...line} />
+      <path d="M100 66 Q98 46 108 30" {...line} />
+      <path d="M108 44 Q134 26 152 40 Q130 60 108 44 Z" fill={ACCENT}
+        style={{ transformOrigin: "108px 44px", transform: `scale(${leaf})` }} />
+      <path d="M58 100 Q60 84 74 78" {...accentLine} strokeWidth={7} style={draw(t, 16, 10, 40)} />
+    </Svg>
+  );
+};

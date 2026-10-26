@@ -77,6 +77,9 @@ const ART: Record<string, React.FC<any>> = {
   HeartPulse: Art.HeartPulse,
   Flame: Art.Flame,
   Chair: Art.Chair,
+  EmptyPlate: Art.EmptyPlate,
+  Fridge: Art.Fridge,
+  Apple: Art.Apple,
 };
 
 // Beside his head (about x = 330-760 at this height), so nothing on the card is hidden behind him.
