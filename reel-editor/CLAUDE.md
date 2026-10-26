@@ -4,18 +4,30 @@ This folder is an automated editor that turns Eddie's original recordings into 1
 
 ## When Eddie says "Edit this in my saved style"
 
-1. Put (or find) the recording in `input/` and run:
-   `npm run edit -- --input "input/<file>" --mode auto` (add `--topic "..."`, `--intensity light|medium|high`, `--direction "plain words"` from his message).
+His saved style (approved on the "Keeping your word… abnormal" reel, Oct 2026) is two passes: this editor, then
+the finishing pass in `../claude-edits`. Do both. Add other effects or changes only when he asks for them on that video.
+
+1. Put (or find) the recording in `input/` (a copy; never modify his original) and run:
+   `npm run edit -- --input "input/<file>" --mode auto` (add `--topic`, `--intensity`, `--direction` only from his message).
+   The house style already sets: backed-out framing (`framing.fullWidthFraction` 0.46: head and shoulders, wall plate
+   above, sharp punch-ins), the opening-sentence title **pinned at the top for the whole video** (`hook.pinned`), captions
+   at chest level from the first word, and an **original music bed** under his voice (`music.default`; `--music none` turns
+   it off, `--music <file>` uses his own licensed track).
    For a ranking video where he states the ranks, pass `--rankings "Item=S, Item=F"` when the spoken parse could be ambiguous.
 2. The job renders a short `preview.mp4` first, then the full video. Inspect, don't assume:
    - read `outputs/<job>/qa-report.md`;
    - look at `outputs/<job>/qa/contact-sheet.jpg`, `motion-strip-*.jpg`, `first-frame.jpg`, `last-frame.jpg`;
-   - read `jobs/<job>/transcript.txt` for mishearings.
+   - read `jobs/<job>/transcript.txt` for mishearings, and `edl.json` for what was cut.
 3. Fix what you find without asking Eddie to touch keyframes:
    - transcript errors: write `jobs/<job>/corrections.json` `[{"at": 12.3, "from": "scan", "to": "scam"}]` and rerun (cached stages are reused);
+   - a word the recogniser split in two ("abnormal." then a quiet low-confidence "normal."): `{"at": …, "from": "normal.", "to": "", "join": true}`.
+     Never use `"to": ""` alone on a quiet low-confidence word right after a similar word: that cuts the end of his word;
    - wrong mode/intensity/pauses: rerun with `--mode`, `--intensity`, `--direction "keep the pauses"`;
    - layout/style bugs: fix the component or planner, run `npm test` and `npm run typecheck`, rerun.
-4. Return `final.mp4`, `cover.jpg`, `captions.srt`, `scene-plan.json`, `qa-report.md`. State which checks passed, which were not checked, and anything flagged. Never call a video finished if its QA report has a FAIL you have not resolved.
+4. Finishing pass (`../claude-edits/CLAUDE.md` → "Saved reel style"): an illustration card beside his head for each
+   phrase, and one key word of his rising behind his head. Run `../claude-edits/tools/style_reel.sh <job> <name>`.
+5. Return the finished `claude-edits/out/<name>.mp4`, its cover, captions, and this job's `qa-report.md`. State which checks
+   passed, which were not checked, and anything flagged. Never call a video finished if its QA report has a FAIL you have not resolved.
 
 Uncertain names and numbers are flagged, not guessed. Ask Eddie only about those, or about rankings he did not clearly state.
 

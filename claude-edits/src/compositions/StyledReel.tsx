@@ -16,45 +16,60 @@ import { CONDENSED_FONT } from "../fonts";
 import * as Art from "../illustrations";
 import { AUDIT, HEIGHT, SAFE_LEFT, SAFE_RIGHT, WIDTH } from "../settings";
 import { RisingWord, TEXT_BEHIND_FRAMES } from "./TextBehind";
+import abnormal from "../reels/abnormal.json";
 
-// The saved-style edit of talking.mp4 (from reel-editor, title pinned at the top), with an illustration for
-// each phrase beside his head and ABNORMAL rising behind it. Illustrations and the word sit behind him,
-// using a person mask made from the edit, so they never cover his face.
-export type AbnormalReelProps = { video: string; maskDir: string };
-export const abnormalReelDefaults: AbnormalReelProps = { video: "reel/final.mp4", maskDir: "reel-mask" };
+/**
+ * Eddie's saved reel style, applied to a finished reel-editor edit (pinned title, captions, music already in it):
+ * an illustration card beside his head for each phrase, and one key word rising behind his head.
+ * Cards and the word sit behind him using a person mask made from the edit, so they never cover his face.
+ * Each video's beats live in src/reels/<name>.json (see CLAUDE.md for how to write one).
+ */
+export type Side = "left" | "right";
+export type BeatSpec = {
+  from: number; // seconds in the edit
+  to: number;
+  side: Side;
+  label: string; // his own words
+  art: keyof typeof ART;
+  artProps?: Record<string, unknown>; // frame timings are relative to the card appearing
+  labelSwitch?: { at: number; text: string }; // seconds in the edit
+};
+export type StyledReelProps = {
+  video: string; // in public/
+  maskDir: string; // in public/, from tools/make_mask.py on the same video
+  beats: BeatSpec[];
+  word: { text: string; at: number; centerY: number } | null;
+};
+export const styledReelDefaults = abnormal as StyledReelProps;
 
-type Side = "left" | "right";
-// label can change over the beat (t = frames since the card appeared).
-type Beat = { from: number; to: number; side: Side; label: string | ((t: number) => string); art: (t: number) => React.ReactNode };
-
-// Times are seconds in the edit, matched to his captions. Labels are his own words.
-const BEATS: Beat[] = [
-  { from: 0.2, to: 3.5, side: "left", label: "KEEPING YOUR WORD", art: (t) => <Art.PromiseKept t={t} /> },
-  { from: 3.6, to: 9.2, side: "right", label: (t) => (t < 112 ? "START IN JANUARY" : "ALMOST NOVEMBER"), art: (t) => <Art.CalendarFlip t={t} flipAt={105} flipFrames={33} /> },
-  { from: 9.2, to: 11.8, side: "left", label: "UP EARLY TRAINING", art: (t) => <Art.AlarmClock t={t} /> },
-  { from: 10.6, to: 12.4, side: "right", label: "EVERYBODY'S SLEEPING", art: (t) => <Art.MoonSleep t={t} /> },
-  { from: 11.9, to: 15.4, side: "left", label: "TRACKING YOUR FOOD", art: (t) => <Art.FoodLog t={t} /> },
-  { from: 13.25, to: 15.5, side: "right", label: "WHATEVER THEY WANT", art: (t) => <Art.PizzaSlice t={t} /> },
-  { from: 15.6, to: 18.9, side: "left", label: "SHOWING UP", art: (t) => <Art.BatteryLow t={t} /> },
-  { from: 18.9, to: 20.8, side: "right", label: "NOT NORMAL", art: (t) => <Art.StandOut t={t} /> },
-  { from: 20.75, to: 22.4, side: "left", label: "RARE", art: (t) => <Art.Diamond t={t} /> },
-  { from: 25.5, to: 27.0, side: "right", label: "EVERY MONDAY", art: (t) => <Art.MondayLoop t={t} /> },
-  { from: 27.0, to: 29.5, side: "left", label: "TOMORROW", art: (t) => <Art.Tomorrow t={t} /> },
-  { from: 29.6, to: 31.6, side: "right", label: "FIT IN", art: (t) => <Art.SquarePeg t={t} /> },
-  { from: 31.6, to: 34.4, side: "left", label: "KEEP PROMISES", art: (t) => <Art.BrokenLink t={t} /> },
-  { from: 34.9, to: 37.0, side: "right", label: "BEING CRAZY", art: (t) => <Art.Lightning t={t} /> },
-  { from: 37.0, to: 39.2, side: "left", label: "BEING ABNORMAL", art: (t) => <Art.OddOneOut t={t} /> },
-  { from: 39.3, to: 42.4, side: "right", label: "COMMENT", art: (t) => <Art.CommentTyping t={t} word="ABNORMAL" /> },
-];
-
-// ABNORMAL behind his head as he says it (22.87s); his head top is at about y = 606 there.
-const WORD = { text: "ABNORMAL", at: 22.67, centerY: 610 };
+// Illustrations by name (src/illustrations.tsx). Add new ones there and here.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ART: Record<string, React.FC<any>> = {
+  PromiseKept: Art.PromiseKept,
+  CalendarFlip: Art.CalendarFlip,
+  AlarmClock: Art.AlarmClock,
+  MoonSleep: Art.MoonSleep,
+  FoodLog: Art.FoodLog,
+  PizzaSlice: Art.PizzaSlice,
+  BatteryLow: Art.BatteryLow,
+  StandOut: Art.StandOut,
+  Diamond: Art.Diamond,
+  MondayLoop: Art.MondayLoop,
+  Tomorrow: Art.Tomorrow,
+  SquarePeg: Art.SquarePeg,
+  BrokenLink: Art.BrokenLink,
+  Lightning: Art.Lightning,
+  OddOneOut: Art.OddOneOut,
+  CommentTyping: Art.CommentTyping,
+};
 
 // Beside his head (about x = 330-760 at this height), so nothing on the card is hidden behind him.
 const CARD = { w: 210, h: 318, top: 560 };
 const EXIT_FRAMES = 6;
 
-const Card: React.FC<{ beat: Beat; frames: number }> = ({ beat, frames }) => {
+const Card: React.FC<{ beat: BeatSpec; frames: number }> = ({ beat, frames }) => {
+  const { fps: rate } = useVideoConfig();
+  const ArtComponent = ART[beat.art];
   const t = useCurrentFrame();
   const { fps } = useVideoConfig();
   const pop = spring({ frame: t, fps, config: { damping: 12, stiffness: 190, mass: 0.6 } });
@@ -100,9 +115,11 @@ const Card: React.FC<{ beat: Beat; frames: number }> = ({ beat, frames }) => {
           textAlign: "center",
         }}
       >
-        {typeof beat.label === "string" ? beat.label : beat.label(t)}
+        {beat.labelSwitch && t >= Math.round((beat.labelSwitch.at - beat.from) * rate) ? beat.labelSwitch.text : beat.label}
       </div>
-      <div style={{ width: 186, height: 186 }}>{beat.art(t)}</div>
+      <div style={{ width: 186, height: 186 }}>
+        <ArtComponent t={t} {...beat.artProps} />
+      </div>
     </div>
   );
 };
@@ -116,26 +133,29 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const AbnormalReel: React.FC<AbnormalReelProps> = ({ video, maskDir }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
     <AbsoluteFill style={{ backgroundColor: AUDIT ? undefined : "black" }}>
       {AUDIT ? null : <OffthreadVideo src={staticFile(video)} style={{ width: WIDTH, height: HEIGHT }} />}
-      {BEATS.map((b) => (
+      {beats.map((b) => (
         <Sequence key={`${b.from}`} from={f(b.from)} durationInFrames={f(b.to) - f(b.from)} layout="none">
           <Card beat={b} frames={f(b.to) - f(b.from)} />
         </Sequence>
       ))}
-      <Sequence from={f(WORD.at)} durationInFrames={TEXT_BEHIND_FRAMES} layout="none">
-        <RisingWord word={WORD.text} centerY={WORD.centerY} />
-      </Sequence>
+      {word ? (
+        <Sequence from={f(word.at)} durationInFrames={TEXT_BEHIND_FRAMES} layout="none">
+          <RisingWord word={word.text} centerY={word.centerY} />
+        </Sequence>
+      ) : null}
       <Person video={video} maskDir={maskDir} />
     </AbsoluteFill>
   );
 };
 
-export const abnormalReelMetadata: CalculateMetadataFunction<AbnormalReelProps> = async ({ props }) => {
+// As long as the edit (from the mask's frame count).
+export const styledReelMetadata: CalculateMetadataFunction<StyledReelProps> = async ({ props }) => {
   const meta = await fetch(staticFile(`${props.maskDir}/meta.json`)).then((r) => r.json());
   return { durationInFrames: meta.frameCount };
 };

@@ -1,0 +1,24 @@
+{
+  "video": "reel/final.mp4",
+  "maskDir": "reel-mask",
+  "beats": [
+    { "from": 0.2, "to": 3.5, "side": "left", "label": "KEEPING YOUR WORD", "art": "PromiseKept" },
+    { "from": 3.6, "to": 9.2, "side": "right", "label": "START IN JANUARY", "art": "CalendarFlip",
+      "artProps": { "flipAt": 105, "flipFrames": 33 }, "labelSwitch": { "at": 7.33, "text": "ALMOST NOVEMBER" } },
+    { "from": 9.2, "to": 11.8, "side": "left", "label": "UP EARLY TRAINING", "art": "AlarmClock" },
+    { "from": 10.6, "to": 12.4, "side": "right", "label": "EVERYBODY'S SLEEPING", "art": "MoonSleep" },
+    { "from": 11.9, "to": 15.4, "side": "left", "label": "TRACKING YOUR FOOD", "art": "FoodLog" },
+    { "from": 13.25, "to": 15.5, "side": "right", "label": "WHATEVER THEY WANT", "art": "PizzaSlice" },
+    { "from": 15.6, "to": 18.9, "side": "left", "label": "SHOWING UP", "art": "BatteryLow" },
+    { "from": 18.9, "to": 20.8, "side": "right", "label": "NOT NORMAL", "art": "StandOut" },
+    { "from": 20.75, "to": 22.4, "side": "left", "label": "RARE", "art": "Diamond" },
+    { "from": 25.5, "to": 27.0, "side": "right", "label": "EVERY MONDAY", "art": "MondayLoop" },
+    { "from": 27.0, "to": 29.5, "side": "left", "label": "TOMORROW", "art": "Tomorrow" },
+    { "from": 29.6, "to": 31.6, "side": "right", "label": "FIT IN", "art": "SquarePeg" },
+    { "from": 31.6, "to": 34.4, "side": "left", "label": "KEEP PROMISES", "art": "BrokenLink" },
+    { "from": 34.9, "to": 37.0, "side": "right", "label": "BEING CRAZY", "art": "Lightning" },
+    { "from": 37.0, "to": 39.2, "side": "left", "label": "BEING ABNORMAL", "art": "OddOneOut" },
+    { "from": 39.3, "to": 42.4, "side": "right", "label": "COMMENT", "art": "CommentTyping", "artProps": { "word": "ABNORMAL" } }
+  ],
+  "word": { "text": "ABNORMAL", "at": 22.67, "centerY": 610 }
+}

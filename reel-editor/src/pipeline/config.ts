@@ -19,6 +19,10 @@ export const houseStyleSchema = z.object({
   // Share of the source width shown across a full-screen speaker shot. null = fill the frame (tightest crop).
   // A smaller share backs the camera out; the clip then sits at the bottom with matched wall above it.
   framing: z.object({ fullWidthFraction: z.number().min(0.2).max(1).nullable() }).default({ fullWidthFraction: null }),
+  // pinned: the opening-sentence title stays at the top for the whole video (captions carry the opening words).
+  hook: z.object({ pinned: z.boolean() }).default({ pinned: false }),
+  // Music used when --music isn't given: "original" composes a bed for the video, null means none.
+  music: z.object({ default: z.string().nullable() }).default({ default: null }),
   edit: z.object({ maxPauseSeconds: z.number(), keepPauseSeconds: z.number(), headPadSeconds: z.number(), tailPadSeconds: z.number(),
     silenceDb: z.number(), removeRestarts: z.boolean(), removeFillers: z.boolean() }),
   audio: z.object({ targetLufs: z.number(), truePeakDb: z.number(), lra: z.number(), highpassHz: z.number(), denoise: z.enum(["off", "light"]),

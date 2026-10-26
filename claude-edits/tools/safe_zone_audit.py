@@ -3,7 +3,7 @@
 Renders a composition in audit mode (footage and full-screen backgrounds hidden, transparent
 background), then reports every frame with something drawn outside the safe zone.
 
-Usage: .venv/bin/python tools/safe_zone_audit.py [COMPOSITION] [EVERY_NTH_FRAME]
+Usage: .venv/bin/python tools/safe_zone_audit.py [COMPOSITION] [EVERY_NTH_FRAME] [--props FILE.json]
 """
 import json
 import shutil
@@ -17,11 +17,14 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 comp = sys.argv[1] if len(sys.argv) > 1 else "FullReel"
 nth = sys.argv[2] if len(sys.argv) > 2 else "2"
+props = {}
+if "--props" in sys.argv:
+    props = json.loads(Path(sys.argv[sys.argv.index("--props") + 1]).read_text())
 out = ROOT / "out" / "audit"
 shutil.rmtree(out, ignore_errors=True)
 subprocess.run(
     ["npx", "remotion", "render", comp, str(out), "--sequence", "--image-format=png",
-     f"--every-nth-frame={nth}", "--props", json.dumps({"audit": True}), "--log=error"],
+     f"--every-nth-frame={nth}", "--props", json.dumps({**props, "audit": True}), "--log=error"],
     cwd=ROOT, check=True,
 )
 

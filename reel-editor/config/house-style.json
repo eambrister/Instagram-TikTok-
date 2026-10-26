@@ -57,6 +57,12 @@
   "framing": {
     "fullWidthFraction": 0.46
   },
+  "hook": {
+    "pinned": true
+  },
+  "music": {
+    "default": "original"
+  },
   "edit": {
     "maxPauseSeconds": 0.6,
     "keepPauseSeconds": 0.3,

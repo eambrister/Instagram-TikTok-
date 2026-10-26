@@ -1,5 +1,5 @@
 // npm run edit -- --input "input/my video.mov" [--mode auto|talking_head|explainer|ranking] [--intensity light|medium|high]
-//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--rankings "Eggs=S, Granola=F"] [--music licensed-media/music/x.mp3]
+//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--rankings "Eggs=S, Granola=F"] [--music original|none|licensed-media/music/x.mp3]
 //   [--preview-only] [--force]
 import { parseArgs } from "node:util";
 import { parseDirection, parseRankings } from "../pipeline/planner";

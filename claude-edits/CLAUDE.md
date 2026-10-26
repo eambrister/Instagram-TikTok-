@@ -37,3 +37,28 @@ For every effect requested:
   Music: put `public/music.mp3` in place; the clip's own audio is always muted.
 - Safe zone check: `.venv/bin/python tools/safe_zone_audit.py FullReel 1` renders with footage hidden and
   lists frames with anything drawn outside x = 120 to 960.
+
+## Saved reel style (Eddie's edit style; finishing pass after reel-editor)
+
+Approved reference: `out/abnormal-reel.mp4`, made from `src/reels/abnormal.json`. Apply this to every video he asks
+to have edited "in my saved style". Add other effects or changes only when he asks for them.
+
+1. reel-editor makes the edit (see `../reel-editor/CLAUDE.md`): backed-out framing, title pinned at the top, chest
+   captions, original music.
+2. `tools/style_reel.sh <job> <name>` copies the edit to `public/reel/<name>.mp4` and builds its person mask
+   (`public/reel-mask-<name>`).
+3. Write `src/reels/<name>.json` (same shape as `abnormal.json`), from the job's `scene-plan.json` captions:
+   - **One illustration per phrase**, about every 2 to 3 s, timed to the words they show (`from`/`to` in edit seconds).
+   - **Labels are his own words**, 1 to 3 words, uppercase. Never invent claims, numbers or names.
+   - **Alternate sides** (left/right). A second card may overlap on the other side; never two on the same side.
+   - Pick from the illustration library in `src/illustrations.tsx` (registered in `StyledReel.tsx` → `ART`). If nothing
+     fits what he says, draw a new one in the same style: 200 x 200 line art, white strokes (9 px, round caps), one yellow
+     `#FFD84D` accent, a small motion. No photos, stock people, AI images or anything that looks like him.
+   - **One key word behind his head** (`word`): a single strong word he actually says, usually the one the video is
+     about or the one in his call to action. `at` is 0.2 s before he says it; `centerY` comes from
+     `tools/word_position.py reel-mask-<name> <at>`. Leave the sides empty while the word is up.
+   - Cards sit beside his head (x 120-330 and 750-960, top 560), so the face is never covered and labels never hide
+     behind him; the person mask keeps him in front of them.
+4. Run `tools/style_reel.sh <job> <name>` again to render `out/<name>.mp4`. It also runs the safe-zone audit, which must
+   report everything inside x = 120 to 960.
+5. Check stills across the whole reel before sending, and send the MP4 plus a contact sheet.

@@ -155,7 +155,9 @@ export async function runJob(o: JobOptions) {
 
   // 7. Audio (shared by preview and final)
   // "--music original": compose an original bed (scripts/make_music.py) matched to this video's length.
-  let music = o.music;
+  // No --music: use the house default. "--music none" turns it off.
+  let music = o.music ?? style.music.default;
+  if (music === "none") music = null;
   if (music === "original") {
     music = path.join(jobDir, "music-original.wav");
     const musicKey = hashOf({ d: plan.duration, seed: sourceSha.slice(0, 6), v: readFileSync(rel("scripts/make_music.py"), "utf8") });

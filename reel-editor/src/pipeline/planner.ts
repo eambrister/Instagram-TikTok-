@@ -307,7 +307,8 @@ export type PlanInput = {
 };
 
 export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] } {
-  const { style, direction: d, fps, segments } = inp;
+  const { style, fps, segments } = inp;
+  const d = { ...inp.direction, pinHook: inp.direction.pinHook || style.hook.pinned };
   const W = style.output.width;
   const H = style.output.height;
   const sa = style.safeArea;
