@@ -65,6 +65,17 @@ to have edited "in my saved style". Add other effects or changes only when he as
    - **B-roll he sends** (his own footage only) goes in the edit itself: reel-editor `--broll "licensed-media/broll/<clip>.mp4@start-end"`.
      Crop off phone status bars, app buttons and other people's names/replies first, mute it (story songs are not
      licensed), record it in `licensed-media/manifest.json`, and keep cards out of that window.
+   - **Suggest effects, then wait.** With every video he sends, before rendering, send him a short numbered list of
+     2 to 4 suggested effects: the moment (edit seconds), the effect, the words it shows (his own words and real numbers
+     only), and one line on why. Pick the moments that matter (hook, a number, a list, the turning point, the call to
+     action) and match the effect to what he says: numbers → graph (GlassGraph, `liquid-glass-graph`, `graph-bento`),
+     lists → `apple-toggles`/`checklist`, a strong one-liner → word behind his head/`glitter-spotlight`/`led-sign`/
+     `red-collage`, a myth he calls out → `reject-stamp`, emphasis → `lean-in`/`slow-push`. Never on his face, never on
+     the pinned title or captions, never in a B-roll window. Add only the ones he approves.
+   - **The 42-effect pack** lives at `~/.claude/skills/effects` (the `effects` skill; clone
+     `https://github.com/Vibha-Ramprakash/claude-video-effects` there and run `scripts/setup.sh` if it is missing).
+     Replace its placeholder text, handle (@vibha.in.progress) and numbers with his. Apply pack effects to the finished
+     `out/<name>.mp4` with `scripts/fx.py --plan`, writing a new file (e.g. `out/<name>-fx.mp4`); check stills first.
 4. Run `tools/style_reel.sh <job> <name>` again to render `out/<name>.mp4`. It also runs the safe-zone audit, which must
    report everything inside x = 120 to 960.
 5. Check stills across the whole reel before sending, and send the MP4 plus a contact sheet.
