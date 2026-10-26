@@ -18,9 +18,11 @@ export type ReelTextBehindProps = {
 export const reelTextBehindDefaults: ReelTextBehindProps = {
   video: "reel/final.mp4",
   maskDir: "reel-mask",
-  word: "WORD",
-  at: 1,
-  centerY: 760,
+  // His own word: "You are not normal. You are rare. You are abnormal." (said at 22.87s of the edit)
+  word: "ABNORMAL",
+  at: 22.67,
+  // Head top is at about y = 606 here (575 after the punch-in), so his head covers the lower half.
+  centerY: 610,
 };
 
 const FULL = { x: 0, y: 0, w: WIDTH, h: HEIGHT };

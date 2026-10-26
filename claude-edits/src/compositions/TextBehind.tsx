@@ -19,6 +19,7 @@ export const textBehindDefaults: TextBehindProps = {
 const LETTER_HEIGHT = 330; // px, height of the capitals
 const CAP_HEIGHT_PER_EM = 0.86; // Anton
 const LETTER_SPACING = 4;
+const FIT_MARGIN = 20;
 // Middle of the letters, set so the head (top at about y = 792 here) covers the lower half.
 const WORD_CENTER_Y = 790;
 // Length of the effect, so its exit timing holds when it plays inside a longer sequence.
@@ -35,7 +36,9 @@ const fitFontSize = (word: string) => {
     fontWeight: "400",
     letterSpacing: `${LETTER_SPACING}px`,
   });
-  return width <= SAFE_WIDTH ? wanted : wanted * (SAFE_WIDTH / width);
+  // A little margin: rendered glyphs run a few px wider than the measured advance.
+  const room = SAFE_WIDTH - FIT_MARGIN;
+  return width <= room ? wanted : wanted * (room / width);
 };
 
 // The word rising in, lifting slowly, then dropping out, over TEXT_BEHIND_FRAMES. Its letters are centred on centerY.

@@ -8,3 +8,5 @@ public/mask/
 # Scratch output: audit frames and full-size stills (the contact sheets are kept).
 out/audit/
 out/stills/*.png
+public/reel/
+public/reel-mask/
