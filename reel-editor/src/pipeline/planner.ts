@@ -519,6 +519,14 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     else {
       const f = faceAt(p.start, "full");
       cy = f ? clamp(f.y + f.h + 150 + fit.height / 2, 1050, 1400) : 1240;
+      // Chest band would sit on the face (he sits low in frame): use the wall above his head instead,
+      // just under the hook title.
+      if (f && cy - fit.height / 2 < f.y + f.h + 40) {
+        const above = f.y - 70 - fit.height / 2;
+        const hookRegion = hook && p.start < hook.end ? hook.region : null;
+        const hookBottom = hookRegion ? hookRegion.y + hookRegion.h + 30 + fit.height / 2 : sa.y0 + fit.height / 2;
+        if (above >= hookBottom) cy = above;
+      }
     }
     cy = clamp(cy, sa.y0 + fit.height / 2, sa.y1 - fit.height / 2);
     const box = { x: round(cx - fit.width / 2, 1), y: round(cy - fit.height / 2, 1), w: round(fit.width, 1), h: round(fit.height, 1) };

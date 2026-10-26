@@ -21,5 +21,6 @@
     { "from": 45.7, "to": 48.7, "side": "left", "label": "ATE REAL FOOD", "art": "Apple" },
     { "from": 48.8, "to": 53.4, "side": "right", "label": "COMMENT BELOW", "art": "CommentTyping", "artProps": { "word": "DIET" } }
   ],
-  "word": { "text": "PLAN", "at": 22.96, "centerY": 610 }
+  "word": { "text": "PLAN", "at": 22.96, "centerY": 897 },
+  "cardTop": 900
 }

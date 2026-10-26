@@ -43,6 +43,8 @@ export type StyledReelProps = {
   // Optional GlassGraph card at chest height (3 s) for a number he says. Leave the burned-in captions out
   // for that window with reel-editor's --caption-gap, so the card doesn't sit on them.
   graph?: { at: number; title: string; from: number; to: number; fullNumber?: boolean; top?: number; scale?: number } | null;
+  // Card top in px (default 560). Lower it beside his head when he sits low in the frame.
+  cardTop?: number;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -86,7 +88,7 @@ const ART: Record<string, React.FC<any>> = {
 const CARD = { w: 210, h: 318, top: 560 };
 const EXIT_FRAMES = 6;
 
-const Card: React.FC<{ beat: BeatSpec; frames: number }> = ({ beat, frames }) => {
+const Card: React.FC<{ beat: BeatSpec; frames: number; top: number }> = ({ beat, frames, top }) => {
   const { fps: rate } = useVideoConfig();
   const ArtComponent = ART[beat.art];
   const t = useCurrentFrame();
@@ -101,7 +103,7 @@ const Card: React.FC<{ beat: BeatSpec; frames: number }> = ({ beat, frames }) =>
       style={{
         position: "absolute",
         left: beat.side === "left" ? SAFE_LEFT : SAFE_RIGHT - CARD.w,
-        top: CARD.top,
+        top,
         width: CARD.w,
         height: CARD.h,
         boxSizing: "border-box",
@@ -152,7 +154,7 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
@@ -160,7 +162,7 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
       {AUDIT ? null : <OffthreadVideo src={staticFile(video)} style={{ width: WIDTH, height: HEIGHT }} />}
       {beats.map((b) => (
         <Sequence key={`${b.from}`} from={f(b.from)} durationInFrames={f(b.to) - f(b.from)} layout="none">
-          <Card beat={b} frames={f(b.to) - f(b.from)} />
+          <Card beat={b} frames={f(b.to) - f(b.from)} top={cardTop ?? CARD.top} />
         </Sequence>
       ))}
       {word ? (
