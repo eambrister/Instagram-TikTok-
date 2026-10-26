@@ -55,7 +55,7 @@
     "rankingSpeakerHeight": 900
   },
   "framing": {
-    "fullWidthFraction": 0.52
+    "fullWidthFraction": 0.46
   },
   "edit": {
     "maxPauseSeconds": 0.6,
