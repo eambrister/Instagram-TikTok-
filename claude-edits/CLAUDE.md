@@ -59,6 +59,9 @@ to have edited "in my saved style". Add other effects or changes only when he as
      `tools/word_position.py reel-mask-<name> <at>`. Leave the sides empty while the word is up.
    - Cards sit beside his head (x 120-330 and 750-960, top 560), so the face is never covered and labels never hide
      behind him; the person mask keeps him in front of them.
+   - **Extra effects he asks for** go in the same file. GlassGraph for a number he says: `graph` (`at`, `title` from his
+     words, `from`/`to`, `fullNumber`, `top`/`scale` so it sits below his chin); render the edit with reel-editor
+     `--caption-gap "start-end"` for those seconds so the card doesn't sit on captions. Reference: `src/reels/million-steps.json`.
 4. Run `tools/style_reel.sh <job> <name>` again to render `out/<name>.mp4`. It also runs the safe-zone audit, which must
    report everything inside x = 120 to 960.
 5. Check stills across the whole reel before sending, and send the MP4 plus a contact sheet.

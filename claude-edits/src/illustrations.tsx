@@ -290,7 +290,7 @@ export const CommentTyping: React.FC<{ t: number; word: string }> = ({ t, word }
     <Svg>
       <circle cx={30} cy={96} r={20} fill={MUTED} />
       <rect x={58} y={70} width={136} height={52} rx={26} fill="#2A2B31" stroke={INK} strokeWidth={4} />
-      <text x={74} y={106} fill={INK} fontSize={28} fontFamily="Barlow Condensed" fontWeight={800}>
+      <text x={74} y={106} fill={INK} fontSize={Math.min(28, 236 / Math.max(1, word.length))} fontFamily="Barlow Condensed" fontWeight={800}>
         {word.slice(0, shown)}
         {shown < word.length && t % 16 < 9 ? "|" : ""}
       </text>
@@ -299,3 +299,178 @@ export const CommentTyping: React.FC<{ t: number; word: string }> = ({ t, word }
     </Svg>
   );
 };
+
+// "Here's what I learned": a lightbulb switching on.
+export const Lightbulb: React.FC<{ t: number }> = ({ t }) => {
+  const on = interpolate(t, [8, 14], [0, 1], clamp);
+  return (
+    <Svg>
+      <circle cx={100} cy={84} r={70} fill={ACCENT} opacity={0.25 * on} />
+      <path d="M70 120 a46 46 0 1 1 60 0 c-8 8 -10 14 -10 24 H80 c0 -10 -2 -16 -10 -24 Z" {...line} fill={on > 0.5 ? ACCENT : "none"} />
+      <path d="M82 162 H118 M86 180 H114" {...line} />
+      {[-60, -30, 0, 30, 60].map((a) => (
+        <path key={a} d="M100 6 V20" {...accentLine} strokeWidth={7} opacity={on} transform={`rotate(${a} 100 84)`} />
+      ))}
+    </Svg>
+  );
+};
+
+// "Walking": footprints stepping up the card.
+export const Footsteps: React.FC<{ t: number }> = ({ t }) => {
+  const steps = [
+    [70, 160, -8],
+    [124, 126, 8],
+    [72, 92, -8],
+    [126, 58, 8],
+  ];
+  return (
+    <Svg>
+      {steps.map(([x, y, r], k) => {
+        const o = interpolate(t, [k * 6, k * 6 + 5], [0, 1], clamp);
+        return (
+          <g key={k} opacity={o} transform={`rotate(${r} ${x} ${y})`}>
+            <ellipse cx={x} cy={y} rx={13} ry={20} fill={k === steps.length - 1 ? ACCENT : INK} />
+            <circle cx={x} cy={y + 28} r={9} fill={k === steps.length - 1 ? ACCENT : INK} />
+          </g>
+        );
+      })}
+    </Svg>
+  );
+};
+
+// "That's exactly why it works": an arrow hitting a target.
+export const Target: React.FC<{ t: number }> = ({ t }) => {
+  const fly = interpolate(t, [4, 14], [1, 0], { ...clamp, easing: Easing.in(Easing.quad) });
+  return (
+    <Svg>
+      <circle cx={92} cy={108} r={70} {...line} />
+      <circle cx={92} cy={108} r={44} {...line} />
+      <circle cx={92} cy={108} r={16} fill={ACCENT} />
+      <g transform={`translate(${fly * 70} ${-fly * 70})`}>
+        <path d="M96 104 L170 30" {...line} strokeWidth={8} />
+        <path d="M154 28 L174 26 L172 46" {...accentLine} strokeWidth={8} />
+      </g>
+    </Svg>
+  );
+};
+
+// "It's low-impact": a feather drifting down.
+export const Feather: React.FC<{ t: number }> = ({ t }) => {
+  const y = Math.sin(t / 10) * 8;
+  const r = Math.sin(t / 14) * 10;
+  return (
+    <Svg>
+      <g style={{ transformOrigin: "100px 100px", transform: `translateY(${y}px) rotate(${r - 30}deg)` }}>
+        <path d="M100 20 C150 50 150 130 100 180 C50 130 50 50 100 20 Z" {...line} />
+        <path d="M100 30 V190" {...accentLine} strokeWidth={7} />
+        {[60, 85, 110, 135].map((yy) => (
+          <path key={yy} d={`M100 ${yy} L${126} ${yy - 14} M100 ${yy + 8} L74 ${yy - 6}`} {...line} strokeWidth={5} opacity={0.7} />
+        ))}
+      </g>
+    </Svg>
+  );
+};
+
+// "You can do it every day": a week ticking off.
+export const StreakCalendar: React.FC<{ t: number }> = ({ t }) => (
+  <Svg>
+    <rect x={20} y={40} width={160} height={130} rx={16} {...line} />
+    <rect x={20} y={40} width={160} height={30} rx={12} fill={ACCENT} />
+    {Array.from({ length: 7 }, (_, k) => {
+      const x = 40 + (k % 4) * 40;
+      const y = 96 + Math.floor(k / 4) * 44;
+      return <path key={k} d={`M${x - 10} ${y} l8 8 l14 -16`} {...accentLine} strokeWidth={7} style={draw(t, 4 + k * 4, 5, 40)} />;
+    })}
+  </Svg>
+);
+
+// "Tomorrow's workout": a dumbbell lifting.
+export const Dumbbell: React.FC<{ t: number }> = ({ t }) => {
+  const lift = Math.abs(Math.sin(t / 9)) * -18;
+  return (
+    <Svg>
+      <g transform={`translate(0 ${lift}) rotate(-20 100 110)`}>
+        <path d="M54 110 H146" {...line} strokeWidth={12} />
+        <rect x={28} y={78} width={24} height={64} rx={8} fill={ACCENT} />
+        <rect x={148} y={78} width={24} height={64} rx={8} fill={ACCENT} />
+        <rect x={14} y={90} width={14} height={40} rx={5} fill={INK} />
+        <rect x={172} y={90} width={14} height={40} rx={5} fill={INK} />
+      </g>
+    </Svg>
+  );
+};
+
+// "You don't need the gym": a gym building crossed out.
+export const NoGym: React.FC<{ t: number }> = ({ t }) => (
+  <Svg>
+    <path d="M30 80 L100 34 L170 80" {...line} />
+    <rect x={44} y={80} width={112} height={92} {...line} />
+    <path d="M74 126 H126 M80 112 V140 M120 112 V140" {...line} strokeWidth={7} />
+    <path d="M28 28 L172 172" {...accentLine} strokeWidth={12} style={draw(t, 10, 8, 210)} />
+  </Svg>
+);
+
+// "You just need some shoes": a sneaker.
+export const Sneaker: React.FC<{ t: number }> = ({ t }) => {
+  const bob = Math.sin(t / 8) * 4;
+  return (
+    <Svg>
+      <g transform={`translate(0 ${bob})`}>
+        <path d="M24 136 C24 100 40 80 62 74 L86 96 C110 110 140 112 170 118 C182 120 184 136 176 142 H30 Z" {...line} />
+        <path d="M24 150 H180" {...accentLine} strokeWidth={12} />
+        <path d="M70 92 L92 82 M82 104 L104 94 M96 112 L116 104" {...line} strokeWidth={6} />
+      </g>
+    </Svg>
+  );
+};
+
+// "Running is amazing too": a runner mid-stride.
+export const Runner: React.FC<{ t: number }> = ({ t }) => {
+  const s = Math.sin(t / 4);
+  return (
+    <Svg>
+      <circle cx={118} cy={38} r={16} fill={ACCENT} />
+      <path d="M112 60 L94 110" {...line} strokeWidth={12} />
+      <path d={`M108 70 L${136 + s * 10} ${92 - s * 6} M108 70 L${80 - s * 10} ${86 + s * 6}`} {...line} />
+      <path d={`M94 110 L${120 + s * 14} ${140} L${118 + s * 14} ${176} M94 110 L${70 - s * 14} ${146} L${44 - s * 10} ${150}`} {...line} />
+      {[0, 1, 2].map((k) => (
+        <path key={k} d={`M${30 - k * 4} ${70 + k * 22} H${56 - k * 4}`} {...line} strokeWidth={5} opacity={0.6} />
+      ))}
+    </Svg>
+  );
+};
+
+// "The best cardio for fat loss": a heartbeat line.
+export const HeartPulse: React.FC<{ t: number }> = ({ t }) => {
+  const beat = 1 + 0.08 * Math.max(0, Math.sin(t / 3));
+  return (
+    <Svg>
+      <path d="M100 168 C40 124 22 96 22 70 a38 38 0 0 1 78 -14 a38 38 0 0 1 78 14 C178 96 160 124 100 168 Z" {...line}
+        style={{ transformOrigin: "100px 110px", transform: `scale(${beat})` }} />
+      <path d="M30 104 H70 L84 76 L100 132 L116 92 L126 104 H170" {...accentLine} strokeWidth={8} style={draw(t, 2, 16, 260)} />
+    </Svg>
+  );
+};
+
+// "One you can consistently stick to": a steady flame.
+export const Flame: React.FC<{ t: number }> = ({ t }) => {
+  const f = 1 + 0.05 * Math.sin(t / 2.5);
+  return (
+    <Svg>
+      <g style={{ transformOrigin: "100px 180px", transform: `scaleY(${f})` }}>
+        <path d="M100 20 C130 60 160 86 160 126 a60 60 0 0 1 -120 0 C40 98 60 82 70 60 C78 84 88 92 96 96 C100 70 96 44 100 20 Z" {...line} />
+        <path d="M100 98 C116 118 128 130 128 146 a28 28 0 0 1 -56 0 C72 128 88 118 100 98 Z" fill={ACCENT} />
+      </g>
+    </Svg>
+  );
+};
+
+// "Stop sitting for 12 hours": a chair with a clock spinning round.
+export const Chair: React.FC<{ t: number }> = ({ t }) => (
+  <Svg>
+    <path d="M60 30 V120 H140 M60 120 V176 M140 120 V176 M60 86 H120" {...line} />
+    <circle cx={150} cy={52} r={30} {...accentLine} strokeWidth={7} />
+    <path d="M150 52 V34" {...accentLine} strokeWidth={6} style={{ transformOrigin: "150px 52px", transform: `rotate(${t * 24}deg)` }} />
+    <path d="M150 52 L162 58" {...accentLine} strokeWidth={6} />
+  </Svg>
+);

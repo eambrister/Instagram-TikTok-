@@ -28,7 +28,14 @@ export function findRestarts(words: Word[]): Cut[] {
         for (let m = 0; m < k; m++) if (!t[i + m] || t[i + m] !== t[j + m]) same = false;
         // A complete sentence said again ("You are not normal. You are rare.") is deliberate, not a restart.
         const abandonedComplete = /[.!?]$/.test(words[j - 1].text);
-        if (same && words[j].start - words[i].start < 4 && !abandonedComplete) {
+        // Only fillers may sit between an attempt and its repeat; real words there mean a parallel phrase
+        // ("do you like to walk or do you like to run"), which must be kept.
+        const gapIsFiller = words.slice(i + k, j).every((w) => FILLER.test(norm(w.text)));
+        // Restarts follow quickly, or after he stops and gathers himself (a clear pause before the repeat).
+        const pauseBefore = words[j].start - words[j - 1].end;
+        const span = words[j].start - words[i].start;
+        const soon = span < 4 || (pauseBefore >= 1 && span < 20);
+        if (same && soon && gapIsFiller && !abandonedComplete) {
           cuts.push({ start: words[i].start, end: words[j].start, reason: `restart: "${words.slice(i, j).map((w) => w.text).join(" ")}"` });
           i = j - 1;
           found = true;
@@ -107,7 +114,9 @@ export function buildEdl(words: Word[], silences: Interval[], duration: number, 
       if (gap <= e.maxPauseSeconds) continue;
       const g = { start: a.end, end: b.start };
       const quiet = silences.reduce((s, x) => s + overlap(g, x), 0);
-      if (quiet < gap * 0.8) continue; // ASR gap but audible sound: leave it alone
+      // ASR gap but audible sound: leave it alone. Long gaps only need to be mostly quiet: room noise and small
+      // clicks break the silence detector into pieces, and seconds without words are dead air.
+      if (quiet < gap * (gap > 2 ? 0.6 : 0.8)) continue;
       const keepAfter = e.keepPauseSeconds * 0.6;
       const keepBefore = e.keepPauseSeconds * 0.4;
       if (gap - keepAfter - keepBefore > 0.1)

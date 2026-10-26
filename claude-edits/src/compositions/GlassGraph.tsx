@@ -52,7 +52,23 @@ export const GlassGraph: React.FC<GlassGraphProps> = ({
   to,
   points = glassGraphDefaults.points!,
   startFrom = glassGraphDefaults.startFrom!,
-}) => {
+}) => (
+  <AbsoluteFill>
+    <Footage framing={{ startFrom, centerX: 0.58 }} />
+    <GlassGraphCard title={title} from={from} to={to} points={points} />
+  </AbsoluteFill>
+);
+
+// The glass card on its own, 90 frames from when it appears. fullNumber shows 1,000,000 rather than 1M.
+export const GlassGraphCard: React.FC<{
+  title: string;
+  from: number;
+  to: number;
+  points?: number[];
+  fullNumber?: boolean;
+  top?: number;
+  scale?: number;
+}> = ({ title, from, to, points = glassGraphDefaults.points!, fullNumber = false, top = CARD.top, scale = 1 }) => {
   const frame = useCurrentFrame();
 
   // Card in and out.
@@ -77,13 +93,12 @@ export const GlassGraph: React.FC<GlassGraphProps> = ({
   const dotScale = pulseOn ? 1 + 0.35 * Math.sin(Math.min(1, (frame - 60) / 10) * Math.PI) : 1;
 
   return (
-    <AbsoluteFill>
-      <Footage framing={{ startFrom, centerX: 0.58 }} />
+    <>
       <div
         style={{
           position: "absolute",
           left: (1080 - CARD.w) / 2,
-          top: CARD.top,
+          top,
           width: CARD.w,
           height: CARD.h,
           boxSizing: "border-box",
@@ -95,7 +110,8 @@ export const GlassGraph: React.FC<GlassGraphProps> = ({
           boxShadow: "0 30px 70px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)",
           fontFamily: UI_FONT,
           opacity,
-          transform: `translateY(${y}px)`,
+          transform: `translateY(${y}px) scale(${scale})`,
+          transformOrigin: "50% 0%",
         }}
       >
         <div style={{ color: "rgba(235, 235, 240, 0.8)", fontSize: 30, fontWeight: 500 }}>{title}</div>
@@ -110,7 +126,7 @@ export const GlassGraph: React.FC<GlassGraphProps> = ({
             textShadow: "0 2px 16px rgba(0, 0, 0, 0.25)",
           }}
         >
-          {formatCount(value)}
+          {fullNumber ? Math.round(value).toLocaleString("en-US") : formatCount(value)}
         </div>
         <svg
           width={GRAPH.w}
@@ -160,6 +176,6 @@ export const GlassGraph: React.FC<GlassGraphProps> = ({
           ) : null}
         </svg>
       </div>
-    </AbsoluteFill>
+    </>
   );
 };

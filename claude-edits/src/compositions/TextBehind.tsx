@@ -29,16 +29,12 @@ const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 // Biggest size up to LETTER_HEIGHT that still fits inside the safe zone.
 const fitFontSize = (word: string) => {
   const wanted = LETTER_HEIGHT / CAP_HEIGHT_PER_EM;
-  const { width } = measureText({
-    text: word,
-    fontFamily: DISPLAY_FONT,
-    fontSize: wanted,
-    fontWeight: "400",
-    letterSpacing: `${LETTER_SPACING}px`,
-  });
+  const { width: glyphs } = measureText({ text: word, fontFamily: DISPLAY_FONT, fontSize: wanted, fontWeight: "400" });
+  // Letter spacing is a fixed px after every character (measureText leaves it out); only the glyphs scale.
+  const spacing = LETTER_SPACING * word.length;
   // A little margin: rendered glyphs run a few px wider than the measured advance.
   const room = SAFE_WIDTH - FIT_MARGIN;
-  return width <= room ? wanted : wanted * (room / width);
+  return glyphs + spacing <= room ? wanted : wanted * ((room - spacing) / glyphs);
 };
 
 // The word rising in, lifting slowly, then dropping out, over TEXT_BEHIND_FRAMES. Its letters are centred on centerY.

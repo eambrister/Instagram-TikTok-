@@ -15,6 +15,7 @@ import { boxStyle } from "../Footage";
 import { CONDENSED_FONT } from "../fonts";
 import * as Art from "../illustrations";
 import { AUDIT, HEIGHT, SAFE_LEFT, SAFE_RIGHT, WIDTH } from "../settings";
+import { GlassGraphCard } from "./GlassGraph";
 import { RisingWord, TEXT_BEHIND_FRAMES } from "./TextBehind";
 import abnormal from "../reels/abnormal.json";
 
@@ -39,6 +40,9 @@ export type StyledReelProps = {
   maskDir: string; // in public/, from tools/make_mask.py on the same video
   beats: BeatSpec[];
   word: { text: string; at: number; centerY: number } | null;
+  // Optional GlassGraph card at chest height (3 s) for a number he says. Leave the burned-in captions out
+  // for that window with reel-editor's --caption-gap, so the card doesn't sit on them.
+  graph?: { at: number; title: string; from: number; to: number; fullNumber?: boolean; top?: number; scale?: number } | null;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -61,6 +65,18 @@ const ART: Record<string, React.FC<any>> = {
   Lightning: Art.Lightning,
   OddOneOut: Art.OddOneOut,
   CommentTyping: Art.CommentTyping,
+  Lightbulb: Art.Lightbulb,
+  Footsteps: Art.Footsteps,
+  Target: Art.Target,
+  Feather: Art.Feather,
+  StreakCalendar: Art.StreakCalendar,
+  Dumbbell: Art.Dumbbell,
+  NoGym: Art.NoGym,
+  Sneaker: Art.Sneaker,
+  Runner: Art.Runner,
+  HeartPulse: Art.HeartPulse,
+  Flame: Art.Flame,
+  Chair: Art.Chair,
 };
 
 // Beside his head (about x = 330-760 at this height), so nothing on the card is hidden behind him.
@@ -133,7 +149,7 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
@@ -150,6 +166,13 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
         </Sequence>
       ) : null}
       <Person video={video} maskDir={maskDir} />
+      {/* In front of him: it sits on his chest, below the face. */}
+      {graph ? (
+        <Sequence from={f(graph.at)} durationInFrames={90} layout="none">
+          <GlassGraphCard title={graph.title} from={graph.from} to={graph.to} fullNumber={graph.fullNumber} top={graph.top}
+            scale={graph.scale} />
+        </Sequence>
+      ) : null}
     </AbsoluteFill>
   );
 };

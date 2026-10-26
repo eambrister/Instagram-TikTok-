@@ -60,6 +60,10 @@
   "hook": {
     "pinned": true
   },
+  "editor": {
+    "mode": "TALKING_HEAD",
+    "speechGraphics": false
+  },
   "music": {
     "default": "original"
   },

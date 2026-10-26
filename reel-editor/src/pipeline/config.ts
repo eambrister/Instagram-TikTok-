@@ -21,6 +21,10 @@ export const houseStyleSchema = z.object({
   framing: z.object({ fullWidthFraction: z.number().min(0.2).max(1).nullable() }).default({ fullWidthFraction: null }),
   // pinned: the opening-sentence title stays at the top for the whole video (captions carry the opening words).
   hook: z.object({ pinned: z.boolean() }).default({ pinned: false }),
+  // mode: used when --mode is auto (null = choose from the speech). speechGraphics: cards/counters planned from
+  // what he says (off in the saved style, where illustrations come from the finishing pass instead).
+  editor: z.object({ mode: z.enum(["TALKING_HEAD", "EXPLAINER", "RANKING"]).nullable(), speechGraphics: z.boolean() })
+    .default({ mode: null, speechGraphics: true }),
   // Music used when --music isn't given: "original" composes a bed for the video, null means none.
   music: z.object({ default: z.string().nullable() }).default({ default: null }),
   edit: z.object({ maxPauseSeconds: z.number(), keepPauseSeconds: z.number(), headPadSeconds: z.number(), tailPadSeconds: z.number(),

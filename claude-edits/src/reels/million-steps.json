@@ -1,0 +1,150 @@
+{
+  "video": "reel/million-steps.mp4",
+  "maskDir": "reel-mask-million-steps",
+  "graph": {
+    "at": 1.19,
+    "title": "Steps in 50 days",
+    "from": 0,
+    "to": 1000000,
+    "fullNumber": true,
+    "top": 1420,
+    "scale": 0.8
+  },
+  "word": {
+    "text": "1 MILLION STEPS",
+    "at": 1.19,
+    "centerY": 676
+  },
+  "beats": [
+    {
+      "from": 4.25,
+      "to": 5.5,
+      "side": "left",
+      "label": "WHAT I LEARNED",
+      "art": "Lightbulb"
+    },
+    {
+      "from": 5.5,
+      "to": 8.3,
+      "side": "right",
+      "label": "WALKING",
+      "art": "Footsteps",
+      "labelSwitch": {
+        "at": 6.39,
+        "text": "TOO EASY"
+      }
+    },
+    {
+      "from": 8.31,
+      "to": 11.2,
+      "side": "left",
+      "label": "WHY IT WORKS",
+      "art": "Target"
+    },
+    {
+      "from": 11.22,
+      "to": 12.7,
+      "side": "right",
+      "label": "LOW-IMPACT",
+      "art": "Feather"
+    },
+    {
+      "from": 12.78,
+      "to": 14.1,
+      "side": "left",
+      "label": "EVERY DAY",
+      "art": "StreakCalendar"
+    },
+    {
+      "from": 14.1,
+      "to": 17.7,
+      "side": "right",
+      "label": "TOMORROW'S WORKOUT",
+      "art": "Dumbbell"
+    },
+    {
+      "from": 18.95,
+      "to": 19.85,
+      "side": "left",
+      "label": "DON'T NEED THE GYM",
+      "art": "NoGym"
+    },
+    {
+      "from": 19.85,
+      "to": 21.2,
+      "side": "right",
+      "label": "OR MOTIVATION",
+      "art": "BatteryLow"
+    },
+    {
+      "from": 21.27,
+      "to": 23.1,
+      "side": "left",
+      "label": "SOME SHOES",
+      "art": "Sneaker"
+    },
+    {
+      "from": 23.1,
+      "to": 24.75,
+      "side": "right",
+      "label": "RUNNING",
+      "art": "Runner"
+    },
+    {
+      "from": 24.87,
+      "to": 27.3,
+      "side": "left",
+      "label": "BEST CARDIO",
+      "art": "HeartPulse"
+    },
+    {
+      "from": 27.35,
+      "to": 30.25,
+      "side": "right",
+      "label": "CONSISTENTLY",
+      "art": "Flame"
+    },
+    {
+      "from": 30.47,
+      "to": 32.45,
+      "side": "left",
+      "label": "BETTER WORKOUT",
+      "art": "Dumbbell"
+    },
+    {
+      "from": 32.45,
+      "to": 36.0,
+      "side": "right",
+      "label": "STOP SITTING",
+      "art": "Chair",
+      "labelSwitch": {
+        "at": 33.91,
+        "text": "12 HOURS"
+      }
+    },
+    {
+      "from": 36.8,
+      "to": 38.1,
+      "side": "left",
+      "label": "WALK",
+      "art": "Footsteps"
+    },
+    {
+      "from": 37.5,
+      "to": 38.7,
+      "side": "right",
+      "label": "RUN",
+      "art": "Runner"
+    },
+    {
+      "from": 38.7,
+      "to": 40.4,
+      "side": "left",
+      "label": "COMMENT DOWN BELOW",
+      "art": "CommentTyping",
+      "artProps": {
+        "word": "WALK OR RUN?"
+      }
+    }
+  ]
+}

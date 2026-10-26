@@ -1,5 +1,5 @@
 // npm run edit -- --input "input/my video.mov" [--mode auto|talking_head|explainer|ranking] [--intensity light|medium|high]
-//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--rankings "Eggs=S, Granola=F"] [--music original|none|licensed-media/music/x.mp3]
+//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--caption-gap "1.4-4.2"] [--rankings "Eggs=S, Granola=F"] [--music original|none|licensed-media/music/x.mp3]
 //   [--preview-only] [--force]
 import { parseArgs } from "node:util";
 import { parseDirection, parseRankings } from "../pipeline/planner";
@@ -13,6 +13,7 @@ const { values } = parseArgs({
     direction: { type: "string", default: "" },
     topic: { type: "string" },
     "pin-title": { type: "boolean", default: false },
+    "caption-gap": { type: "string" },
     rankings: { type: "string" },
     music: { type: "string" },
     "preview-only": { type: "boolean", default: false },
@@ -35,6 +36,13 @@ if (values.mode && values.mode !== "auto") {
 if (values.intensity) d.intensity = values.intensity as any;
 if (values.topic) d.topic = values.topic;
 if (values["pin-title"]) d.pinHook = true;
+// "--caption-gap 1.39-4.25,30-31.5": no captions starting in these output-time windows.
+if (values["caption-gap"])
+  d.captionGaps = values["caption-gap"].split(",").map((s) => {
+    const [start, end] = s.split("-").map(Number);
+    if (!(end > start)) throw new Error(`Bad caption gap "${s}". Use start-end in seconds.`);
+    return { start, end };
+  });
 if (values.rankings) d.rankings = parseRankings(values.rankings);
 
 runJob({ input: values.input, direction: d, music: values.music ?? null, previewOnly: values["preview-only"]!, force: values.force!,

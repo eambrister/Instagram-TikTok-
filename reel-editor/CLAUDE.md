@@ -13,6 +13,9 @@ the finishing pass in `../claude-edits`. Do both. Add other effects or changes o
    above, sharp punch-ins), the opening-sentence title **pinned at the top for the whole video** (`hook.pinned`), captions
    at chest level from the first word, and an **original music bed** under his voice (`music.default`; `--music none` turns
    it off, `--music <file>` uses his own licensed track).
+   The house style also locks the layout to full-screen talking head with no speech-planned cards or counters
+   (`editor.mode`, `editor.speechGraphics`): illustrations come from the finishing pass. `--caption-gap "1.4-4.2"` leaves
+   captions out for a finishing-pass graphic that shows those words (e.g. GlassGraph).
    For a ranking video where he states the ranks, pass `--rankings "Item=S, Item=F"` when the spoken parse could be ambiguous.
 2. The job renders a short `preview.mp4` first, then the full video. Inspect, don't assume:
    - read `outputs/<job>/qa-report.md`;

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { findRestarts, findRetakes, snapToSpeech } from "../src/pipeline/edl";
+import { buildEdl, findRestarts, findRetakes, snapToSpeech } from "../src/pipeline/edl";
+import { loadStyle } from "../src/pipeline/config";
 import { parseNumber, parseRankings, selectMode, parseDirection } from "../src/pipeline/planner";
 import { applyCorrections } from "../src/pipeline/transcribe";
 
@@ -68,4 +69,36 @@ test("direction can pin the hook title for the whole video", () => {
   assert.equal(parseDirection("pin the title at the top").pinHook, true);
   assert.equal(parseDirection("keep the hook").pinHook, true);
   assert.equal(parseDirection("less motion").pinHook, false);
+});
+
+test("a parallel phrase is not a restart", () => {
+  assert.equal(findRestarts(words("do you like to walk or do you like to run")).length, 0);
+});
+
+test("a restart after a long pause is still removed", () => {
+  const w = [...words("people think walking"), ...words("people think walking is too easy", 9)];
+  const cuts = findRestarts(w);
+  assert.equal(cuts.length, 1);
+  assert.equal(cuts[0].start, w[0].start);
+  assert.equal(cuts[0].end, w[3].start);
+});
+
+test("a long wordless gap broken up by room noise is still shortened", () => {
+  const w = [...words("here is what i learned"), ...words("people think walking", 9)];
+  const lastEnd = w[4].end;
+  // 7.65 s gap, 68% detected as silent in three pieces (clicks in between).
+  const silences = [
+    { start: lastEnd + 0.1, end: lastEnd + 2.0 },
+    { start: lastEnd + 2.6, end: lastEnd + 4.5 },
+    { start: lastEnd + 5.6, end: lastEnd + 7.0 },
+  ];
+  const edl = buildEdl(w, silences, 12, loadStyle());
+  assert.ok(edl.cuts.some((c) => c.reason.startsWith("pause") && c.end - c.start > 6));
+});
+
+test("a short gap with audible sound is kept", () => {
+  const w = [...words("here is what"), ...words("i learned", 2.0)];
+  const gapStart = w[2].end;
+  const edl = buildEdl(w, [{ start: gapStart, end: gapStart + 0.4 }], 4, loadStyle());
+  assert.ok(!edl.cuts.some((c) => c.reason.startsWith("pause")));
 });
