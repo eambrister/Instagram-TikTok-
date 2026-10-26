@@ -62,6 +62,9 @@ to have edited "in my saved style". Add other effects or changes only when he as
    - **Extra effects he asks for** go in the same file. GlassGraph for a number he says: `graph` (`at`, `title` from his
      words, `from`/`to`, `fullNumber`, `top`/`scale` so it sits below his chin); render the edit with reel-editor
      `--caption-gap "start-end"` for those seconds so the card doesn't sit on captions. Reference: `src/reels/million-steps.json`.
+   - **B-roll he sends** (his own footage only) goes in the edit itself: reel-editor `--broll "licensed-media/broll/<clip>.mp4@start-end"`.
+     Crop off phone status bars, app buttons and other people's names/replies first, mute it (story songs are not
+     licensed), record it in `licensed-media/manifest.json`, and keep cards out of that window.
 4. Run `tools/style_reel.sh <job> <name>` again to render `out/<name>.mp4`. It also runs the safe-zone audit, which must
    report everything inside x = 120 to 960.
 5. Check stills across the whole reel before sending, and send the MP4 plus a contact sheet.

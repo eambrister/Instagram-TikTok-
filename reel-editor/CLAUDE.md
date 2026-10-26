@@ -15,7 +15,8 @@ the finishing pass in `../claude-edits`. Do both. Add other effects or changes o
    it off, `--music <file>` uses his own licensed track).
    The house style also locks the layout to full-screen talking head with no speech-planned cards or counters
    (`editor.mode`, `editor.speechGraphics`): illustrations come from the finishing pass. `--caption-gap "1.4-4.2"` leaves
-   captions out for a finishing-pass graphic that shows those words (e.g. GlassGraph).
+   captions out for a finishing-pass graphic that shows those words (e.g. GlassGraph). `--broll "file@start-end"` shows his
+   own clip (muted, sped to fit) below the pinned title over a blurred fill, captions on top. Music sits 10 dB under him.
    For a ranking video where he states the ranks, pass `--rankings "Item=S, Item=F"` when the spoken parse could be ambiguous.
 2. The job renders a short `preview.mp4` first, then the full video. Inspect, don't assume:
    - read `outputs/<job>/qa-report.md`;
