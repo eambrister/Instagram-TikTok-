@@ -61,21 +61,21 @@
   {
    "from": 44.3,
    "to": 45.7,
-   "side": "right",
+   "side": "left",
    "label": "CREATED A PLAN",
    "art": "Target"
   },
   {
    "from": 45.7,
    "to": 48.7,
-   "side": "left",
+   "side": "right",
    "label": "ATE REAL FOOD",
    "art": "Apple"
   },
   {
    "from": 48.8,
    "to": 53.4,
-   "side": "right",
+   "side": "left",
    "label": "COMMENT BELOW",
    "art": "CommentTyping",
    "artProps": {
