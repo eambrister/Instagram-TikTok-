@@ -59,7 +59,8 @@ const Card: React.FC<{ beat: Beat; frames: number }> = ({ beat, frames }) => {
   const { fps } = useVideoConfig();
   const pop = spring({ frame: t, fps, config: { damping: 12, stiffness: 190, mass: 0.6 } });
   const out = interpolate(t, [frames - EXIT_FRAMES, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const dir = beat.side === "left" ? -1 : 1;
+  // Pops from its outer bottom corner and tilts inward, so the outer edge never leaves the safe zone.
+  const dir = beat.side === "left" ? 1 : -1;
   const float = Math.sin(t / 14) * 5;
   return (
     <div
@@ -81,8 +82,8 @@ const Card: React.FC<{ beat: Beat; frames: number }> = ({ beat, frames }) => {
         alignItems: "center",
         gap: 6,
         opacity: Math.min(1, pop * 1.5) * out,
-        transform: `translateY(${(1 - pop) * 40 + float}px) rotate(${(1 - pop) * 10 * dir}deg) scale(${(0.6 + 0.4 * pop) * (0.9 + 0.1 * out)})`,
-        transformOrigin: beat.side === "left" ? "100% 100%" : "0% 100%",
+        transform: `translateY(${(1 - pop) * 40 + float}px) rotate(${(1 - Math.min(1, pop)) * 10 * dir}deg) scale(${(0.6 + 0.4 * pop) * (0.9 + 0.1 * out)})`,
+        transformOrigin: beat.side === "left" ? "0% 100%" : "100% 100%",
       }}
     >
       <div
@@ -119,7 +120,7 @@ export const AbnormalReel: React.FC<AbnormalReelProps> = ({ video, maskDir }) =>
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
-    <AbsoluteFill style={{ backgroundColor: "black" }}>
+    <AbsoluteFill style={{ backgroundColor: AUDIT ? undefined : "black" }}>
       {AUDIT ? null : <OffthreadVideo src={staticFile(video)} style={{ width: WIDTH, height: HEIGHT }} />}
       {BEATS.map((b) => (
         <Sequence key={`${b.from}`} from={f(b.from)} durationInFrames={f(b.to) - f(b.from)} layout="none">
