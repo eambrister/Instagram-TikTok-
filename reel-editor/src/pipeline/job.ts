@@ -138,6 +138,15 @@ export async function runJob(o: JobOptions) {
   if (pr.vfr) rawPlan.notes.push(`source is variable frame rate (avg ${pr.avgFps.toFixed(2)}fps); normalised to constant ${fps}fps`);
   if (pr.rotation) rawPlan.notes.push(`source orientation metadata ${pr.rotation}° applied`);
   if (sourceFaceRate !== null && sourceFaceRate < 0.2) rawPlan.notes.push(`face detected in only ${(sourceFaceRate * 100).toFixed(0)}% of source samples; framing used safe defaults`);
+  // B-roll cutaways: his own clips, served from this folder, sped to fill their window and muted.
+  for (const b of o.direction.broll) {
+    const file = path.resolve(rel(), b.file);
+    if (!file.startsWith(rel()) || !existsSync(file)) throw new Error(`B-roll not found inside reel-editor/: ${b.file}`);
+    const bp = await probe(file);
+    rawPlan.broll.push({ url: path.relative(rel(), file), start: b.start, end: Math.min(b.end, rawPlan.duration),
+      rate: round(bp.duration / (Math.min(b.end, rawPlan.duration) - b.start), 4), width: bp.displayWidth, height: bp.displayHeight });
+    rawPlan.notes.push(`B-roll ${b.file} over ${b.start}-${b.end}s (muted, ${round(bp.duration / (b.end - b.start), 2)}x speed)`);
+  }
   const planFile = path.join(jobDir, "scene-plan.json");
   writeJson(planFile, rawPlan);
 

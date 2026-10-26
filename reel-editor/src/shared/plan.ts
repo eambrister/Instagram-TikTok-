@@ -113,6 +113,9 @@ export const scenePlanSchema = z.object({
   captions: z.array(captionSchema),
   graphics: z.array(graphicSchema),
   tierBoard: z.object({ title: z.string().nullable(), events: z.array(tierEventSchema) }).nullable(),
+  // B-roll cutaways: his own clip, muted, played at `rate` so it fills start-end (output seconds).
+  broll: z.array(z.object({ url: z.string(), start: time, end: time, rate: z.number().positive(), width: z.number(), height: z.number() }))
+    .default([]),
   style: z.object({
     colors: z.record(z.string(), z.any()),
     captionStrokePx: z.number(),

@@ -17,25 +17,7 @@
   },
   "beats": [
     {
-      "from": 4.25,
-      "to": 5.5,
-      "side": "left",
-      "label": "WHAT I LEARNED",
-      "art": "Lightbulb"
-    },
-    {
-      "from": 5.5,
-      "to": 8.3,
-      "side": "right",
-      "label": "WALKING",
-      "art": "Footsteps",
-      "labelSwitch": {
-        "at": 6.39,
-        "text": "TOO EASY"
-      }
-    },
-    {
-      "from": 8.31,
+      "from": 9.5,
       "to": 11.2,
       "side": "left",
       "label": "WHY IT WORKS",

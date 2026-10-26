@@ -1,5 +1,5 @@
 // npm run edit -- --input "input/my video.mov" [--mode auto|talking_head|explainer|ranking] [--intensity light|medium|high]
-//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--caption-gap "1.4-4.2"] [--rankings "Eggs=S, Granola=F"] [--music original|none|licensed-media/music/x.mp3]
+//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--caption-gap "1.4-4.2"] [--broll "licensed-media/broll/x.mp4@4.3-9.5"] [--rankings "Eggs=S, Granola=F"] [--music original|none|licensed-media/music/x.mp3]
 //   [--preview-only] [--force]
 import { parseArgs } from "node:util";
 import { parseDirection, parseRankings } from "../pipeline/planner";
@@ -14,6 +14,7 @@ const { values } = parseArgs({
     topic: { type: "string" },
     "pin-title": { type: "boolean", default: false },
     "caption-gap": { type: "string" },
+    broll: { type: "string" },
     rankings: { type: "string" },
     music: { type: "string" },
     "preview-only": { type: "boolean", default: false },
@@ -36,6 +37,13 @@ if (values.mode && values.mode !== "auto") {
 if (values.intensity) d.intensity = values.intensity as any;
 if (values.topic) d.topic = values.topic;
 if (values["pin-title"]) d.pinHook = true;
+// "--broll file@4.3-9.5;file2@20-23": his own clips as cutaways over those output-time windows.
+if (values.broll)
+  d.broll = values.broll.split(";").map((s) => {
+    const m = s.trim().match(/^(.+)@([\d.]+)-([\d.]+)$/);
+    if (!m || !(Number(m[3]) > Number(m[2]))) throw new Error(`Bad B-roll "${s}". Use file@start-end in seconds.`);
+    return { file: m[1], start: Number(m[2]), end: Number(m[3]) };
+  });
 // "--caption-gap 1.39-4.25,30-31.5": no captions starting in these output-time windows.
 if (values["caption-gap"])
   d.captionGaps = values["caption-gap"].split(",").map((s) => {

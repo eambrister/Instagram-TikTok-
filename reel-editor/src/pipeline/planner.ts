@@ -21,6 +21,8 @@ export type Direction = {
   pinHook: boolean;
   // Output-time windows with no burned-in captions (a finishing-pass graphic shows those words instead).
   captionGaps: { start: number; end: number }[];
+  // B-roll cutaways: a clip of his (path from reel-editor/) shown over start-end output seconds.
+  broll: { file: string; start: number; end: number }[];
   topic: string | null;
   rankings: { item: string; tier: Tier }[];
   notes: string[];
@@ -33,7 +35,7 @@ const STOP = new Set(["the", "a", "an", "and", "or", "but", "so", "to", "of", "i
 /** Plain-language direction -> structured options (also used for --direction on the CLI). */
 export function parseDirection(text: string, base: Partial<Direction> = {}): Direction {
   const t = text.toLowerCase();
-  const d: Direction = { mode: "auto", intensity: "medium", keepPauses: false, zooms: true, graphics: true, pinHook: false, captionGaps: [], topic: null, rankings: [], notes: [], ...base };
+  const d: Direction = { mode: "auto", intensity: "medium", keepPauses: false, zooms: true, graphics: true, pinHook: false, captionGaps: [], broll: [], topic: null, rankings: [], notes: [], ...base };
   if (/\b(tier|ranking|rank)\b/.test(t)) d.mode = "RANKING";
   else if (/\b(explainer|explain|split[- ]screen|panel)\b/.test(t)) d.mode = "EXPLAINER";
   else if (/\b(talking[- ]head|simple|minimal|clean)\b/.test(t)) d.mode = "TALKING_HEAD";
@@ -546,6 +548,7 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     segments: segments.map((s) => ({ srcStart: s.srcStart, srcEnd: s.srcEnd, outStart: s.outStart, outEnd: s.outEnd, focus: s.focus })),
     layout, zooms, captions, graphics,
     tierBoard: mode === "RANKING" ? { title: d.topic ? d.topic.toUpperCase() : null, events: tierEvents } : null,
+    broll: [],
     style: {
       colors: style.colors, captionStrokePx: style.captions.strokePx, captionHighlight: style.captions.highlight,
       entranceFrames: lvl.entranceFrames, captionEntranceFrames: style.captions.entranceFrames, panelHeight: panelH, boardSpeakerHeight: boardH, fullWidthFraction: fullFit, safeArea: sa,

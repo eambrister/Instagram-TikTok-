@@ -9,6 +9,7 @@ import { ComparisonPanel } from "./components/ComparisonPanel";
 import { Counter } from "./components/Counter";
 import { FloatingCard } from "./components/FloatingCard";
 import { ObjectCallout } from "./components/ObjectCallout";
+import { BRoll } from "./components/BRoll";
 import { SpeakerFrame } from "./components/SpeakerFrame";
 import { TierBoard } from "./components/TierBoard";
 
@@ -85,6 +86,7 @@ export const Reel: React.FC<ReelProps> = ({ plan, mediaBase }) => {
   return (
     <AbsoluteFill style={{ background: (plan.style.colors as Record<string, string>).panelBottom }}>
       <SpeakerFrame plan={plan} mediaBase={mediaBase} />
+      <BRoll plan={plan} mediaBase={mediaBase} />
       <Panels plan={plan} />
       {plan.tierBoard ? <TierBoard plan={plan} mediaBase={mediaBase} /> : null}
       <GraphicsLayer plan={plan} mediaBase={mediaBase} />
