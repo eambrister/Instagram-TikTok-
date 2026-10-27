@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Brand tokens: brand/tokens.json */
+      @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("assets/BarlowCondensed-ExtraBold.ttf"); }
+      @font-face { font-family: "Montserrat"; font-weight: 500; src: url("assets/Montserrat-Medium.ttf"); }
+      @font-face { font-family: "Montserrat"; font-weight: 700; src: url("assets/Montserrat-Bold.ttf"); }
+      :root {
+        --obsidian: #07080a; --ivory: #f6efe2; --gold: #d6a918; --pale-gold: #f3d878;
+        --silver: #aab0b9; --crimson: #981b2e; --graphite: #292d34;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--obsidian); }
+      #root {
+        position: relative; width: 100%; height: 100%;
+        background: radial-gradient(120% 70% at 50% 40%, var(--graphite) 0%, var(--obsidian) 70%);
+        font-family: "Montserrat", sans-serif; color: var(--ivory);
+      }
+      /* Header band y=40–180, logo upper-left, 120 px wide */
+      #logo { position: absolute; left: 48px; top: 64px; width: 120px; z-index: 5; }
+      /* Scenes live inside the primary text safe area y=250–1580 */
+      .scene {
+        position: absolute; left: 48px; right: 48px; top: 250px; height: 1330px;
+        display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 8px;
+      }
+      .head {
+        font-family: "Barlow Condensed", sans-serif; font-weight: 800;
+        font-size: 210px; line-height: 0.9; text-transform: uppercase; letter-spacing: -0.01em;
+      }
+      .gold { color: var(--gold); }
+      .fade { color: var(--silver); }
+      .rule { width: 160px; height: 6px; background: var(--gold); margin: 28px 0; }
+      .line { font-weight: 700; font-size: 64px; line-height: 1.15; }
+      .line span { color: var(--gold); }
+      .small { font-weight: 500; font-size: 44px; color: var(--silver); }
+      .handle { font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 120px; color: var(--gold); }
+      #footer {
+        position: absolute; left: 48px; right: 48px; top: 1490px; text-align: center; z-index: 5;
+        font-weight: 700; font-size: 26px; letter-spacing: 0.12em; color: var(--silver);
+        border-top: 2px solid var(--graphite); padding-top: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-txxr" id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1080" data-height="1920">
+      <img data-hf-id="hf-siv8" id="logo" class="clip" data-start="0" data-duration="10" data-track-index="0" src="assets/edison-ambrister-horizontal.png" alt="Edison Ambrister">
+
+      <!-- 0–2.6s: hook -->
+      <div data-hf-id="hf-rxb3" id="s1" class="scene clip" data-start="0" data-duration="2.6" data-track-index="1">
+        <div data-hf-id="hf-sict" class="head" id="s1a">Motivation</div>
+        <div data-hf-id="hf-lptz" class="head fade" id="s1b">fades.</div>
+      </div>
+
+      <!-- 2.6–5.0s: answer -->
+      <div data-hf-id="hf-m1yw" id="s2" class="scene clip" data-start="2.6" data-duration="2.4" data-track-index="1">
+        <div data-hf-id="hf-ym2w" class="head gold" id="s2a">Discipline</div>
+        <div data-hf-id="hf-ldv2" class="head" id="s2b">shows up.</div>
+      </div>
+
+      <!-- 5.0–7.6s: three proof points, ~0.8s apart -->
+      <div data-hf-id="hf-ifne" id="s3" class="scene clip" data-start="5" data-duration="2.6" data-track-index="1">
+        <div data-hf-id="hf-el6z" class="small">What it looks like:</div>
+        <div data-hf-id="hf-a46i" class="rule"></div>
+        <div data-hf-id="hf-koih" class="line" id="p1"><span data-hf-id="hf-p81i">01</span> Same meals, prepped.</div>
+        <div data-hf-id="hf-fxcv" class="line" id="p2"><span data-hf-id="hf-pmcj">02</span> Same training time.</div>
+        <div data-hf-id="hf-iglj" class="line" id="p3"><span data-hf-id="hf-q0nk">03</span> Weekends included.</div>
+      </div>
+
+      <!-- 7.6–10s: call to action -->
+      <div data-hf-id="hf-8df1" id="s4" class="scene clip" data-start="7.6" data-duration="2.4" data-track-index="1">
+        <div data-hf-id="hf-zpej" class="small" id="c1">Daily accountability</div>
+        <div data-hf-id="hf-hoye" class="handle" id="c2">@edisonambrister</div>
+      </div>
+
+      <div data-hf-id="hf-stsz" id="footer" class="clip" data-start="0" data-duration="10" data-track-index="2">
+        DISCIPLINE - ACCOUNTABILITY - CONSISTENCY
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.from("#logo", { opacity: 0, duration: 0.4 }, 0)
+        .from("#footer", { opacity: 0, duration: 0.4 }, 0)
+        .from("#s1a", { opacity: 0, y: 60, duration: 0.35, ease: "power3.out" }, 0)
+        .from("#s1b", { opacity: 0, scale: 1.25, transformOrigin: "left center", duration: 0.3, ease: "power4.out" }, 0.6)
+        .to("#s1", { opacity: 0, duration: 0.2 }, 2.4)
+        .from("#s2a", { opacity: 0, x: -80, duration: 0.35, ease: "power3.out" }, 2.6)
+        .from("#s2b", { opacity: 0, y: 60, duration: 0.35, ease: "power3.out" }, 3.3)
+        .to("#s2", { opacity: 0, duration: 0.2 }, 4.8)
+        .from("#s3 .small, #s3 .rule", { opacity: 0, duration: 0.3 }, 5)
+        .from("#p1", { opacity: 0, x: -40, duration: 0.3 }, 5.3)
+        .from("#p2", { opacity: 0, x: -40, duration: 0.3 }, 6.1)
+        .from("#p3", { opacity: 0, x: -40, duration: 0.3 }, 6.9)
+        .to("#s3", { opacity: 0, duration: 0.2 }, 7.4)
+        .from("#c1", { opacity: 0, y: 30, duration: 0.3 }, 7.6)
+        .from("#c2", { opacity: 0, scale: 0.9, transformOrigin: "left center", duration: 0.4, ease: "back.out(2)" }, 8.0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
