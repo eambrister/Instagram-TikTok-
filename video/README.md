@@ -28,6 +28,11 @@ npx hyperframes render -o /tmp/reel_raw.mp4
 Audio timing lives in `index.html` (`<audio data-start=… data-volume=…>`). Music sits at
 `data-volume="0.13"`, about 11 dB under the voice.
 
+## Edit styles
+
+Named looks (captions, voiceover and music, catalog blocks, long-video clipping) are in
+[`styles/README.md`](styles/README.md). Ask for one by name.
+
 ## Stop
 
 Render exits on its own. Preview: `npx hyperframes preview --background` / `--stop`.

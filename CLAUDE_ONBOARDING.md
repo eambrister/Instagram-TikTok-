@@ -290,6 +290,8 @@ Useful references in `outputs/`:
 
 Treat these as structural references, not current identity references. Most were produced under the retired Cut Throat Discipline name. The newest files in `brand/` are the current source of truth when older work conflicts with them.
 
+Video Reels are rendered with HyperFrames from `video/` (setup in `video/README.md`). When Edison asks for an edit style by name (for example `captions-gold` or `voiceover-music`), use the menu in `video/styles/README.md`. Apply or install a style only when he requests it.
+
 ## 12. Known lessons from previous revisions
 
 - Edison prefers 4:5 posts rather than square carousels.

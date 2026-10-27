@@ -1,0 +1,22 @@
+/* captions-gold: brand word-highlight captions for 1080×1920 Reels.
+   Needs the Barlow Condensed ExtraBold @font-face from the host composition. */
+#captions {
+  position: absolute; left: 48px; right: 48px; z-index: 20; pointer-events: none;
+  top: 1250px; height: 210px; /* lower third, above the footer and Instagram's controls (y < 1580) */
+}
+#captions[data-position="center"] { top: 855px; }
+.cg-group {
+  position: absolute; inset: 0; display: flex; flex-wrap: wrap; gap: 6px 14px;
+  align-items: center; align-content: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+}
+.cg-word {
+  position: relative; isolation: isolate; /* keeps the z-index:-1 pill above the page background */
+  display: inline-block; padding: 4px 18px 8px;
+  font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 96px; line-height: 1;
+  text-transform: uppercase; color: #f6efe2; text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+.cg-bg {
+  position: absolute; inset: 0; z-index: -1; border-radius: 16px; background: #d6a918;
+  opacity: 0; transform: scaleX(0); transform-origin: 0% 50%;
+}
