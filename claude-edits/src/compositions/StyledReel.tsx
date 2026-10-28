@@ -47,7 +47,7 @@ export type StyledReelProps = {
   cardTop?: number;
   // A list video: one card beside his head that ticks each item as he says it (seconds in the edit).
   // Keep illustration beats on the other side while it is up.
-  checklist?: { from: number; to: number; side: "left" | "right"; title: string; items: { label: string; at: number }[] } | null;
+  checklist?: { from: number; to: number; side: "left" | "right"; title: string; items: { label: string; at: number }[]; top?: number } | null;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -232,7 +232,7 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
       ))}
       {checklist ? (
         <Sequence from={f(checklist.from)} durationInFrames={f(checklist.to) - f(checklist.from)} layout="none">
-          <ChecklistCard list={checklist} frames={f(checklist.to) - f(checklist.from)} top={cardTop ?? CARD.top} />
+          <ChecklistCard list={checklist} frames={f(checklist.to) - f(checklist.from)} top={checklist.top ?? cardTop ?? CARD.top} />
         </Sequence>
       ) : null}
       {word ? (

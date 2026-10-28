@@ -2,30 +2,133 @@
  "video": "reel/six-unsexy.mp4",
  "maskDir": "reel-mask-six-unsexy",
  "beats": [
-  { "from": 5.8, "to": 9.6, "side": "left", "label": "OVER AND OVER", "art": "MondayLoop" },
-  { "from": 9.7, "to": 11.5, "side": "left", "label": "STILL DOING IT", "art": "Flame" },
-  { "from": 12.8, "to": 15.3, "side": "left", "label": "TRACKED MY FOOD", "art": "FoodLog" },
-  { "from": 16.7, "to": 19.5, "side": "left", "label": "WALKED A LOT", "art": "Footsteps" },
-  { "from": 20.2, "to": 22.2, "side": "left", "label": "BED EARLY", "art": "MoonSleep" },
-  { "from": 22.25, "to": 24.5, "side": "left", "label": "UP EARLY", "art": "AlarmClock" },
-  { "from": 24.6, "to": 27.8, "side": "left", "label": "SAID NO", "art": "PizzaSlice" },
-  { "from": 28.9, "to": 33.7, "side": "left", "label": "KEPT GOING", "art": "BatteryLow" },
-  { "from": 37.5, "to": 39.1, "side": "left", "label": "SIMPLE STUFF", "art": "Target" },
-  { "from": 41.1, "to": 44.0, "side": "right", "label": "MY JOURNEY", "art": "StreakCalendar" },
-  { "from": 44.1, "to": 46.3, "side": "left", "label": "THE HARDEST?", "art": "CommentTyping", "artProps": { "word": "#4" } }
+  {
+   "from": 5.8,
+   "to": 9.6,
+   "side": "left",
+   "label": "OVER AND OVER",
+   "art": "MondayLoop"
+  },
+  {
+   "from": 9.7,
+   "to": 11.5,
+   "side": "left",
+   "label": "STILL DOING IT",
+   "art": "Flame"
+  },
+  {
+   "from": 12.8,
+   "to": 15.3,
+   "side": "left",
+   "label": "TRACKED MY FOOD",
+   "art": "FoodLog"
+  },
+  {
+   "from": 16.7,
+   "to": 19.5,
+   "side": "left",
+   "label": "WALKED A LOT",
+   "art": "Footsteps"
+  },
+  {
+   "from": 20.2,
+   "to": 22.2,
+   "side": "left",
+   "label": "BED EARLY",
+   "art": "MoonSleep"
+  },
+  {
+   "from": 22.25,
+   "to": 24.5,
+   "side": "left",
+   "label": "UP EARLY",
+   "art": "AlarmClock"
+  },
+  {
+   "from": 24.6,
+   "to": 27.8,
+   "side": "left",
+   "label": "SAID NO",
+   "art": "PizzaSlice"
+  },
+  {
+   "from": 28.9,
+   "to": 33.7,
+   "side": "left",
+   "label": "KEPT GOING",
+   "art": "BatteryLow"
+  },
+  {
+   "from": 37.5,
+   "to": 39.1,
+   "side": "left",
+   "label": "SIMPLE STUFF",
+   "art": "Target"
+  },
+  {
+   "from": 41.1,
+   "to": 44.0,
+   "side": "right",
+   "label": "MY JOURNEY",
+   "art": "StreakCalendar"
+  },
+  {
+   "from": 44.1,
+   "to": 46.3,
+   "side": "left",
+   "label": "THE HARDEST?",
+   "art": "CommentTyping",
+   "artProps": {
+    "word": "#4"
+   }
+  }
  ],
- "word": { "text": "UNSEXY", "at": 0.84, "centerY": 1110 },
+ "word": {
+  "text": "UNSEXY",
+  "at": 0.84,
+  "centerY": 1064
+ },
  "cardTop": 1120,
  "checklist": {
-  "from": 4.9, "to": 33.8, "side": "right", "title": "6 UNSEXY THINGS",
+  "from": 5.9,
+  "to": 33.8,
+  "side": "right",
+  "title": "6 UNSEXY THINGS",
   "items": [
-   { "label": "SAME MEALS", "at": 6.17 },
-   { "label": "TRACKED FOOD", "at": 12.81 },
-   { "label": "WALKED A LOT", "at": 17.56 },
-   { "label": "BED EARLY", "at": 20.51 },
-   { "label": "SAID NO", "at": 24.61 },
-   { "label": "KEPT GOING", "at": 28.86 }
-  ]
+   {
+    "label": "SAME MEALS",
+    "at": 6.17
+   },
+   {
+    "label": "TRACKED FOOD",
+    "at": 12.81
+   },
+   {
+    "label": "WALKED A LOT",
+    "at": 17.56
+   },
+   {
+    "label": "BED EARLY",
+    "at": 20.51
+   },
+   {
+    "label": "SAID NO",
+    "at": 24.61
+   },
+   {
+    "label": "KEPT GOING",
+    "at": 28.86
+   }
+  ],
+  "top": 500
  },
- "graph": { "at": 2.9, "title": "Pounds lost", "from": 0, "to": 80, "fullNumber": true, "top": 530, "scale": 0.65 }
+ "graph": {
+  "at": 2.9,
+  "title": "Pounds lost",
+  "from": 0,
+  "to": 80,
+  "fullNumber": true,
+  "top": 530,
+  "scale": 0.65
+ }
 }
