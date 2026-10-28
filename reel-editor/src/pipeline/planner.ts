@@ -352,17 +352,19 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
 
   // Hook from the opening words (exact), shown from frame 0.
   const graphics: Graphic[] = [];
-  // Hook = his complete opening sentence (or first clause), never cut mid-thought; up to 10 words.
+  // Hook = his complete opening sentence (or first clause), never cut mid-thought; up to 10 words
+  // (12 when pinned for the whole video, where it has time to be read).
+  const hookMax = d.pinHook ? 12 : 10;
   let firstSentence: TWord[] = [];
   for (const w of inp.words) {
-    if (firstSentence.length >= 10) break;
+    if (firstSentence.length >= hookMax) break;
     firstSentence.push(w);
     if (sentenceEnd(w.text)) break;
   }
   if (firstSentence.length && !sentenceEnd(firstSentence[firstSentence.length - 1].text)) {
     const comma = firstSentence.map((w) => /,$/.test(w.text)).lastIndexOf(true);
     firstSentence = comma >= 2 ? firstSentence.slice(0, comma + 1) : [];
-    if (!firstSentence.length) flagged.push("opening sentence is longer than 10 words; no hook title (captions carry the opening)");
+    if (!firstSentence.length) flagged.push(`opening sentence is longer than ${hookMax} words; no hook title (captions carry the opening)`);
   }
   const hookEnd = firstSentence.length ? Math.max(2.0, firstSentence[firstSentence.length - 1].end + 0.5) : 0;
 

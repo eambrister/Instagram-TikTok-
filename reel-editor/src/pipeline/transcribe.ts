@@ -10,7 +10,8 @@ export type Word = { text: string; start: number; end: number; p: number | null 
 export type Transcript = { engine: string; model: string; language: string; words: Word[]; cacheKey: string };
 // to: "" = not said (removed and treated as silence). join: true = the tail of the previous word, split off by
 // the recogniser (removed from captions, its audio kept as part of the previous word).
-export type Correction = { at: number; from: string; to: string; join?: boolean };
+// start/end: retime a word the recogniser stretched over a pause (e.g. "4." spanning 5 s of silence).
+export type Correction = { at: number; from: string; to: string; join?: boolean; start?: number; end?: number };
 
 export async function transcribe(asrWav: string, sourceSha: string, style: HouseStyle): Promise<Transcript> {
   const t = style.transcription;
@@ -81,6 +82,10 @@ export function applyCorrections(words: Word[], corrections: Correction[]): { wo
       out[best].deleted = true;
       notSpeech.push({ start: out[best].start, end: out[best].end });
       applied.push(`removed "${c.from}" @${c.at}s (not said)`);
+    } else if (best >= 0 && (c.start !== undefined || c.end !== undefined) && norm(c.to) === norm(c.from)) {
+      if (c.start !== undefined) out[best].start = c.start;
+      if (c.end !== undefined) out[best].end = c.end;
+      applied.push(`retimed "${c.from}" @${c.at}s to ${out[best].start}-${out[best].end}s`);
     } else if (best >= 0) {
       const punct = out[best].text.match(/[.,!?;:]+$/)?.[0] ?? "";
       out[best].text = c.to + (c.to.match(/[.,!?;:]$/) ? "" : punct);

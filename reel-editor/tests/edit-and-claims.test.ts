@@ -102,3 +102,15 @@ test("a short gap with audible sound is kept", () => {
   const edl = buildEdl(w, [{ start: gapStart, end: gapStart + 0.4 }], 4, loadStyle());
   assert.ok(!edl.cuts.some((c) => c.reason.startsWith("pause")));
 });
+
+test("a chain of repeats is rhetorical, not a restart", () => {
+  assert.equal(findRestarts(words("I ate the same meals over and over and over again")).length, 0);
+  assert.equal(findRestarts(words("I was going to, I was going to tell you")).length, 1);
+});
+
+test("a correction can retime a word stretched over a pause", () => {
+  const w = [{ text: "lot", start: 51.26, end: 51.4, p: 0.9 }, { text: "4.", start: 51.5, end: 56.5, p: 0.5 }];
+  const r = applyCorrections(w as never, [{ at: 51.5, from: "4.", to: "4.", start: 56.25, end: 56.55 }]);
+  assert.equal(r.words[1].start, 56.25);
+  assert.equal(r.words[1].text, "4.");
+});

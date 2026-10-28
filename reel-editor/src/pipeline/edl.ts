@@ -35,7 +35,10 @@ export function findRestarts(words: Word[]): Cut[] {
         const pauseBefore = words[j].start - words[j - 1].end;
         const span = words[j].start - words[i].start;
         const soon = span < 4 || (pauseBefore >= 1 && span < 20);
-        if (same && soon && gapIsFiller && !abandonedComplete) {
+        // A chain of repeats ("over and over and over again") is rhetorical, not a restart: the phrase
+        // carries on repeating after the match, or was already repeating before it.
+        const chain = gap === 0 && ((j + k < t.length && t[j + k] === t[i]) || (i > 0 && t[i - 1] === t[j - 1]));
+        if (same && soon && gapIsFiller && !abandonedComplete && !chain) {
           cuts.push({ start: words[i].start, end: words[j].start, reason: `restart: "${words.slice(i, j).map((w) => w.text).join(" ")}"` });
           i = j - 1;
           found = true;
