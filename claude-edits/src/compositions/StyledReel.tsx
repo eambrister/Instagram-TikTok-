@@ -45,6 +45,9 @@ export type StyledReelProps = {
   graph?: { at: number; title: string; from: number; to: number; fullNumber?: boolean; top?: number; scale?: number } | null;
   // Card top in px (default 560). Lower it beside his head when he sits low in the frame.
   cardTop?: number;
+  // A list video: one card beside his head that ticks each item as he says it (seconds in the edit).
+  // Keep illustration beats on the other side while it is up.
+  checklist?: { from: number; to: number; side: "left" | "right"; title: string; items: { label: string; at: number }[] } | null;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -145,6 +148,68 @@ const Card: React.FC<{ beat: BeatSpec; frames: number; top: number }> = ({ beat,
   );
 };
 
+const LIST_W = 224;
+const ACCENT = Art.ACCENT;
+
+const ChecklistCard: React.FC<{ list: NonNullable<StyledReelProps["checklist"]>; frames: number; top: number }> = ({ list, frames, top }) => {
+  const t = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const pop = spring({ frame: t, fps, config: { damping: 12, stiffness: 190, mass: 0.6 } });
+  const out = interpolate(t, [frames - EXIT_FRAMES, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const dir = list.side === "left" ? 1 : -1;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: list.side === "left" ? SAFE_LEFT : SAFE_RIGHT - LIST_W,
+        top,
+        width: LIST_W,
+        boxSizing: "border-box",
+        padding: "16px 14px 18px",
+        borderRadius: 30,
+        backgroundColor: "rgba(16, 17, 22, 0.72)",
+        backdropFilter: "blur(18px)",
+        border: "2px solid rgba(255, 255, 255, 0.14)",
+        boxShadow: "0 22px 50px rgba(0, 0, 0, 0.35)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        opacity: Math.min(1, pop * 1.5) * out,
+        transform: `translateY(${(1 - pop) * 40}px) rotate(${(1 - Math.min(1, pop)) * 10 * dir}deg) scale(${0.6 + 0.4 * pop})`,
+        transformOrigin: list.side === "left" ? "0% 100%" : "100% 100%",
+      }}
+    >
+      <div style={{ fontFamily: CONDENSED_FONT, fontWeight: 800, fontSize: 27, color: ACCENT, letterSpacing: 0.5, lineHeight: 1.05 }}>
+        {list.title}
+      </div>
+      {list.items.map((it, i) => {
+        const at = Math.round((it.at - list.from) * fps);
+        const shown = interpolate(t, [at - 4, at + 2], [0.35, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+        const tick = spring({ frame: t - at, fps, config: { damping: 10, stiffness: 220, mass: 0.5 } });
+        return (
+          <div key={it.label} style={{ display: "flex", alignItems: "center", gap: 10, opacity: shown }}>
+            <div
+              style={{
+                width: 28, height: 28, flexShrink: 0, borderRadius: 8, boxSizing: "border-box",
+                border: `3px solid ${t >= at ? ACCENT : "rgba(255,255,255,0.5)"}`,
+                backgroundColor: t >= at ? ACCENT : "transparent",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >
+              {t >= at ? (
+                <svg viewBox="0 0 24 24" width={20} height={20} style={{ transform: `scale(${tick})` }}>
+                  <path d="M5 12.5 L10 17 L19 7" fill="none" stroke="#111" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              ) : null}
+            </div>
+            <div style={{ fontFamily: CONDENSED_FONT, fontWeight: 800, fontSize: 25, color: "white", lineHeight: 1 }}>{it.label}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const FULL = { x: 0, y: 0, w: WIDTH, h: HEIGHT };
 
 // The person, cut out of the edit, on top of the illustrations.
@@ -154,7 +219,7 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
@@ -165,6 +230,11 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
           <Card beat={b} frames={f(b.to) - f(b.from)} top={cardTop ?? CARD.top} />
         </Sequence>
       ))}
+      {checklist ? (
+        <Sequence from={f(checklist.from)} durationInFrames={f(checklist.to) - f(checklist.from)} layout="none">
+          <ChecklistCard list={checklist} frames={f(checklist.to) - f(checklist.from)} top={cardTop ?? CARD.top} />
+        </Sequence>
+      ) : null}
       {word ? (
         <Sequence from={f(word.at)} durationInFrames={TEXT_BEHIND_FRAMES} layout="none">
           <RisingWord word={word.text} centerY={word.centerY} />
