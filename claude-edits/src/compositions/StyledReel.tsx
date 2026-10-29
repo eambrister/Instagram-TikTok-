@@ -48,6 +48,8 @@ export type StyledReelProps = {
   // A list video: one card beside his head that ticks each item as he says it (seconds in the edit).
   // Keep illustration beats on the other side while it is up.
   checklist?: { from: number; to: number; side: "left" | "right"; title: string; items: { label: string; at: number }[]; top?: number } | null;
+  // iPhone-style switches side by side on the wall above his head, each flipping on as he says it.
+  toggles?: { from: number; to: number; top: number; items: { label: string; at: number }[] } | null;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -210,6 +212,47 @@ const ChecklistCard: React.FC<{ list: NonNullable<StyledReelProps["checklist"]>;
   );
 };
 
+const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; frames: number }> = ({ spec, frames }) => {
+  const t = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const pop = spring({ frame: t, fps, config: { damping: 13, stiffness: 180, mass: 0.6 } });
+  const out = interpolate(t, [frames - EXIT_FRAMES, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: SAFE_LEFT,
+        width: SAFE_RIGHT - SAFE_LEFT,
+        top: spec.top,
+        boxSizing: "border-box",
+        padding: "18px 10px",
+        borderRadius: 34,
+        backgroundColor: "rgba(255, 255, 255, 0.96)",
+        boxShadow: "0 22px 50px rgba(0, 0, 0, 0.25)",
+        display: "flex",
+        opacity: Math.min(1, pop * 1.5) * out,
+        transform: `translateY(${(1 - pop) * 30}px) scale(${0.85 + 0.15 * pop})`,
+      }}
+    >
+      {spec.items.map((it, i) => {
+        const on = spring({ frame: t - Math.round((it.at - spec.from) * fps), fps, config: { damping: 14, stiffness: 260, mass: 0.5 } });
+        return (
+          <div key={it.label} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
+            borderLeft: i ? "2px solid #E2E2E6" : "none" }}>
+            <div style={{ height: 56, display: "flex", alignItems: "center", textAlign: "center", fontFamily: CONDENSED_FONT,
+              fontWeight: 800, fontSize: 31, lineHeight: 1.0, color: "#111", padding: "0 6px" }}>{it.label}</div>
+            <div style={{ width: 84, height: 48, borderRadius: 24, position: "relative",
+              backgroundColor: on > 0.5 ? "#34C759" : "#E3E3E8", transition: "none" }}>
+              <div style={{ position: "absolute", top: 4, left: 4 + 36 * Math.min(1, on), width: 40, height: 40, borderRadius: 20,
+                backgroundColor: "white", boxShadow: "0 3px 8px rgba(0,0,0,0.25)" }} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const FULL = { x: 0, y: 0, w: WIDTH, h: HEIGHT };
 
 // The person, cut out of the edit, on top of the illustrations.
@@ -219,7 +262,7 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist, toggles }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
@@ -241,6 +284,11 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
         </Sequence>
       ) : null}
       <Person video={video} maskDir={maskDir} />
+      {toggles ? (
+        <Sequence from={f(toggles.from)} durationInFrames={f(toggles.to) - f(toggles.from)} layout="none">
+          <TogglesCard spec={toggles} frames={f(toggles.to) - f(toggles.from)} />
+        </Sequence>
+      ) : null}
       {/* In front of him: it sits on his chest, below the face. */}
       {graph ? (
         <Sequence from={f(graph.at)} durationInFrames={90} layout="none">
