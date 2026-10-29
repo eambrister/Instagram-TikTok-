@@ -12,7 +12,7 @@
   { "from": 33.5, "to": 35.6, "side": "right", "label": "STAY CONSISTENT", "art": "Flame" },
   { "from": 35.67, "to": 40.0, "side": "left", "label": "COMMENT BELOW", "art": "CommentTyping", "artProps": { "word": "STOMACH" } }
  ],
- "word": { "text": "LAST", "at": 21.38, "centerY": 740 },
+ "word": { "text": "LAST", "at": 21.38, "centerY": 778 },
  "cardTop": 760,
  "checklist": {
   "from": 12.2, "to": 21.3, "side": "left", "title": "FAT LEAVES",
