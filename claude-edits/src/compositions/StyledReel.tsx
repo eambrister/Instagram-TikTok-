@@ -231,7 +231,7 @@ const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; fra
         boxShadow: "0 22px 50px rgba(0, 0, 0, 0.25)",
         display: "flex",
         opacity: Math.min(1, pop * 1.5) * out,
-        transform: `translateY(${(1 - pop) * 30}px) scale(${0.85 + 0.15 * pop})`,
+        transform: `translateY(${(1 - pop) * 30}px) scale(${0.85 + 0.15 * Math.min(1, pop)})`,
       }}
     >
       {spec.items.map((it, i) => {
