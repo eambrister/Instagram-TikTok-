@@ -1,0 +1,26 @@
+{
+ "video": "reel/belly-fat.mp4",
+ "maskDir": "reel-mask-belly-fat",
+ "beats": [
+  { "from": 2.8, "to": 6.6, "side": "right", "label": "WHERE FAT LEAVES", "art": "Feather" },
+  { "from": 6.75, "to": 10.1, "side": "left", "label": "SHOWS UP FIRST", "art": "StandOut" },
+  { "from": 10.2, "to": 12.1, "side": "right", "label": "LAST TO LEAVE", "art": "Tomorrow" },
+  { "from": 16.1, "to": 18.85, "side": "right", "label": "YOUR STOMACH", "art": "SquarePeg" },
+  { "from": 18.9, "to": 21.3, "side": "right", "label": "DON'T WORRY", "art": "HeartPulse" },
+  { "from": 24.5, "to": 27.4, "side": "left", "label": "MOST PEOPLE QUIT", "art": "BatteryLow" },
+  { "from": 27.5, "to": 29.1, "side": "right", "label": "THE EVIDENCE", "art": "Lightbulb" },
+  { "from": 33.5, "to": 35.6, "side": "right", "label": "STAY CONSISTENT", "art": "Flame" },
+  { "from": 35.67, "to": 40.0, "side": "left", "label": "COMMENT BELOW", "art": "CommentTyping", "artProps": { "word": "STOMACH" } }
+ ],
+ "word": { "text": "LAST", "at": 21.38, "centerY": 740 },
+ "cardTop": 760,
+ "checklist": {
+  "from": 12.2, "to": 21.3, "side": "left", "title": "FAT LEAVES",
+  "items": [
+   { "label": "FACE", "at": 13.15 },
+   { "label": "ARMS", "at": 14.29 },
+   { "label": "LEGS", "at": 15.45 },
+   { "label": "STOMACH", "at": 999 }
+  ]
+ }
+}
