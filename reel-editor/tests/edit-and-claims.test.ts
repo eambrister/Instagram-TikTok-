@@ -114,3 +114,10 @@ test("a correction can retime a word stretched over a pause", () => {
   assert.equal(r.words[1].start, 56.25);
   assert.equal(r.words[1].text, "4.");
 });
+
+test("a parallel list is not a retake", () => {
+  const w = words("you lose it in your face, you lose it in your arms, you lose it in your legs, but not your stomach.");
+  assert.equal(findRetakes(w).length, 0);
+  const r = words("for a lot of people, fat is where, for a lot of people, the stomach is where fat shows up first.");
+  assert.equal(findRetakes(r).length, 1);
+});

@@ -167,14 +167,16 @@ export async function runJob(o: JobOptions) {
   // No --music: use the house default. "--music none" turns it off.
   let music = o.music ?? style.music.default;
   if (music === "none") music = null;
-  if (music === "original") {
-    music = path.join(jobDir, "music-original.wav");
-    const musicKey = hashOf({ d: plan.duration, seed: sourceSha.slice(0, 6), v: readFileSync(rel("scripts/make_music.py"), "utf8") });
+  // "--music hiphop": the same original composer, in its boom-bap style.
+  if (music === "original" || music === "hiphop") {
+    const mood = music === "hiphop" ? "hiphop" : "discipline";
+    music = path.join(jobDir, `music-${mood}.wav`);
+    const musicKey = hashOf({ d: plan.duration, seed: sourceSha.slice(0, 6), mood, v: readFileSync(rel("scripts/make_music.py"), "utf8") });
     if (!done("music", musicKey) || !existsSync(music)) {
-      await timed("music", () => py("make_music.py", [music!, String(plan.duration + 0.1), "--seed", String(parseInt(sourceSha.slice(0, 6), 16))]));
+      await timed("music", () => py("make_music.py", [music!, String(plan.duration + 0.1), "--seed", String(parseInt(sourceSha.slice(0, 6), 16)), "--mood", mood]));
       mark("music", musicKey);
     }
-    plan.notes.push("music: original instrumental composed by scripts/make_music.py for this video (no third-party audio)");
+    plan.notes.push(`music: original ${mood} instrumental composed by scripts/make_music.py for this video (no third-party audio)`);
   } else if (music) plan.notes.push(`music: ${music} (must be licensed; record it in licensed-media/manifest.json)`);
   const audioKey = hashOf({ segs: plan.segments.map((s) => [s.srcStart, s.srcEnd]), a: style.audio, music, musicV: music ? readFileSync(music).length : 0, ingestKey });
   const audioFinal = path.join(jobDir, "audio-final.wav");

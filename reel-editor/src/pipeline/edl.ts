@@ -63,6 +63,11 @@ export function findRetakes(words: Word[], minWords = 5, window = 30): Cut[] {
     for (let j = i + minWords; j + minWords <= words.length && words[j].start - words[i].start <= window; j++) {
       let k = 0;
       while (j + k < words.length && i + k < j && t[i + k] && t[i + k] === t[j + k]) k++;
+      // A parallel list ("you lose it in your face, you lose it in your arms,") is not a retake: each item
+      // differs only in its last word and ends on a pause.
+      const item = /[,.!?;]$/;
+      const parallel = j - i === k + 1 && item.test(words[i + k].text) && j + k < words.length && item.test(words[j + k].text);
+      if (k >= minWords && parallel) break;
       if (k >= minWords) {
         cuts.push({ start: words[i].start, end: words[j].start,
           reason: `retake: "${words.slice(i, Math.min(j, i + 8)).map((w) => w.text).join(" ")}…" said again at ${words[j].start.toFixed(1)}s, kept the later take` });
