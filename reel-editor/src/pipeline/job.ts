@@ -167,9 +167,9 @@ export async function runJob(o: JobOptions) {
   // No --music: use the house default. "--music none" turns it off.
   let music = o.music ?? style.music.default;
   if (music === "none") music = null;
-  // "--music hiphop": the same original composer, in its boom-bap style.
-  if (music === "original" || music === "hiphop") {
-    const mood = music === "hiphop" ? "hiphop" : "discipline";
+  // "--music hiphop" / "--music spooky": the same original composer, in its boom-bap style (spooky = Halloween).
+  if (music === "original" || music === "hiphop" || music === "spooky") {
+    const mood = music === "original" ? "discipline" : music;
     music = path.join(jobDir, `music-${mood}.wav`);
     const musicKey = hashOf({ d: plan.duration, seed: sourceSha.slice(0, 6), mood, v: readFileSync(rel("scripts/make_music.py"), "utf8") });
     if (!done("music", musicKey) || !existsSync(music)) {

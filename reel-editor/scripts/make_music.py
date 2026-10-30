@@ -1,9 +1,10 @@
 """Original instrumental bed, synthesised from scratch (no samples, no third-party audio).
 
-Usage: python -I make_music.py <out.wav> <seconds> [--bpm 84] [--seed 1] [--mood discipline|calm|hiphop]
+Usage: python -I make_music.py <out.wav> <seconds> [--bpm 84] [--seed 1] [--mood discipline|calm|hiphop|spooky]
 
 --mood hiphop: a boom-bap beat (kick, snare, soft swung hats), electric-piano minor 7ths and an 808-style
-bass, at 88 BPM unless --bpm is given.
+bass, at 88 BPM unless --bpm is given. --mood spooky: the same beat in A harmonic minor with a diminished chord,
+a sparse music-box bell motif and a faint theremin-style glide (Halloween).
 
 Designed to sit under speech: energy is kept below ~2 kHz (voice clarity band left open), no vocals,
 no busy hi-hats, slow attacks. Deterministic for a given seed.
@@ -40,7 +41,7 @@ def highpass(x: np.ndarray, cutoff: float) -> np.ndarray:
     return np.fft.irfft(spec * (gain[:, None] if x.ndim > 1 else gain), n=x.shape[0], axis=0)
 
 
-def hiphop(seconds: float, bpm: float, rng: np.random.Generator) -> np.ndarray:
+def hiphop(seconds: float, bpm: float, rng: np.random.Generator, spooky: bool = False) -> np.ndarray:
     """Boom-bap bed: drums carry the groove; keys and bass stay under 2 kHz, hats sit quietly above the voice."""
     beat = 60 / bpm
     bar = 4 * beat
@@ -52,6 +53,8 @@ def hiphop(seconds: float, bpm: float, rng: np.random.Generator) -> np.ndarray:
 
     # Electric piano: minor 7th voicings, two hits per bar (1 and the "and" of 2), soft bell tone.
     chords = [["A", "C", "E", "G"], ["F", "A", "C", "E"], ["D", "F", "A", "C"], ["E", "G", "B", "D"]]
+    if spooky:  # A harmonic minor: Am, Bdim, F, E (major, with the raised G#)
+        chords = [["A", "C", "E", "A"], ["B", "D", "F", "G#"], ["F", "A", "C", "E"], ["E", "G#", "B", "D"]]
     for b in range(int(np.ceil(total / bar)) + 1):
         for off, g in ((0.0, 1.0), (beat * 1.5 + swing, 0.6)):
             s0 = b * bar + off
@@ -101,7 +104,7 @@ def hiphop(seconds: float, bpm: float, rng: np.random.Generator) -> np.ndarray:
     hats = highpass(hats, 7000)
 
     # 808-style bass on the kicks, gliding root per bar.
-    roots = ["A", "F", "D", "E"]
+    roots = ["A", "B", "F", "E"] if spooky else ["A", "F", "D", "E"]
     bass = np.zeros(n)
     for i in range(int(total / bar) + 1):
         f = hz(roots[i % len(roots)], 1)
@@ -116,6 +119,33 @@ def hiphop(seconds: float, bpm: float, rng: np.random.Generator) -> np.ndarray:
     out += (drums + bass)[:, None]
     out[:, 0] += hats * 0.9
     out[:, 1] += np.roll(hats, 240)
+    if spooky:
+        # Music-box bell: a four-note minor motif every second bar, high and quiet, long decay.
+        motif = [("A", 5), ("C", 6), ("E", 6), ("D#", 6)]
+        for b in range(0, int(total / bar) + 1, 2):
+            for k, (note, octv) in enumerate(motif):
+                s0 = b * bar + k * beat * 0.5
+                i0, i1 = int(s0 * SR), min(n, int((s0 + 1.6) * SR))
+                if i0 >= n:
+                    continue
+                tt = t[i0:i1] - s0
+                f = hz(note, octv)
+                v = (np.sin(2 * np.pi * f * tt) + 0.3 * np.sin(2 * np.pi * 2.76 * f * tt) * np.exp(-tt / 0.2)) * np.exp(-tt / 0.6) * 0.035
+                out[i0:i1, 0] += v * (0.7 if k % 2 else 0.3)
+                out[i0:i1, 1] += v * (0.3 if k % 2 else 0.7)
+        # Theremin-style glide: a soft sine with slow vibrato, sliding between chord tones each bar.
+        glide = np.zeros(n)
+        for b in range(int(total / bar) + 1):
+            i0, i1 = int(b * bar * SR), min(n, int((b + 1) * bar * SR))
+            if i0 >= n:
+                continue
+            tt = t[i0:i1] - b * bar
+            f0, f1 = hz(chords[b % 4][0], 4), hz(chords[(b + 1) % 4][1], 4)
+            f = f0 + (f1 - f0) * np.clip((tt - bar * 0.6) / (bar * 0.4), 0, 1)
+            f = f * (1 + 0.012 * np.sin(2 * np.pi * 5.5 * tt))
+            ph = 2 * np.pi * np.cumsum(f) / SR
+            glide[i0:i1] += np.sin(ph) * np.clip(tt / 0.4, 0, 1) * np.clip((bar - tt) / 0.4, 0, 1) * 0.03
+        out += np.stack([glide, np.roll(glide, 480)], axis=1)
     return out
 
 
@@ -128,8 +158,8 @@ def main() -> None:
     ap.add_argument("--mood", default="discipline")
     a = ap.parse_args()
     rng = np.random.default_rng(a.seed)
-    if a.mood == "hiphop":
-        finish(hiphop(a.seconds, a.bpm or 88, rng), a.seconds, a.out)
+    if a.mood in ("hiphop", "spooky"):
+        finish(hiphop(a.seconds, a.bpm or (84 if a.mood == "spooky" else 88), rng, spooky=a.mood == "spooky"), a.seconds, a.out)
         return
     a.bpm = a.bpm or 84
     chords, roots = MOODS[a.mood]
