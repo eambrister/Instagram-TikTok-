@@ -87,6 +87,7 @@ const ART: Record<string, React.FC<any>> = {
   EmptyPlate: Art.EmptyPlate,
   Fridge: Art.Fridge,
   Apple: Art.Apple,
+  Pumpkin: Art.Pumpkin,
 };
 
 // Beside his head (about x = 330-760 at this height), so nothing on the card is hidden behind him.

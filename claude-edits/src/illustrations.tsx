@@ -521,3 +521,20 @@ export const Apple: React.FC<{ t: number }> = ({ t }) => {
     </Svg>
   );
 };
+
+// "Halloween is today": a jack-o'-lantern whose face lights up.
+export const Pumpkin: React.FC<{ t: number }> = ({ t }) => {
+  const glow = interpolate(t, [8, 18], [0, 1], { ...clamp, easing: ease });
+  const flicker = 0.85 + 0.15 * Math.sin(t / 2.3);
+  return (
+    <Svg>
+      <path d="M100 58 C60 50 26 74 28 116 C30 158 64 180 100 176 C136 180 170 158 172 116 C174 74 140 50 100 58 Z" {...line} />
+      <path d="M100 58 C86 80 86 156 100 176 M100 58 C114 80 114 156 100 176" {...line} strokeWidth={6} />
+      <path d="M100 58 Q98 40 110 28" {...line} />
+      <g opacity={glow * flicker}>
+        <path d="M58 104 L76 90 L84 112 Z M142 104 L124 90 L116 112 Z" fill={ACCENT} />
+        <path d="M60 134 Q100 160 140 134 L128 136 L120 146 L110 138 L100 148 L90 138 L80 146 L72 136 Z" fill={ACCENT} />
+      </g>
+    </Svg>
+  );
+};

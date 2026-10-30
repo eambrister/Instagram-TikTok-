@@ -1,0 +1,32 @@
+{
+ "video": "reel/halloween.mp4",
+ "maskDir": "reel-mask-halloween",
+ "beats": [
+  { "from": 0.2, "to": 2.0, "side": "left", "label": "HALLOWEEN", "art": "Pumpkin" },
+  { "from": 2.02, "to": 4.0, "side": "right", "label": "NEW YEAR'S", "art": "Tomorrow" },
+  { "from": 7.2, "to": 9.4, "side": "left", "label": "ONE HOLIDAY MEAL", "art": "PizzaSlice" },
+  { "from": 9.5, "to": 13.1, "side": "right", "label": "NINE-WEEK PERIOD", "art": "StreakCalendar" },
+  { "from": 23.6, "to": 26.8, "side": "right", "label": "EVERY SINGLE YEAR", "art": "MondayLoop" },
+  { "from": 26.87, "to": 28.4, "side": "left", "label": "ENJOY THE HOLIDAYS", "art": "HeartPulse" },
+  { "from": 28.45, "to": 30.7, "side": "right", "label": "YOUR STANDARDS", "art": "PromiseKept" },
+  { "from": 36.86, "to": 42.6, "side": "left", "label": "LOCKING IN?", "art": "CommentTyping", "artProps": { "word": "LOCKED IN" } }
+ ],
+ "word": { "text": "9 WEEKS", "at": 4.1, "centerY": 700 },
+ "cardTop": 760,
+ "checklist": {
+  "from": 13.2, "to": 21.3, "side": "left", "title": "THE HOLIDAYS",
+  "items": [
+   { "label": "OCT - CANDY", "at": 13.6 },
+   { "label": "NOV - PLATES", "at": 16.6 },
+   { "label": "DEC - PARTIES", "at": 18.8 }
+  ]
+ },
+ "toggles": {
+  "from": 30.79, "to": 35.9, "top": 505,
+  "items": [
+   { "label": "EAT CHRISTMAS HAM", "at": 31.6 },
+   { "label": "TRACK IT", "at": 33.0 },
+   { "label": "STAY IN YOUR DEFICIT", "at": 34.3 }
+  ]
+ }
+}
