@@ -1,0 +1,215 @@
+"""Build the seven typographic Monumental carousels for 2–8 November 2026.
+
+Usage: python3 tools/build_monumental_week_2026_11_02.py
+Writes outputs/edison-ambrister-2026-11-0N-<slug>/ for each day.
+"""
+from monumental_type import ROOT, copy_text, render_carousel
+
+WEEK = {}
+
+WEEK["2026-11-02-not-a-straight-line"] = ("Fat loss isn't a straight line", [
+    {"type": "hook", "slug": "hook", "eyebrow": "THE STANDARD",
+     "bone": ["YOU'RE NOT", "STUCK."], "gold": ["YOU'RE IN", "THE MIDDLE."],
+     "body": "Why fat loss feels like it stopped working, and what to do when it does."},
+    {"type": "chart", "slug": "expectation-vs-reality", "eyebrow": "EXPECTATION VS REALITY",
+     "head": ["PROGRESS", "ZIGZAGS."],
+     "body": "Up days, flat weeks, sudden drops. The direction over weeks matters more than any single morning."},
+    {"type": "point", "slug": "water", "eyebrow": "WHY IT ZIGZAGS", "numeral": "01",
+     "head": ["WATER MOVES", "FASTER THAN FAT."],
+     "body": "Salt, carbs, stress, sleep and a hard training day can all move the scale overnight. None of that is fat."},
+    {"type": "point", "slug": "flat-weeks", "eyebrow": "WHY IT STALLS", "numeral": "02",
+     "head": ["FLAT WEEKS", "ARE NORMAL."],
+     "body": "Fat can keep coming off while water hides it on the scale. Stay consistent and the trend usually shows up."},
+    {"type": "listing", "slug": "track-these", "eyebrow": "WHAT TO WATCH",
+     "head": ["TRACK THESE", "INSTEAD."],
+     "items": ["WEEKLY AVERAGE WEIGHT", "WAIST MEASUREMENT", "PHOTOS EVERY 2–4 WEEKS", "STRENGTH IN THE GYM"]},
+    {"type": "point", "slug": "when-to-adjust", "eyebrow": "WHEN TO ADJUST", "numeral": "03",
+     "head": ["DON'T CHANGE THE", "PLAN EVERY WEEK."],
+     "body": "If your weekly average and your waist haven't moved in 2–3 weeks, make one small change: a little less food or more daily steps. Not before.",
+     "hi": 120},
+    {"type": "statement", "slug": "climax", "bone": ["THE PEOPLE WHO GET THERE"],
+     "gold": ["KEPT GOING", "THROUGH THE", "FLAT WEEKS."]},
+    {"type": "close", "slug": "close", "eyebrow": "SAVE THIS",
+     "bone": ["FOR THE"], "gold": ["FLAT WEEK."],
+     "body": "You'll need it more then than you do today."},
+])
+
+WEEK["2026-11-03-hand-method"] = ("The hand method: portions without a scale", [
+    {"type": "hook", "slug": "hook", "eyebrow": "EDISON EATS",
+     "bone": ["NO FOOD", "SCALE?"], "gold": ["USE YOUR", "HAND."],
+     "body": "A simple way to portion a fat-loss plate anywhere: at home, at work or eating out."},
+    {"type": "listing", "slug": "the-plate", "eyebrow": "THE PLATE",
+     "head": ["YOUR HAND IS", "YOUR SCALE."],
+     "items": ["PALM = PROTEIN", "FIST = VEGETABLES", "CUPPED HAND = CARBS", "THUMB = FATS"],
+     "body": "It goes everywhere with you, and it scales to your size."},
+    {"type": "point", "slug": "protein", "eyebrow": "PROTEIN", "numeral": "01",
+     "head": ["1–2 PALMS", "OF PROTEIN."],
+     "body": "Chicken, fish, lean beef, eggs or tuna. A palm is the size and thickness of your palm. Start every plate here."},
+    {"type": "point", "slug": "vegetables", "eyebrow": "VEGETABLES", "numeral": "02",
+     "head": ["1–2 FISTS", "OF VEGETABLES."],
+     "body": "Volume that fills you up for very few calories. Fresh or frozen, any vegetable counts."},
+    {"type": "point", "slug": "carbs", "eyebrow": "CARBS", "numeral": "03",
+     "head": ["1–2 CUPPED", "HANDS OF CARBS."],
+     "body": "Rice, potatoes, oats or fruit. Go up on hard training days. Go down if your progress stalls for 2–3 weeks."},
+    {"type": "point", "slug": "fats", "eyebrow": "FATS", "numeral": "04",
+     "head": ["1–2 THUMBS", "OF FATS."],
+     "body": "Oil, butter, nuts, cheese and sauces. Small amounts carry a lot of calories, so this is the one to watch."},
+    {"type": "statement", "slug": "climax", "bone": ["THE BEST PORTION SYSTEM"],
+     "gold": ["IS THE ONE", "YOU'LL USE."],
+     "body": "Use the lower end of each range to start. Adjust based on your weekly trend."},
+    {"type": "close", "slug": "close", "eyebrow": "SAVE THIS",
+     "bone": ["FOR YOUR", "NEXT"], "gold": ["MEAL."],
+     "body": "Build your next plate with it. Then build the same plate again tomorrow."},
+])
+
+WEEK["2026-11-04-non-negotiables"] = ("The non-negotiables", [
+    {"type": "hook", "slug": "hook", "eyebrow": "THE STANDARD",
+     "bone": ["FIT PEOPLE", "AREN'T MORE", "MOTIVATED."], "gold": ["THEY HAVE", "RULES."],
+     "body": "6 non-negotiables they keep on good days and bad ones."},
+    {"type": "point", "slug": "protein", "eyebrow": "NON-NEGOTIABLE 01", "numeral": "01",
+     "head": ["PROTEIN AT", "EVERY MEAL."],
+     "body": "It keeps you full longer and helps you keep muscle while you lose fat. Put the protein on the plate first, then build around it."},
+    {"type": "point", "slug": "scheduled-training", "eyebrow": "NON-NEGOTIABLE 02", "numeral": "02",
+     "head": ["TRAINING IS", "SCHEDULED."],
+     "body": "It goes in the calendar like an appointment. If it isn't scheduled, it's a wish."},
+    {"type": "point", "slug": "minimum-day", "eyebrow": "NON-NEGOTIABLE 03", "numeral": "03",
+     "head": ["A MINIMUM", "FOR BAD DAYS."],
+     "body": "A short workout. Your protein. Your steps. A bad day shrinks the plan. It doesn't cancel it."},
+    {"type": "point", "slug": "never-miss-twice", "eyebrow": "NON-NEGOTIABLE 04", "numeral": "04",
+     "head": ["NEVER", "MISS TWICE."],
+     "body": "One missed day is life. Two in a row is the start of a new habit. The day after a miss matters most."},
+    {"type": "point", "slug": "sleep", "eyebrow": "NON-NEGOTIABLE 05", "numeral": "05",
+     "head": ["SLEEP IS PART", "OF THE PLAN."],
+     "body": "Short sleep makes hunger harder to manage and training harder to recover from. Keep a consistent bedtime."},
+    {"type": "point", "slug": "track", "eyebrow": "NON-NEGOTIABLE 06", "numeral": "06",
+     "head": ["THEY TRACK", "SOMETHING."],
+     "body": "Food, workouts, steps or the weekly weight trend. What gets written down gets noticed, and what gets noticed gets fixed."},
+    {"type": "close", "slug": "close",
+     "bone": ["WHICH ONE", "ARE YOU"], "gold": ["MISSING?"],
+     "body": "Comment the number. Then make it non-negotiable this week."},
+])
+
+WEEK["2026-11-05-eating-out"] = ("How to eat out without losing the week", [
+    {"type": "hook", "slug": "hook", "eyebrow": "EDISON EATS",
+     "bone": ["EATING OUT", "ISN'T THE", "PROBLEM."], "gold": ["NO PLAN IS."],
+     "body": "5 rules for restaurants, takeaway and nights out, without skipping the fun."},
+    {"type": "point", "slug": "decide-first", "eyebrow": "RULE 01", "numeral": "01",
+     "head": ["DECIDE BEFORE", "YOU ARRIVE."],
+     "body": "Look at the menu ahead of time and pick your order while you're not hungry."},
+    {"type": "point", "slug": "protein-first", "eyebrow": "RULE 02", "numeral": "02",
+     "head": ["BUILD AROUND", "PROTEIN."],
+     "body": "Grilled chicken, fish, steak or shrimp first. Then add vegetables and one carb."},
+    {"type": "point", "slug": "extras", "eyebrow": "RULE 03", "numeral": "03",
+     "head": ["WATCH THE", "EXTRAS."],
+     "body": "Sauces, dressings, butter and sugary drinks can add hundreds of calories without filling you up. Get sauce on the side and drink water."},
+    {"type": "point", "slug": "one-indulgence", "eyebrow": "RULE 04", "numeral": "04",
+     "head": ["PICK ONE", "INDULGENCE."],
+     "body": "Dessert, a drink or the bread basket. Choose the one you actually want and skip the rest."},
+    {"type": "point", "slug": "stop-satisfied", "eyebrow": "RULE 05", "numeral": "05",
+     "head": ["STOP AT", "SATISFIED."],
+     "body": "Restaurant portions are often bigger than you need. Eat slowly, stop when you're satisfied and take the rest home."},
+    {"type": "statement", "slug": "climax", "bone": ["ONE MEAL OUT NEVER"],
+     "gold": ["RUINED", "ANYONE'S", "PROGRESS."],
+     "body": "Writing off the rest of the week does."},
+    {"type": "close", "slug": "close", "eyebrow": "SAVE THIS",
+     "bone": ["BEFORE YOUR", "NEXT"], "gold": ["NIGHT OUT."],
+     "body": "So you have it at the table."},
+])
+
+WEEK["2026-11-06-simple-not-easy"] = ("Losing weight is simple. It isn't easy.", [
+    {"type": "hook", "slug": "hook", "eyebrow": "EDISON EATS",
+     "bone": ["LOSING WEIGHT", "IS SIMPLE."], "gold": ["IT ISN'T", "EASY."],
+     "body": "The 4 basics, and the 4 real reasons people still don't stick to them."},
+    {"type": "listing", "slug": "the-basics", "eyebrow": "THE SIMPLE PART",
+     "head": ["THE 4", "BASICS."],
+     "items": ["EAT FEWER CALORIES THAN YOU BURN", "HIT YOUR PROTEIN", "TRAIN 3+ DAYS A WEEK", "REPEAT IT FOR MONTHS"],
+     "size": 46},
+    {"type": "point", "slug": "portions", "eyebrow": "REASON 01", "numeral": "01",
+     "head": ["YOU'RE GUESSING", "YOUR PORTIONS."],
+     "body": "It's easy to underestimate what you eat. Weigh and log your food for one week and you'll see where the calories really come from.",
+     "hi": 120},
+    {"type": "point", "slug": "environment", "eyebrow": "REASON 02", "numeral": "02",
+     "head": ["YOUR KITCHEN", "WORKS AGAINST YOU."],
+     "body": "If it's in the house, it gets eaten. Keep protein ready to go and keep the foods you can't moderate out of reach.",
+     "hi": 120},
+    {"type": "point", "slug": "waiting", "eyebrow": "REASON 03", "numeral": "03",
+     "head": ["YOU'RE WAITING", "TO FEEL READY."],
+     "body": "Motivation usually shows up after you start, not before. Begin with the smallest version and let momentum build.",
+     "hi": 120},
+    {"type": "point", "slug": "boring", "eyebrow": "REASON 04", "numeral": "04",
+     "head": ["YOU QUIT WHEN", "IT GETS BORING."],
+     "body": "Results come from repeating ordinary days for months. Boring doesn't mean it isn't working.",
+     "hi": 120},
+    {"type": "statement", "slug": "climax", "bone": ["THE PLAN ISN'T", "THE PROBLEM."],
+     "gold": ["REPEATING", "IT IS."]},
+    {"type": "close", "slug": "close",
+     "bone": ["WHICH ONE IS", "HARDEST"], "gold": ["FOR YOU?"],
+     "body": "Comment 1, 2, 3 or 4. I'll reply with one fix for it."},
+])
+
+WEEK["2026-11-07-20-minute-workout"] = ("20-minute no-equipment workout", [
+    {"type": "hook", "slug": "hook", "eyebrow": "EDISON TRAINS",
+     "bone": ["NO GYM", "THIS WEEKEND?"], "gold": ["NO PROBLEM."],
+     "body": "A 20-minute, no-equipment workout you can do at home. Save it, then do it."},
+    {"type": "listing", "slug": "the-format", "eyebrow": "HOW IT WORKS",
+     "head": ["4 ROUNDS.", "ABOUT 20 MINUTES."],
+     "items": ["40 SECONDS WORK", "20 SECONDS REST", "5 EXERCISES PER ROUND", "30 SECONDS REST BETWEEN ROUNDS"],
+     "body": "Warm up first: 2–3 minutes of marching, arm circles and easy squats."},
+    {"type": "point", "slug": "squats", "eyebrow": "EXERCISE 01", "numeral": "01",
+     "head": ["BODYWEIGHT", "SQUATS."],
+     "body": "Feet shoulder-width, chest up. Sit back and down as far as you can control, then drive up through your heels. Easier: squat to a chair."},
+    {"type": "point", "slug": "push-ups", "eyebrow": "EXERCISE 02", "numeral": "02",
+     "head": ["PUSH-UPS."],
+     "body": "Hands under shoulders, body in one straight line. Lower your chest toward the floor and press back up. Easier: hands on a bench or knees down."},
+    {"type": "point", "slug": "reverse-lunges", "eyebrow": "EXERCISE 03", "numeral": "03",
+     "head": ["REVERSE", "LUNGES."],
+     "body": "Step back and lower until both knees bend to about 90 degrees. Push back up and alternate legs. Easier: hold a wall for balance."},
+    {"type": "point", "slug": "plank", "eyebrow": "EXERCISE 04", "numeral": "04",
+     "head": ["PLANK."],
+     "body": "Forearms under shoulders. Squeeze your glutes and abs and keep your hips level with your shoulders. Easier: knees down."},
+    {"type": "point", "slug": "jumping-jacks", "eyebrow": "EXERCISE 05", "numeral": "05",
+     "head": ["JUMPING", "JACKS."],
+     "body": "Keep a steady pace you can hold for the full 40 seconds. Easier: step jacks, no jumping."},
+    {"type": "close", "slug": "close", "eyebrow": "YOUR TURN",
+     "bone": ["COMMENT"], "gold": ["“DONE.”"],
+     "body": "When you finish all 4 rounds. Stop if anything hurts. Go easier, not harder, the first time."},
+])
+
+WEEK["2026-11-08-plan-for-thursday"] = ("A plan for Thursday", [
+    {"type": "hook", "slug": "hook", "eyebrow": "EXECUTION SYSTEMS",
+     "bone": ["MONDAY, YOU'RE", "MOTIVATED."], "gold": ["THURSDAY", "DECIDES."],
+     "body": "Plan your week tonight, so it survives the day you don't feel like it."},
+    {"type": "statement", "slug": "mood", "bone": ["MOTIVATION IS A MOOD."],
+     "gold": ["A PLAN IS A", "DECISION."],
+     "body": "Motivation is high on Monday and gone by midweek. A plan doesn't depend on how you feel."},
+    {"type": "point", "slug": "training-times", "eyebrow": "STEP 01", "numeral": "01",
+     "head": ["PICK YOUR", "TRAINING TIMES."],
+     "body": "Choose the days and the exact times. Put them in your calendar like appointments you can't move."},
+    {"type": "point", "slug": "meals", "eyebrow": "STEP 02", "numeral": "02",
+     "head": ["DECIDE YOUR", "MEALS NOW."],
+     "body": "Choose 2 or 3 meals you'll repeat this week and shop for them today. Fewer decisions, fewer slips."},
+    {"type": "point", "slug": "minimum-day", "eyebrow": "STEP 03", "numeral": "03",
+     "head": ["SET YOUR", "MINIMUM DAY."],
+     "body": "Decide what still counts on a bad day: a short workout, your protein and your steps."},
+    {"type": "point", "slug": "hard-moment", "eyebrow": "STEP 04", "numeral": "04",
+     "head": ["PLAN THE", "HARD MOMENT."],
+     "body": "Name when you usually fall off: late shifts, Friday night, the weekend. Decide what you'll do instead before it arrives."},
+    {"type": "statement", "slug": "climax", "bone": ["A PLAN WRITTEN ON SUNDAY"],
+     "gold": ["BEATS", "MOTIVATION", "ON MONDAY."]},
+    {"type": "close", "slug": "close", "eyebrow": "SAVE THIS",
+     "bone": ["FOR SUNDAY"], "gold": ["NIGHT."],
+     "body": "Use it to plan your week, every week."},
+])
+
+
+def main():
+    for n, (folder, (title, slides)) in enumerate(WEEK.items()):
+        out = ROOT / "outputs" / f"edison-ambrister-{folder}"
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "copy.txt").write_text(copy_text(title.upper(), slides))
+        render_carousel(out, slides, seed_base=100 * (n + 1))
+        print(folder)
+
+
+if __name__ == "__main__":
+    main()

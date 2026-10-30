@@ -6,6 +6,10 @@ New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.m
 
 A second, optional brand kit, **Monumental** (cinematic and photo-led, with editorial serif headlines), is in [`brand/monumental/`](brand/monumental/README.md). Carousel topic ideas are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
 
+## Week of 2–8 November 2026
+
+Seven typographic carousels, one per day, with schedule and upload bundle in [`outputs/edison-ambrister-week-2026-11-02`](outputs/edison-ambrister-week-2026-11-02).
+
 ## Fat-loss myths that keep you stuck
 
 The first Monumental-kit carousel: eight 1080 × 1350 typographic slides, in [`outputs/edison-ambrister-fat-loss-myths`](outputs/edison-ambrister-fat-loss-myths).
