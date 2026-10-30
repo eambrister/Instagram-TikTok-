@@ -11,8 +11,8 @@
   { "from": 28.45, "to": 30.7, "side": "right", "label": "YOUR STANDARDS", "art": "PromiseKept" },
   { "from": 36.86, "to": 42.6, "side": "left", "label": "LOCKING IN?", "art": "CommentTyping", "artProps": { "word": "LOCKED IN" } }
  ],
- "word": { "text": "9 WEEKS", "at": 4.1, "centerY": 700 },
- "cardTop": 760,
+ "word": { "text": "9 WEEKS", "at": 4.1, "centerY": 786 },
+ "cardTop": 810,
  "checklist": {
   "from": 13.2, "to": 21.3, "side": "left", "title": "THE HOLIDAYS",
   "items": [
