@@ -79,3 +79,11 @@ to have edited "in my saved style". Add other effects or changes only when he as
 4. Run `tools/style_reel.sh <job> <name>` again to render `out/<name>.mp4`. It also runs the safe-zone audit, which must
    report everything inside x = 120 to 960.
 5. Check stills across the whole reel before sending, and send the MP4 plus a contact sheet.
+6. **Posting (after he approves the video): a post-ready kit, not Metricool.** He schedules each post himself in
+   Meta Business Suite (Instagram/Facebook), TikTok Studio (desktop web) and YouTube Studio; his Metricool plan is at
+   its limit. Do not schedule through Metricool unless he asks for it on that video. Commit and push the final MP4,
+   then send him one kit (a file in `out/<name>-post.md`, also pasted in chat) with:
+   - the MP4 download link (raw GitHub URL of `claude-edits/out/<name>-fx.mp4`, or `<name>.mp4` if no pack effects);
+   - the caption to paste (his own words, ending with his call to action and `#discipline #consistency`);
+   - the TikTok title, the YouTube Shorts title, category Sports, not made for kids, AI label off;
+   - the cover frame (which second) and the suggested day and time (Toronto), avoiding slots he already uses.
