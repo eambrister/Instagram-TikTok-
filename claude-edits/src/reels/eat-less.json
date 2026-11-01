@@ -2,39 +2,194 @@
  "video": "reel/eat-less.mp4",
  "maskDir": "reel-mask-eat-less",
  "beats": [
-  { "from": 0.2, "to": 3.9, "side": "left", "label": "EAT LESS", "art": "EmptyPlate" },
-  { "from": 4.6, "to": 7.9, "side": "right", "label": "NO ONE EVER WANTS", "art": "Lightning" },
-  { "from": 8.0, "to": 11.8, "side": "left", "label": "STOP EATING SO MUCH", "art": "PizzaSlice" },
-  { "from": 11.9, "to": 17.1, "side": "right", "label": "FIVE, SIX DAYS A WEEK", "art": "Dumbbell" },
-  { "from": 17.2, "to": 21.5, "side": "left", "label": "MORE THAN YOU BURN", "art": "Flame" },
-  { "from": 21.6, "to": 23.7, "side": "right", "label": "WASTING YOUR TIME", "art": "AlarmClock" },
-  { "from": 24.2, "to": 27.9, "side": "left", "label": "EATING LESS", "art": "EmptyPlate" },
-  { "from": 29.8, "to": 33.9, "side": "right", "label": "PORTION SIZING", "art": "Target" },
-  { "from": 34.2, "to": 36.1, "side": "left", "label": "HITTING YOUR MACROS", "art": "FoodLog" },
-  { "from": 36.2, "to": 41.5, "side": "right", "label": "NOT STARVING", "art": "Feather" },
-  { "from": 42.4, "to": 49.3, "side": "left", "label": "FOR TWO, THREE PEOPLE", "art": "PizzaSlice" },
-  { "from": 49.4, "to": 51.3, "side": "right", "label": "JUST EAT ENOUGH", "art": "PromiseKept" },
-  { "from": 51.4, "to": 56.1, "side": "left", "label": "TO THE RIM", "art": "RiceBowl" },
-  { "from": 56.2, "to": 58.2, "side": "right", "label": "BE CAREFUL", "art": "Lightning" },
-  { "from": 63.9, "to": 68.1, "side": "left", "label": "ACTUAL WHOLE FOODS", "art": "Apple" },
-  { "from": 68.2, "to": 73.3, "side": "right", "label": "ALL DAY", "art": "AlarmClock" },
-  { "from": 73.4, "to": 76.4, "side": "left", "label": "PUT WEIGHT ON YOU", "art": "Dumbbell" },
-  { "from": 76.5, "to": 79.4, "side": "right", "label": "STOP EATING SO MUCH", "art": "EmptyPlate" },
-  { "from": 79.5, "to": 83.0, "side": "left", "label": "GET HUNGRY", "art": "BatteryLow" },
-  { "from": 83.1, "to": 86.9, "side": "right", "label": "INCREASE WATER INTAKE", "art": "WaterGlass" },
-  { "from": 87.0, "to": 91.6, "side": "left", "label": "ALLOTTED TO EAT", "art": "AlarmClock" },
-  { "from": 91.7, "to": 93.3, "side": "right", "label": "FEEL HUNGRY", "art": "BatteryLow" },
-  { "from": 93.4, "to": 98.5, "side": "left", "label": "A CUP OF WATER", "art": "WaterGlass" }
+  {
+   "from": 0.2,
+   "to": 3.9,
+   "side": "left",
+   "label": "EAT LESS",
+   "art": "EmptyPlate"
+  },
+  {
+   "from": 4.6,
+   "to": 7.9,
+   "side": "right",
+   "label": "NO ONE EVER WANTS",
+   "art": "Lightning"
+  },
+  {
+   "from": 8.0,
+   "to": 11.8,
+   "side": "left",
+   "label": "STOP EATING SO MUCH",
+   "art": "PizzaSlice"
+  },
+  {
+   "from": 11.9,
+   "to": 17.1,
+   "side": "right",
+   "label": "FIVE, SIX DAYS A WEEK",
+   "art": "Dumbbell"
+  },
+  {
+   "from": 17.2,
+   "to": 21.5,
+   "side": "left",
+   "label": "MORE THAN YOU BURN",
+   "art": "Flame"
+  },
+  {
+   "from": 21.6,
+   "to": 23.7,
+   "side": "right",
+   "label": "WASTING YOUR TIME",
+   "art": "AlarmClock"
+  },
+  {
+   "from": 24.2,
+   "to": 27.9,
+   "side": "left",
+   "label": "EATING LESS",
+   "art": "EmptyPlate"
+  },
+  {
+   "from": 29.8,
+   "to": 33.9,
+   "side": "left",
+   "label": "PORTION SIZING",
+   "art": "Target"
+  },
+  {
+   "from": 34.2,
+   "to": 36.1,
+   "side": "right",
+   "label": "HITTING YOUR MACROS",
+   "art": "FoodLog"
+  },
+  {
+   "from": 36.2,
+   "to": 41.5,
+   "side": "right",
+   "label": "NOT STARVING",
+   "art": "Feather"
+  },
+  {
+   "from": 42.4,
+   "to": 49.3,
+   "side": "left",
+   "label": "FOR TWO, THREE PEOPLE",
+   "art": "PizzaSlice"
+  },
+  {
+   "from": 49.4,
+   "to": 51.3,
+   "side": "right",
+   "label": "JUST EAT ENOUGH",
+   "art": "PromiseKept"
+  },
+  {
+   "from": 51.4,
+   "to": 56.1,
+   "side": "left",
+   "label": "TO THE RIM",
+   "art": "RiceBowl"
+  },
+  {
+   "from": 56.2,
+   "to": 58.2,
+   "side": "right",
+   "label": "BE CAREFUL",
+   "art": "Lightning"
+  },
+  {
+   "from": 63.9,
+   "to": 68.1,
+   "side": "left",
+   "label": "ACTUAL WHOLE FOODS",
+   "art": "Apple"
+  },
+  {
+   "from": 68.2,
+   "to": 73.3,
+   "side": "right",
+   "label": "ALL DAY",
+   "art": "AlarmClock"
+  },
+  {
+   "from": 73.4,
+   "to": 76.4,
+   "side": "left",
+   "label": "PUT WEIGHT ON YOU",
+   "art": "Dumbbell"
+  },
+  {
+   "from": 76.5,
+   "to": 79.4,
+   "side": "right",
+   "label": "STOP EATING SO MUCH",
+   "art": "EmptyPlate"
+  },
+  {
+   "from": 79.5,
+   "to": 83.0,
+   "side": "left",
+   "label": "GET HUNGRY",
+   "art": "BatteryLow"
+  },
+  {
+   "from": 83.1,
+   "to": 86.9,
+   "side": "right",
+   "label": "INCREASE WATER INTAKE",
+   "art": "WaterGlass"
+  },
+  {
+   "from": 87.0,
+   "to": 91.6,
+   "side": "left",
+   "label": "ALLOTTED TO EAT",
+   "art": "AlarmClock"
+  },
+  {
+   "from": 91.7,
+   "to": 93.3,
+   "side": "right",
+   "label": "FEEL HUNGRY",
+   "art": "BatteryLow"
+  },
+  {
+   "from": 93.4,
+   "to": 98.5,
+   "side": "left",
+   "label": "A CUP OF WATER",
+   "art": "WaterGlass"
+  }
  ],
  "word": null,
  "cardTop": 460,
- "stamp": { "from": 28.0, "to": 29.75, "text": "STARVING", "top": 1330 },
+ "stamp": {
+  "from": 28.0,
+  "to": 29.75,
+  "text": "STARVING",
+  "top": 540
+ },
  "checklist": {
-  "from": 58.3, "to": 68.1, "side": "right", "title": "STOP DRINKING",
+  "from": 58.3,
+  "to": 68.1,
+  "side": "right",
+  "title": "STOP DRINKING",
   "items": [
-   { "label": "JUICES", "at": 60.8 },
-   { "label": "SODAS", "at": 61.5 },
-   { "label": "ALCOHOL", "at": 62.3 }
+   {
+    "label": "JUICES",
+    "at": 60.8
+   },
+   {
+    "label": "SODAS",
+    "at": 61.5
+   },
+   {
+    "label": "ALCOHOL",
+    "at": 62.3
+   }
   ]
  }
 }
