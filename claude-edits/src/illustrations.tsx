@@ -583,3 +583,20 @@ export const WaterGlass: React.FC<{ t: number }> = ({ t }) => {
     </Svg>
   );
 };
+
+// "I like sugar": two sugar cubes, one dropping in with a sparkle.
+export const SugarCubes: React.FC<{ t: number }> = ({ t }) => {
+  const drop = interpolate(t, [2, 14], [-70, 0], { ...clamp, easing: Easing.out(Easing.bounce) });
+  const spark = interpolate(t, [14, 22], [0, 1], { ...clamp, easing: Easing.out(Easing.back(2)) });
+  return (
+    <Svg>
+      <path d="M30 120 L80 100 L130 120 L80 140 Z M30 120 V168 L80 188 V140 M130 120 V168 L80 188" {...line} />
+      <g style={{ transform: `translateY(${drop}px)` }}>
+        <path d="M86 62 L126 46 L166 62 L126 78 Z" {...line} fill={ACCENT} />
+        <path d="M86 62 V100 L126 116 V78 M166 62 V100 L126 116" {...line} />
+      </g>
+      <path d="M50 52 V76 M38 64 H62" {...accentLine} strokeWidth={6}
+        style={{ transformOrigin: "50px 64px", transform: `scale(${spark})` }} />
+    </Svg>
+  );
+};

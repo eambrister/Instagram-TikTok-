@@ -50,13 +50,15 @@ export type StyledReelProps = {
   // Keep illustration beats on the other side while it is up.
   checklist?: { from: number; to: number; side: "left" | "right"; title: string; items: { label: string; at: number }[]; top?: number } | null;
   // iPhone-style switches side by side on the wall above his head, each flipping on as he says it.
-  toggles?: { from: number; to: number; top: number; items: { label: string; at: number }[] } | null;
+  toggles?: { from: number; to: number; top: number; items: { label: string; at: number; offAt?: number }[] } | null;
   // A red reject stamp that slams on in front of him (full-frame shots, where the pack's stamp would hide behind him).
-  stamp?: { from: number; to: number; text: string; top: number } | null;
+  stamp?: StampSpec | StampSpec[] | null;
   // A live tier board beside his head: each exercise drops into its row as he ranks it.
   tiers?: { from: number; to: number; side: "left" | "right"; top: number; title?: string;
     rows: { tier: string; items: { label: string; at: number }[] }[] } | null;
 };
+// text may hold "\n" for a two-line stamp.
+type StampSpec = { from: number; to: number; text: string; top: number };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
 // Illustrations by name (src/illustrations.tsx). Add new ones there and here.
@@ -97,6 +99,7 @@ const ART: Record<string, React.FC<any>> = {
   RiceBowl: Art.RiceBowl,
   Bread: Art.Bread,
   WaterGlass: Art.WaterGlass,
+  SugarCubes: Art.SugarCubes,
 };
 
 // Beside his head (about x = 330-760 at this height), so nothing on the card is hidden behind him.
@@ -316,7 +319,9 @@ const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; fra
       }}
     >
       {spec.items.map((it, i) => {
-        const on = spring({ frame: t - Math.round((it.at - spec.from) * fps), fps, config: { damping: 14, stiffness: 260, mass: 0.5 } });
+        const cfg = { damping: 14, stiffness: 260, mass: 0.5 };
+        const on = spring({ frame: t - Math.round((it.at - spec.from) * fps), fps, config: cfg }) -
+          (it.offAt === undefined ? 0 : spring({ frame: t - Math.round((it.offAt - spec.from) * fps), fps, config: cfg }));
         return (
           <div key={it.label} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
             borderLeft: i ? "2px solid #E2E2E6" : "none" }}>
@@ -324,7 +329,7 @@ const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; fra
               fontWeight: 800, fontSize: 31, lineHeight: 1.0, color: "#111", padding: "0 6px" }}>{it.label}</div>
             <div style={{ width: 84, height: 48, borderRadius: 24, position: "relative",
               backgroundColor: on > 0.5 ? "#34C759" : "#E3E3E8", transition: "none" }}>
-              <div style={{ position: "absolute", top: 4, left: 4 + 36 * Math.min(1, on), width: 40, height: 40, borderRadius: 20,
+              <div style={{ position: "absolute", top: 4, left: 4 + 36 * Math.max(0, Math.min(1, on)), width: 40, height: 40, borderRadius: 20,
                 backgroundColor: "white", boxShadow: "0 3px 8px rgba(0,0,0,0.25)" }} />
             </div>
           </div>
@@ -334,20 +339,21 @@ const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; fra
   );
 };
 
-const StampCard: React.FC<{ spec: NonNullable<StyledReelProps["stamp"]>; frames: number }> = ({ spec, frames }) => {
+const StampCard: React.FC<{ spec: StampSpec; frames: number }> = ({ spec, frames }) => {
   const t = useCurrentFrame();
   const { fps } = useVideoConfig();
   const k = interpolate(t, [0, 5], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.quad) });
   const out = interpolate(t, [frames - EXIT_FRAMES, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const shake = t > 5 && t < 12 ? Math.sin(t * 9) * (12 - t) * 0.8 : 0;
   const red = "#D62828";
+  const longest = Math.max(...spec.text.split("\n").map((l) => l.length));
   return (
     <div style={{ position: "absolute", left: SAFE_LEFT, width: SAFE_RIGHT - SAFE_LEFT, top: spec.top, display: "flex", justifyContent: "center",
       opacity: Math.min(1, k * 1.4) * out }}>
       <div style={{ transform: `translate(${shake}px, ${shake * 0.5}px) rotate(-10deg) scale(${1.5 - 0.5 * k})`,
         border: `10px solid ${red}`, borderRadius: 18, padding: "10px 34px", color: red, fontFamily: DISPLAY_FONT,
-        fontWeight: 900, fontSize: spec.text.length <= 5 ? 150 : 92, letterSpacing: 4, lineHeight: 1, background: "rgba(255,255,255,0.12)",
-        textShadow: "0 2px 0 rgba(0,0,0,0.15)", whiteSpace: "nowrap" }}>
+        fontWeight: 900, fontSize: longest <= 5 ? 150 : longest <= 10 ? 92 : 68, letterSpacing: 4, lineHeight: 1.05,
+        background: "rgba(255,255,255,0.12)", textShadow: "0 2px 0 rgba(0,0,0,0.15)", whiteSpace: "pre", textAlign: "center" }}>
         {spec.text}
       </div>
     </div>
@@ -390,11 +396,11 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
         </Sequence>
       ) : null}
       <Person video={video} maskDir={maskDir} />
-      {stamp ? (
-        <Sequence from={f(stamp.from)} durationInFrames={f(stamp.to) - f(stamp.from)} layout="none">
-          <StampCard spec={stamp} frames={f(stamp.to) - f(stamp.from)} />
+      {(stamp ? (Array.isArray(stamp) ? stamp : [stamp]) : []).map((st) => (
+        <Sequence key={`stamp-${st.from}`} from={f(st.from)} durationInFrames={f(st.to) - f(st.from)} layout="none">
+          <StampCard spec={st} frames={f(st.to) - f(st.from)} />
         </Sequence>
-      ) : null}
+      ))}
       {toggles ? (
         <Sequence from={f(toggles.from)} durationInFrames={f(toggles.to) - f(toggles.from)} layout="none">
           <TogglesCard spec={toggles} frames={f(toggles.to) - f(toggles.from)} />
