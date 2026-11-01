@@ -82,7 +82,7 @@
     "lra": 11,
     "highpassHz": 70,
     "denoise": "voice",
-    "musicUnderVoiceDb": 10,
+    "musicUnderVoiceDb": 12,
     "fadeMs": 12,
     "compress": "gentle"
   },

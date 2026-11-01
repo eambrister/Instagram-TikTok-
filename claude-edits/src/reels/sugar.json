@@ -2,31 +2,92 @@
  "video": "reel/sugar.mp4",
  "maskDir": "reel-mask-sugar",
  "beats": [
-  { "from": 0.5, "to": 3.7, "side": "left", "label": "GETTING RID OF SUGAR?", "art": "SugarCubes" },
-  { "from": 3.8, "to": 6.9, "side": "right", "label": "I LIKE SUGAR", "art": "HeartPulse" },
-  { "from": 7.7, "to": 11.9, "side": "left", "label": "MY PHYSIQUE", "art": "Dumbbell" },
-  { "from": 13.1, "to": 16.7, "side": "right", "label": "MY OATS", "art": "RiceBowl" },
-  { "from": 16.8, "to": 23.3, "side": "left", "label": "WHAT'S THAT THING CALLED?", "art": "CommentTyping", "artProps": { "word": "STEVIA?" } },
-  { "from": 27.0, "to": 29.9, "side": "left", "label": "A BUNCH OF SUGAR", "art": "SugarCubes" }
+  {
+   "from": 0.5,
+   "to": 3.7,
+   "side": "left",
+   "label": "GETTING RID OF SUGAR?",
+   "art": "SugarCubes"
+  },
+  {
+   "from": 3.8,
+   "to": 6.9,
+   "side": "right",
+   "label": "I LIKE SUGAR",
+   "art": "HeartPulse"
+  },
+  {
+   "from": 7.7,
+   "to": 11.9,
+   "side": "left",
+   "label": "MY PHYSIQUE",
+   "art": "Dumbbell"
+  },
+  {
+   "from": 13.1,
+   "to": 16.7,
+   "side": "right",
+   "label": "MY OATS",
+   "art": "RiceBowl"
+  },
+  {
+   "from": 16.8,
+   "to": 23.3,
+   "side": "left",
+   "label": "WHAT'S THAT THING CALLED?",
+   "art": "CommentTyping",
+   "artProps": {
+    "word": "STEVIA?"
+   }
+  }
  ],
  "word": null,
  "cardTop": 460,
  "stamp": [
-  { "from": 23.4, "to": 25.1, "text": "NO", "top": 1560 },
-  { "from": 42.4, "to": 44.5, "text": "I AIN'T GETTING\nRID OF SUGAR", "top": 1540 }
+  {
+   "from": 23.4,
+   "to": 25.1,
+   "text": "NO",
+   "top": 1560
+  },
+  {
+   "from": 42.4,
+   "to": 44.5,
+   "text": "I AIN'T GETTING\nRID OF SUGAR",
+   "top": 1540
+  }
  ],
  "checklist": {
-  "from": 25.2, "to": 40.0, "side": "right", "title": "MY SUGAR",
+  "from": 25.2,
+  "to": 40.0,
+  "side": "left",
+  "title": "MY SUGAR",
   "items": [
-   { "label": "TRACK THE SUGAR", "at": 25.9 },
-   { "label": "CONTROL MY SUGAR INTAKE", "at": 38.5 }
+   {
+    "label": "TRACK THE SUGAR",
+    "at": 25.9
+   },
+   {
+    "label": "CONTROL MY SUGAR INTAKE",
+    "at": 38.5
+   }
   ]
  },
  "toggles": {
-  "from": 30.0, "to": 36.1, "top": 1560,
+  "from": 30.0,
+  "to": 36.1,
+  "top": 1560,
   "items": [
-   { "label": "STOP EATING THIS", "at": 30.9, "offAt": 33.9 },
-   { "label": "STOP EATING THAT", "at": 32.4, "offAt": 34.1 }
+   {
+    "label": "STOP EATING THIS",
+    "at": 30.9,
+    "offAt": 33.9
+   },
+   {
+    "label": "STOP EATING THAT",
+    "at": 32.4,
+    "offAt": 34.1
+   }
   ]
  }
 }
