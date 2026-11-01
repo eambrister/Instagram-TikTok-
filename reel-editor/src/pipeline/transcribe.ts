@@ -14,6 +14,7 @@ export type Transcript = { engine: string; model: string; language: string; word
 export type Correction = { at: number; from: string; to: string; join?: boolean; start?: number; end?: number };
 // {"keepFrom": 140, "keepTo": 144}: a deliberate repeat in that source range is never cut as a retake.
 export type KeepRange = { keepFrom: number; keepTo: number };
+export type CutRange = { cutFrom: number; cutTo: number };
 
 export async function transcribe(asrWav: string, sourceSha: string, style: HouseStyle): Promise<Transcript> {
   const t = style.transcription;

@@ -564,3 +564,22 @@ export const Bread: React.FC<{ t: number }> = ({ t }) => {
     </Svg>
   );
 };
+
+// "Drink a cup of water": a glass that fills up, with a wave on top.
+export const WaterGlass: React.FC<{ t: number }> = ({ t }) => {
+  const fill = interpolate(t, [4, 26], [0, 1], { ...clamp, easing: ease });
+  const level = 170 - fill * 96;
+  const wave = Math.sin(t / 4) * 5;
+  return (
+    <Svg>
+      <defs>
+        <clipPath id="glass-in"><path d="M56 40 L68 172 H132 L144 40 Z" /></clipPath>
+      </defs>
+      <g clipPath="url(#glass-in)">
+        <path d={`M40 ${level} Q70 ${level - wave} 100 ${level} Q130 ${level + wave} 160 ${level} V190 H40 Z`} fill={ACCENT} />
+      </g>
+      <path d="M56 40 L68 172 H132 L144 40" {...line} />
+      <path d="M78 64 L84 132" {...line} strokeWidth={6} opacity={0.6} />
+    </Svg>
+  );
+};

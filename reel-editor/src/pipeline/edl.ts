@@ -102,7 +102,7 @@ export function snapToSpeech<T extends Word>(words: T[], silences: Interval[]): 
 }
 
 export function buildEdl(words: Word[], silences: Interval[], duration: number, style: HouseStyle,
-  opts: { keepPauses?: boolean; keep?: Interval[] } = {}): Edl {
+  opts: { keepPauses?: boolean; keep?: Interval[]; cut?: Interval[] } = {}): Edl {
   const e = style.edit;
   if (!words.length) return { keep: [{ start: 0, end: duration }], cuts: [] };
   const cuts: Cut[] = [];
@@ -141,6 +141,10 @@ export function buildEdl(words: Word[], silences: Interval[], duration: number, 
       if (gap - keepAfter - keepBefore > 0.1)
         cuts.push({ start: a.end + keepAfter, end: b.start - keepBefore, reason: `pause ${gap.toFixed(2)}s shortened to ${e.keepPauseSeconds}s` });
     }
+
+  // Dead air he or Claude marked by hand (corrections.json {"cutFrom", "cutTo"}): outdoor noise between sentences
+  // that is too loud to count as silence.
+  for (const c of opts.cut ?? []) cuts.push({ start: c.start, end: c.end, reason: "marked dead air" });
 
   // Cuts closer than 0.25 s merge: a sliver of a few frames between two cuts is never usable speech.
   const merged = normalizeIntervals(cuts, 0.25);
