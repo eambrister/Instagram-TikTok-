@@ -26,6 +26,8 @@ export type Direction = {
   topic: string | null;
   // --title "...": pin this exact run of his words as the title (when the opening sentence is too long).
   title: string | null;
+  // Eddie's own title wording (--title-text); shown instead of the spoken opening.
+  titleText?: string | null;
   rankings: { item: string; tier: Tier }[];
   notes: string[];
 };
@@ -499,12 +501,23 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     const vertical = inp.proxy.height / inp.proxy.width > 1.2;
     const compactTop = d.pinHook && vertical ? { x: sa.x0 + 20, y: sa.y0 - 20, w: sa.x1 - sa.x0 - 40, h: 240 } : null;
     const region = kind === "panel-top" ? panelRegion : topSlot(0, titleEnd) ?? compactTop ?? lowerSlot(0, titleEnd);
-    const title = firstSentence.map((w) => displayText(w.text, style)).join(" ");
     const emphIdx: number[] = [];
     firstSentence.forEach((w, i) => inp.phrases.some((p) => p.words.some((pw) => pw.start === w.start && pw.emphasis)) && emphIdx.push(i));
+    // Eddie's own wording for the title (--title-text), when he asks for it: shown as written, emphasis kept on
+    // the words it shares with the spoken opening.
+    let title = firstSentence.map((w) => displayText(w.text, style)).join(" ");
+    if (d.titleText) {
+      const n = (x: string) => x.toLowerCase().replace(/[^a-z0-9']/g, "");
+      const emphWords = new Set(emphIdx.map((i) => n(firstSentence[i].text)));
+      const words = d.titleText.split(/\s+/).filter(Boolean);
+      title = words.map((w) => displayText(w, style)).join(" ");
+      emphIdx.length = 0;
+      words.forEach((w, i) => emphWords.has(n(w)) && emphIdx.push(i));
+      notes.push(`title text set by Eddie: "${d.titleText}"`);
+    }
     graphics.push({ kind: "hook", id: "hook", start: 0, end: round(titleEnd, 3), region,
       data: { kicker: d.topic ? d.topic.toUpperCase() : null, title, highlight: emphIdx,
-        times: firstSentence.map((w) => (d.pinHook ? 0 : round(w.start, 3))) }, source: { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
+        times: d.titleText ? title.split(" ").map(() => 0) : firstSentence.map((w) => (d.pinHook ? 0 : round(w.start, 3))) }, source: { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
     if (kind !== "panel-top" && !topSlot(0, titleEnd)) notes.push("hook title placed below the face (no room above the head)");
     if (d.pinHook) notes.push("hook title pinned at the top for the whole video");
   }
