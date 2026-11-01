@@ -20,6 +20,11 @@ if [ ! -f "src/reels/$name.json" ]; then
   exit 0
 fi
 npx remotion render StyledReel "out/$name.mp4" --props="src/reels/$name.json" --log=error
+# GitHub refuses files over 100 MB, and the post kit links to the pushed file: re-encode anything bigger.
+if [ "$(stat -c %s "out/$name.mp4")" -gt 95000000 ]; then
+  ffmpeg -v error -y -i "out/$name.mp4" -c:v libx264 -preset slow -crf 20 -maxrate 7M -bufsize 14M -pix_fmt yuv420p \
+    -c:a copy -movflags +faststart "out/$name.small.mp4" && mv "out/$name.small.mp4" "out/$name.mp4"
+fi
 npx remotion still StyledReel "out/stills/$name-cover.png" --props="src/reels/$name.json" --frame=30 --log=error
 cp "$edit/cover.jpg" "out/$name-cover.jpg"
 cp "$edit/captions.srt" "out/$name-captions.srt"
