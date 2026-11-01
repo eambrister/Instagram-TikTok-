@@ -271,7 +271,7 @@ const StampCard: React.FC<{ spec: NonNullable<StyledReelProps["stamp"]>; frames:
       opacity: Math.min(1, k * 1.4) * out }}>
       <div style={{ transform: `translate(${shake}px, ${shake * 0.5}px) rotate(-10deg) scale(${1.5 - 0.5 * k})`,
         border: `10px solid ${red}`, borderRadius: 18, padding: "10px 34px", color: red, fontFamily: DISPLAY_FONT,
-        fontWeight: 900, fontSize: 92, letterSpacing: 4, lineHeight: 1, background: "rgba(255,255,255,0.12)",
+        fontWeight: 900, fontSize: spec.text.length <= 5 ? 150 : 92, letterSpacing: 4, lineHeight: 1, background: "rgba(255,255,255,0.12)",
         textShadow: "0 2px 0 rgba(0,0,0,0.15)", whiteSpace: "nowrap" }}>
         {spec.text}
       </div>

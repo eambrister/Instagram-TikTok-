@@ -1,0 +1,21 @@
+{
+ "video": "reel/dad-bod.mp4",
+ "maskDir": "reel-mask-dad-bod",
+ "beats": [
+  { "from": 2.3, "to": 5.5, "side": "right", "label": "WOMEN LIKE DAD BODS?", "art": "PizzaSlice" },
+  { "from": 5.62, "to": 8.6, "side": "left", "label": "THEY LYING", "art": "BrokenLink" },
+  { "from": 9.71, "to": 11.5, "side": "right", "label": "NOT FAT MEN", "art": "SquarePeg" },
+  { "from": 11.6, "to": 16.8, "side": "left", "label": "IN THE GYM, BULKY", "art": "Dumbbell" },
+  { "from": 16.86, "to": 20.2, "side": "right", "label": "NO MUSCLE MASS", "art": "BatteryLow" },
+  { "from": 20.33, "to": 24.9, "side": "left", "label": "DON'T LISTEN", "art": "StandOut" },
+  { "from": 25.52, "to": 28.5, "side": "right", "label": "GET IN THE GYM", "art": "Runner" },
+  { "from": 28.57, "to": 31.9, "side": "left", "label": "STOMACH UNDER CONTROL", "art": "Target" },
+  { "from": 32.0, "to": 39.8, "side": "right", "label": "NO MAN SNORING", "art": "MoonSleep" },
+  { "from": 39.89, "to": 43.6, "side": "left", "label": "MORE CONFIDENT", "art": "Diamond" },
+  { "from": 43.69, "to": 46.4, "side": "right", "label": "DAD BOD FOOLISHNESS", "art": "Lightning" },
+  { "from": 46.49, "to": 50.1, "side": "left", "label": "FLAT STOMACH", "art": "HeartPulse" }
+ ],
+ "word": null,
+ "cardTop": 430,
+ "stamp": { "from": 0.5, "to": 2.25, "text": "LIE", "top": 1330 }
+}
