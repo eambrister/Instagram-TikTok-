@@ -1,0 +1,27 @@
+{
+ "video": "reel/get-lean.mp4",
+ "maskDir": "reel-mask-get-lean",
+ "beats": [
+  { "from": 0.2, "to": 3.0, "side": "left", "label": "GET LEAN", "art": "Runner" },
+  { "from": 3.12, "to": 4.7, "side": "right", "label": "NEVER GO BACK", "art": "BrokenLink" },
+  { "from": 4.72, "to": 7.9, "side": "left", "label": "HOW GOOD FOOD TASTES", "art": "PizzaSlice" },
+  { "from": 7.99, "to": 12.0, "side": "right", "label": "NOTHING TASTES BETTER", "art": "HeartPulse" },
+  { "from": 17.01, "to": 19.1, "side": "left", "label": "BETTER FEELING", "art": "Lightbulb" },
+  { "from": 19.18, "to": 21.7, "side": "right", "label": "A TON OF FOOD", "art": "Fridge" },
+  { "from": 32.09, "to": 34.0, "side": "right", "label": "NOTHING FEELS BETTER", "art": "Diamond" },
+  { "from": 34.13, "to": 38.5, "side": "left", "label": "CAN'T CONVINCE ME", "art": "SquarePeg" },
+  { "from": 40.73, "to": 43.2, "side": "right", "label": "ADDICTIVE", "art": "Flame" },
+  { "from": 45.19, "to": 48.2, "side": "left", "label": "EVERYBODY GET LEAN", "art": "StandOut" },
+  { "from": 48.26, "to": 51.1, "side": "right", "label": "NEVER GO BACK", "art": "Feather" }
+ ],
+ "word": { "text": "26 INCHES", "at": 13.8, "centerY": 760 },
+ "cardTop": 800,
+ "toggles": {
+  "from": 24.2, "to": 44.0, "top": 545,
+  "items": [
+   { "label": "CLOTHES FIT", "at": 26.2 },
+   { "label": "FLAT STOMACH", "at": 30.2 },
+   { "label": "CONFIDENCE", "at": 42.6 }
+  ]
+ }
+}
