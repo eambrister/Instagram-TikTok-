@@ -53,6 +53,9 @@ export type StyledReelProps = {
   toggles?: { from: number; to: number; top: number; items: { label: string; at: number }[] } | null;
   // A red reject stamp that slams on in front of him (full-frame shots, where the pack's stamp would hide behind him).
   stamp?: { from: number; to: number; text: string; top: number } | null;
+  // A live tier board beside his head: each exercise drops into its row as he ranks it.
+  tiers?: { from: number; to: number; side: "left" | "right"; top: number; title?: string;
+    rows: { tier: string; items: { label: string; at: number }[] }[] } | null;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -219,6 +222,77 @@ const ChecklistCard: React.FC<{ list: NonNullable<StyledReelProps["checklist"]>;
   );
 };
 
+const TIER_W = 272;
+const TIER_COLORS: Record<string, string> = { S: ACCENT, A: "#F28C28", B: "#3CB371", C: "#E5484D", D: "#B3261E", F: "#B3261E" };
+
+const TierCard: React.FC<{ spec: NonNullable<StyledReelProps["tiers"]>; frames: number }> = ({ spec, frames }) => {
+  const t = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const pop = spring({ frame: t, fps, config: { damping: 13, stiffness: 180, mass: 0.6 } });
+  const out = interpolate(t, [frames - EXIT_FRAMES, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: spec.side === "left" ? SAFE_LEFT : SAFE_RIGHT - TIER_W,
+        top: spec.top,
+        width: TIER_W,
+        boxSizing: "border-box",
+        padding: "14px 12px 14px",
+        borderRadius: 28,
+        backgroundColor: "rgba(16, 17, 22, 0.74)",
+        backdropFilter: "blur(18px)",
+        border: "2px solid rgba(255, 255, 255, 0.14)",
+        boxShadow: "0 22px 50px rgba(0, 0, 0, 0.35)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+        opacity: Math.min(1, pop * 1.5) * out,
+        transform: `translateY(${(1 - pop) * 40}px) scale(${0.6 + 0.4 * pop})`,
+        transformOrigin: spec.side === "left" ? "0% 0%" : "100% 0%",
+      }}
+    >
+      {spec.title ? (
+        <div style={{ fontFamily: CONDENSED_FONT, fontWeight: 800, fontSize: 26, color: ACCENT, letterSpacing: 0.5, lineHeight: 1 }}>{spec.title}</div>
+      ) : null}
+      {spec.rows.map((row) => (
+        <div key={row.tier} style={{ display: "flex", gap: 8, alignItems: "stretch", minHeight: 62 }}>
+          <div
+            style={{
+              width: 46, flexShrink: 0, borderRadius: 12, backgroundColor: TIER_COLORS[row.tier] ?? "#888",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: DISPLAY_FONT, fontSize: 34, color: "#111", lineHeight: 1,
+            }}
+          >
+            {row.tier}
+          </div>
+          <div style={{ flex: 1, display: "flex", flexWrap: "wrap", alignContent: "center", gap: 5, padding: "2px 0",
+            borderRadius: 12, backgroundColor: "rgba(255,255,255,0.06)" }}>
+            {row.items.map((it) => {
+              const at = Math.round((it.at - spec.from) * fps);
+              if (t < at) return null;
+              const k = spring({ frame: t - at, fps, config: { damping: 11, stiffness: 200, mass: 0.5 } });
+              return (
+                <div
+                  key={it.label}
+                  style={{
+                    fontFamily: CONDENSED_FONT, fontWeight: 800, fontSize: 19, lineHeight: 1, color: "white",
+                    padding: "5px 7px", borderRadius: 8, backgroundColor: "rgba(255,255,255,0.14)",
+                    transform: `translateY(${(1 - Math.min(1, k)) * -30}px) scale(${0.5 + 0.5 * k})`,
+                    opacity: Math.min(1, k * 1.4),
+                  }}
+                >
+                  {it.label}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; frames: number }> = ({ spec, frames }) => {
   const t = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -289,7 +363,7 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist, toggles, stamp }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist, toggles, stamp, tiers }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
@@ -303,6 +377,11 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
       {checklist ? (
         <Sequence from={f(checklist.from)} durationInFrames={f(checklist.to) - f(checklist.from)} layout="none">
           <ChecklistCard list={checklist} frames={f(checklist.to) - f(checklist.from)} top={checklist.top ?? cardTop ?? CARD.top} />
+        </Sequence>
+      ) : null}
+      {tiers ? (
+        <Sequence from={f(tiers.from)} durationInFrames={f(tiers.to) - f(tiers.from)} layout="none">
+          <TierCard spec={tiers} frames={f(tiers.to) - f(tiers.from)} />
         </Sequence>
       ) : null}
       {word ? (

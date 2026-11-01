@@ -17,7 +17,7 @@
   { "from": 51.4, "to": 56.1, "side": "left", "label": "TO THE RIM", "art": "RiceBowl" },
   { "from": 56.2, "to": 58.2, "side": "right", "label": "BE CAREFUL", "art": "Lightning" },
   { "from": 63.9, "to": 68.1, "side": "left", "label": "ACTUAL WHOLE FOODS", "art": "Apple" },
-  { "from": 68.2, "to": 73.3, "side": "right", "label": "ALL DAY", "art": "CalendarFlip" },
+  { "from": 68.2, "to": 73.3, "side": "right", "label": "ALL DAY", "art": "AlarmClock" },
   { "from": 73.4, "to": 76.4, "side": "left", "label": "PUT WEIGHT ON YOU", "art": "Dumbbell" },
   { "from": 76.5, "to": 79.4, "side": "right", "label": "STOP EATING SO MUCH", "art": "EmptyPlate" },
   { "from": 79.5, "to": 83.0, "side": "left", "label": "GET HUNGRY", "art": "BatteryLow" },
