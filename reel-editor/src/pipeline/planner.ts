@@ -24,6 +24,8 @@ export type Direction = {
   // B-roll cutaways: a clip of his (path from reel-editor/) shown over start-end output seconds.
   broll: { file: string; start: number; end: number }[];
   topic: string | null;
+  // --title "...": pin this exact run of his words as the title (when the opening sentence is too long).
+  title: string | null;
   rankings: { item: string; tier: Tier }[];
   notes: string[];
 };
@@ -35,7 +37,7 @@ const STOP = new Set(["the", "a", "an", "and", "or", "but", "so", "to", "of", "i
 /** Plain-language direction -> structured options (also used for --direction on the CLI). */
 export function parseDirection(text: string, base: Partial<Direction> = {}): Direction {
   const t = text.toLowerCase();
-  const d: Direction = { mode: "auto", intensity: "medium", keepPauses: false, zooms: true, graphics: true, pinHook: false, captionGaps: [], broll: [], topic: null, rankings: [], notes: [], ...base };
+  const d: Direction = { mode: "auto", intensity: "medium", keepPauses: false, zooms: true, graphics: true, pinHook: false, captionGaps: [], broll: [], topic: null, title: null, rankings: [], notes: [], ...base };
   if (/\b(tier|ranking|rank)\b/.test(t)) d.mode = "RANKING";
   else if (/\b(explainer|explain|split[- ]screen|panel)\b/.test(t)) d.mode = "EXPLAINER";
   else if (/\b(talking[- ]head|simple|minimal|clean)\b/.test(t)) d.mode = "TALKING_HEAD";
@@ -361,7 +363,16 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     firstSentence.push(w);
     if (sentenceEnd(w.text)) break;
   }
-  if (firstSentence.length && !sentenceEnd(firstSentence[firstSentence.length - 1].text)) {
+  if (d.title) {
+    // His exact words only: find the run of spoken words that matches the requested title.
+    const n = (x: string) => x.toLowerCase().replace(/[^a-z0-9']/g, "");
+    const want = d.title.split(/\s+/).map(n).filter(Boolean);
+    const said = inp.words.map((w) => n(w.text));
+    const at = said.findIndex((_, i) => want.every((x, k) => said[i + k] === x));
+    if (at >= 0) firstSentence = inp.words.slice(at, at + want.length);
+    else flagged.push(`title "${d.title}" is not a run of his spoken words; using the opening sentence`);
+  }
+  if (firstSentence.length && !sentenceEnd(firstSentence[firstSentence.length - 1].text) && !d.title) {
     const comma = firstSentence.map((w) => /,$/.test(w.text)).lastIndexOf(true);
     firstSentence = comma >= 2 ? firstSentence.slice(0, comma + 1) : [];
     if (!firstSentence.length) flagged.push(`opening sentence is longer than ${hookMax} words; no hook title (captions carry the opening)`);

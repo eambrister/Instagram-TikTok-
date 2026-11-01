@@ -1,5 +1,5 @@
 // npm run edit -- --input "input/my video.mov" [--mode auto|talking_head|explainer|ranking] [--intensity light|medium|high]
-//   [--direction "plain-language notes"] [--topic "..."] [--pin-title] [--caption-gap "1.4-4.2"] [--broll "licensed-media/broll/x.mp4@4.3-9.5"] [--rankings "Eggs=S, Granola=F"] [--music original|hiphop|spooky|none|licensed-media/music/x.mp3]
+//   [--direction "plain-language notes"] [--topic "..."] [--title "his exact words"] [--pin-title] [--caption-gap "1.4-4.2"] [--broll "licensed-media/broll/x.mp4@4.3-9.5"] [--rankings "Eggs=S, Granola=F"] [--music original|hiphop|spooky|none|licensed-media/music/x.mp3]
 //   [--preview-only] [--force]
 import { parseArgs } from "node:util";
 import { parseDirection, parseRankings } from "../pipeline/planner";
@@ -12,6 +12,7 @@ const { values } = parseArgs({
     intensity: { type: "string" },
     direction: { type: "string", default: "" },
     topic: { type: "string" },
+    title: { type: "string" },
     "pin-title": { type: "boolean", default: false },
     "caption-gap": { type: "string" },
     broll: { type: "string" },
@@ -36,6 +37,7 @@ if (values.mode && values.mode !== "auto") {
 }
 if (values.intensity) d.intensity = values.intensity as any;
 if (values.topic) d.topic = values.topic;
+if (values.title) d.title = values.title;
 if (values["pin-title"]) d.pinHook = true;
 // "--broll file@4.3-9.5;file2@20-23": his own clips as cutaways over those output-time windows.
 if (values.broll)
