@@ -11,7 +11,7 @@ the finishing pass in `../claude-edits`. Do both. Add other effects or changes o
    `npm run edit -- --input "input/<file>" --mode auto` (add `--topic`, `--intensity`, `--direction` only from his message).
    The house style already sets: backed-out framing (`framing.fullWidthFraction` 0.46: head and shoulders, wall plate
    above, sharp punch-ins), the opening-sentence title **pinned at the top for the whole video** (`hook.pinned`), captions
-   at chest level from the first word, and an **original music bed** under his voice (`music.default`; `--music none` turns
+   at chest level from the first word, and an **original hip-hop beat** under his voice (`music.default` "hiphop", composed by scripts/make_music.py; `--music spooky` for Halloween, `--music original` for the calm bed, `--music none` turns
    it off, `--music <file>` uses his own licensed track).
    The house style also locks the layout to full-screen talking head with no speech-planned cards or counters
    (`editor.mode`, `editor.speechGraphics`): illustrations come from the finishing pass. `--caption-gap "1.4-4.2"` leaves

@@ -65,7 +65,7 @@
     "speechGraphics": false
   },
   "music": {
-    "default": "original"
+    "default": "hiphop"
   },
   "edit": {
     "maxPauseSeconds": 0.6,

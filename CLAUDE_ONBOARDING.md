@@ -236,7 +236,7 @@ Edison explicitly disliked the original stick-figure calisthenics design and a v
 ### Edited talking reel ("edit this in my saved style")
 
 Edison's approved edit style for his own recordings: backed-out head-and-shoulders framing, the opening sentence
-pinned as the title at the top for the whole video, word-by-word captions on his chest, an original music bed, one
+pinned as the title at the top for the whole video, word-by-word captions on his chest, an original hip-hop beat, one
 line-art illustration card per phrase beside his head, and one key word of his rising behind his head. The steps
 are in `reel-editor/CLAUDE.md` and `claude-edits/CLAUDE.md` ("Saved reel style"); the reference is
 `claude-edits/out/abnormal-reel.mp4`. Add other effects only when he asks for them.

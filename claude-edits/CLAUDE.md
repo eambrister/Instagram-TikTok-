@@ -44,7 +44,7 @@ Approved reference: `out/abnormal-reel.mp4`, made from `src/reels/abnormal.json`
 to have edited "in my saved style". Add other effects or changes only when he asks for them.
 
 1. reel-editor makes the edit (see `../reel-editor/CLAUDE.md`): backed-out framing, title pinned at the top, chest
-   captions, original music.
+   captions, original hip-hop beat (his default since Nov 2026).
 2. `tools/style_reel.sh <job> <name>` copies the edit to `public/reel/<name>.mp4` and builds its person mask
    (`public/reel-mask-<name>`).
 3. Write `src/reels/<name>.json` (same shape as `abnormal.json`), from the job's `scene-plan.json` captions:
