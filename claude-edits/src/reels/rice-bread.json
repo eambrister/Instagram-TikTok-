@@ -1,0 +1,23 @@
+{
+ "video": "reel/rice-bread.mp4",
+ "maskDir": "reel-mask-rice-bread",
+ "beats": [
+  { "from": 0.2, "to": 2.8, "side": "left", "label": "A THOUSAND TIMES", "art": "MondayLoop" },
+  { "from": 4.48, "to": 6.4, "side": "right", "label": "EAT RICE", "art": "RiceBowl" },
+  { "from": 6.43, "to": 8.3, "side": "left", "label": "EAT BREAD", "art": "Bread" },
+  { "from": 8.32, "to": 12.9, "side": "right", "label": "A POUND OF RICE", "art": "RiceBowl" },
+  { "from": 13.02, "to": 15.8, "side": "left", "label": "TWO PIECES OF BREAD", "art": "Bread" },
+  { "from": 15.89, "to": 17.4, "side": "right", "label": "YES YOU CAN", "art": "PromiseKept" },
+  { "from": 17.47, "to": 21.3, "side": "left", "label": "YOU'LL OVEREAT", "art": "PizzaSlice" },
+  { "from": 21.37, "to": 25.9, "side": "right", "label": "HOW YOU COOK IT", "art": "Flame" },
+  { "from": 25.93, "to": 33.5, "side": "left", "label": "FAT, OIL, VEGETABLES", "art": "Fridge" },
+  { "from": 34.66, "to": 39.8, "side": "right", "label": "MORE CALORIES", "art": "Lightning" },
+  { "from": 39.89, "to": 42.4, "side": "left", "label": "PORTION IT OUT", "art": "Target" },
+  { "from": 42.5, "to": 47.7, "side": "right", "label": "CAN I EAT RICE?", "art": "CommentTyping", "artProps": { "word": "RICE?" } },
+  { "from": 47.74, "to": 50.0, "side": "left", "label": "YOU CAN", "art": "PromiseKept" },
+  { "from": 52.25, "to": 56.4, "side": "right", "label": "EAT LESS OF IT", "art": "Feather" }
+ ],
+ "word": null,
+ "cardTop": 430,
+ "stamp": { "from": 50.12, "to": 52.2, "text": "CUT IT OUT", "top": 1330 }
+}

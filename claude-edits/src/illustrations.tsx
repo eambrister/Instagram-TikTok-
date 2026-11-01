@@ -538,3 +538,29 @@ export const Pumpkin: React.FC<{ t: number }> = ({ t }) => {
     </Svg>
   );
 };
+
+// "You can eat rice": a bowl of rice with chopsticks, steam rising.
+export const RiceBowl: React.FC<{ t: number }> = ({ t }) => {
+  const steam = interpolate(t, [6, 18], [0, 1], clamp);
+  return (
+    <Svg>
+      <path d="M26 104 H174 Q170 168 100 172 Q30 168 26 104 Z" {...line} />
+      <path d="M44 104 Q60 78 82 92 Q96 70 116 88 Q136 72 156 104" {...line} fill={ACCENT} />
+      <path d="M120 30 L164 96 M140 26 L172 88" {...line} strokeWidth={7} />
+      <path d="M70 66 Q62 52 72 40 M100 62 Q92 46 102 34" {...accentLine} strokeWidth={6} opacity={steam}
+        style={draw(t, 6, 14, 60)} />
+    </Svg>
+  );
+};
+
+// "You can eat bread": a slice of bread that gets a bite taken out.
+export const Bread: React.FC<{ t: number }> = ({ t }) => {
+  const bite = interpolate(t, [14, 20], [0, 1], { ...clamp, easing: Easing.out(Easing.back(2)) });
+  return (
+    <Svg>
+      <path d="M44 178 V92 Q24 86 26 62 Q30 30 100 30 Q170 30 174 62 Q176 86 156 92 V178 Z" {...line} />
+      <path d="M62 160 V100 Q46 96 48 76 Q52 52 100 52 Q148 52 152 76 Q154 96 138 100 V160 Z" fill={ACCENT} opacity={0.85} />
+      <circle cx={158} cy={56} r={26 * bite} fill="#1b1b1b" />
+    </Svg>
+  );
+};

@@ -2,6 +2,7 @@ import React from "react";
 import {
   AbsoluteFill,
   CalculateMetadataFunction,
+  Easing,
   interpolate,
   OffthreadVideo,
   Sequence,
@@ -12,7 +13,7 @@ import {
 } from "remotion";
 import { usePersonMask } from "../BehindMe";
 import { boxStyle } from "../Footage";
-import { CONDENSED_FONT } from "../fonts";
+import { CONDENSED_FONT, DISPLAY_FONT } from "../fonts";
 import * as Art from "../illustrations";
 import { AUDIT, HEIGHT, SAFE_LEFT, SAFE_RIGHT, WIDTH } from "../settings";
 import { GlassGraphCard } from "./GlassGraph";
@@ -50,6 +51,8 @@ export type StyledReelProps = {
   checklist?: { from: number; to: number; side: "left" | "right"; title: string; items: { label: string; at: number }[]; top?: number } | null;
   // iPhone-style switches side by side on the wall above his head, each flipping on as he says it.
   toggles?: { from: number; to: number; top: number; items: { label: string; at: number }[] } | null;
+  // A red reject stamp that slams on in front of him (full-frame shots, where the pack's stamp would hide behind him).
+  stamp?: { from: number; to: number; text: string; top: number } | null;
 };
 export const styledReelDefaults = abnormal as StyledReelProps;
 
@@ -88,6 +91,8 @@ const ART: Record<string, React.FC<any>> = {
   Fridge: Art.Fridge,
   Apple: Art.Apple,
   Pumpkin: Art.Pumpkin,
+  RiceBowl: Art.RiceBowl,
+  Bread: Art.Bread,
 };
 
 // Beside his head (about x = 330-760 at this height), so nothing on the card is hidden behind him.
@@ -254,6 +259,26 @@ const TogglesCard: React.FC<{ spec: NonNullable<StyledReelProps["toggles"]>; fra
   );
 };
 
+const StampCard: React.FC<{ spec: NonNullable<StyledReelProps["stamp"]>; frames: number }> = ({ spec, frames }) => {
+  const t = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const k = interpolate(t, [0, 5], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.quad) });
+  const out = interpolate(t, [frames - EXIT_FRAMES, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const shake = t > 5 && t < 12 ? Math.sin(t * 9) * (12 - t) * 0.8 : 0;
+  const red = "#D62828";
+  return (
+    <div style={{ position: "absolute", left: SAFE_LEFT, width: SAFE_RIGHT - SAFE_LEFT, top: spec.top, display: "flex", justifyContent: "center",
+      opacity: Math.min(1, k * 1.4) * out }}>
+      <div style={{ transform: `translate(${shake}px, ${shake * 0.5}px) rotate(-10deg) scale(${1.5 - 0.5 * k})`,
+        border: `10px solid ${red}`, borderRadius: 18, padding: "10px 34px", color: red, fontFamily: DISPLAY_FONT,
+        fontWeight: 900, fontSize: 92, letterSpacing: 4, lineHeight: 1, background: "rgba(255,255,255,0.12)",
+        textShadow: "0 2px 0 rgba(0,0,0,0.15)", whiteSpace: "nowrap" }}>
+        {spec.text}
+      </div>
+    </div>
+  );
+};
+
 const FULL = { x: 0, y: 0, w: WIDTH, h: HEIGHT };
 
 // The person, cut out of the edit, on top of the illustrations.
@@ -263,7 +288,7 @@ const Person: React.FC<{ video: string; maskDir: string }> = ({ video, maskDir }
   return <OffthreadVideo src={staticFile(video)} muted style={{ ...boxStyle(box), ...maskStyle }} />;
 };
 
-export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist, toggles }) => {
+export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, word, graph, cardTop, checklist, toggles, stamp }) => {
   const { fps } = useVideoConfig();
   const f = (s: number) => Math.round(s * fps);
   return (
@@ -285,6 +310,11 @@ export const StyledReel: React.FC<StyledReelProps> = ({ video, maskDir, beats, w
         </Sequence>
       ) : null}
       <Person video={video} maskDir={maskDir} />
+      {stamp ? (
+        <Sequence from={f(stamp.from)} durationInFrames={f(stamp.to) - f(stamp.from)} layout="none">
+          <StampCard spec={stamp} frames={f(stamp.to) - f(stamp.from)} />
+        </Sequence>
+      ) : null}
       {toggles ? (
         <Sequence from={f(toggles.from)} durationInFrames={f(toggles.to) - f(toggles.from)} layout="none">
           <TogglesCard spec={toggles} frames={f(toggles.to) - f(toggles.from)} />
