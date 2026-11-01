@@ -6,13 +6,13 @@
 
 ## Caption (Instagram, TikTok, YouTube description)
 
-One thing I hate is people telling you to get rid of sugar. Personally, I like sugar.
+One thing I hate stopping is getting rid of sugar. Personally, I like sugar.
 
-You think I got rid of sugar to get where I had to be in my physique? When I make my oats, when I put it in my coffee: syrup, Stevia, Sweet'N Low? No. I want sugar.
+You think I get rid of sugar? When I make my oats, when I put it in a coffee... Stevia, Sweet'N Low? No. I want sugar.
 
-I can track the sugar. People want to stop eating this, stop eating that. I personally don't restrict, and I don't tell people to restrict. I can control my sugar intake.
+Now obviously I can track the sugar. People want to stop eating this, stop eating that. I personally don't restrict. I don't tell people to restrict. I can control my sugar intake.
 
-But bossman, I just want y'all to know: I ain't getting rid of sugar, buddy.
+But bossman, I just want you all to know: I ain't getting rid of sugar, buddy.
 
 #discipline #consistency
 
