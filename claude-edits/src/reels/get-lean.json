@@ -5,70 +5,66 @@
   {
    "from": 0.2,
    "to": 3.0,
-   "side": "left",
+   "side": "right",
    "label": "GET LEAN",
    "art": "Runner"
   },
   {
    "from": 3.12,
    "to": 4.7,
-   "side": "right",
+   "side": "left",
    "label": "NEVER GO BACK",
    "art": "BrokenLink"
   },
   {
    "from": 4.72,
    "to": 7.9,
-   "side": "left",
+   "side": "right",
    "label": "HOW GOOD FOOD TASTES",
    "art": "PizzaSlice"
   },
   {
    "from": 7.99,
    "to": 12.0,
-   "side": "right",
+   "side": "left",
    "label": "NOTHING TASTES BETTER",
    "art": "HeartPulse"
   },
   {
    "from": 17.01,
    "to": 19.1,
-   "side": "left",
+   "side": "right",
    "label": "BETTER FEELING",
    "art": "Lightbulb"
   },
   {
    "from": 19.18,
    "to": 21.7,
-   "side": "right",
+   "side": "left",
    "label": "A TON OF FOOD",
    "art": "Fridge"
   },
   {
    "from": 45.19,
    "to": 48.2,
-   "side": "left",
+   "side": "right",
    "label": "EVERYBODY GET LEAN",
    "art": "StandOut"
   },
   {
    "from": 48.26,
    "to": 51.1,
-   "side": "right",
+   "side": "left",
    "label": "NEVER GO BACK",
    "art": "Feather"
   }
  ],
- "word": {
-  "text": "26 INCHES",
-  "at": 13.8,
-  "centerY": 716
- },
- "cardTop": 580,
+ "word": null,
+ "cardTop": 450,
  "toggles": {
   "from": 24.2,
   "to": 44.0,
-  "top": 545,
+  "top": 1330,
   "items": [
    {
     "label": "CLOTHES FIT",
