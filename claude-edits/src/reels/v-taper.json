@@ -1,0 +1,28 @@
+{
+ "video": "reel/v-taper.mp4",
+ "maskDir": "reel-mask-v-taper",
+ "beats": [
+  { "from": 0.2, "to": 3.2, "side": "left", "label": "V-TAPER PHYSIQUE", "art": "StandOut" },
+  { "from": 3.33, "to": 9.6, "side": "left", "label": "A FEW THINGS", "art": "Lightbulb" },
+  { "from": 11.77, "to": 17.7, "side": "left", "label": "BACK EXERCISES", "art": "Dumbbell" },
+  { "from": 17.77, "to": 23.7, "side": "left", "label": "BROAD UPPER BODY", "art": "Diamond" },
+  { "from": 23.75, "to": 31.6, "side": "left", "label": "GROW YOUR LATS", "art": "Runner" },
+  { "from": 35.23, "to": 41.3, "side": "left", "label": "SIDE DELTS", "art": "Target" },
+  { "from": 41.39, "to": 47.9, "side": "left", "label": "FRONT & REAR DELTS", "art": "Lightning" },
+  { "from": 47.97, "to": 57.2, "side": "left", "label": "PUSHES OUT WIDER", "art": "Feather" },
+  { "from": 64.37, "to": 73.3, "side": "left", "label": "SMALL WAIST", "art": "HeartPulse" },
+  { "from": 82.56, "to": 87.5, "side": "left", "label": "38 CHEST, 26 WAIST", "art": "StreakCalendar" },
+  { "from": 87.6, "to": 92.5, "side": "left", "label": "GREEK GOD", "art": "Diamond" }
+ ],
+ "word": null,
+ "cardTop": 490,
+ "checklist": {
+  "from": 9.7, "to": 92.5, "side": "right", "title": "V-TAPER",
+  "items": [
+   { "label": "BACK", "at": 11.8 },
+   { "label": "SIDE DELTS", "at": 40.3 },
+   { "label": "SMALL WAIST", "at": 65.8 }
+  ]
+ },
+ "graph": { "at": 75.9, "title": "Inches wider than your waist", "from": 0, "to": 10, "fullNumber": true, "top": 1420, "scale": 0.55 }
+}
