@@ -2,29 +2,127 @@
  "video": "reel/burpees.mp4",
  "maskDir": "reel-mask-burpees",
  "beats": [
-  { "from": 4.45, "to": 8.8, "side": "left", "label": "100 A DAY, 100 DAYS", "art": "StreakCalendar" },
-  { "from": 13.52, "to": 16.4, "side": "left", "label": "DON'T WANT TO", "art": "BatteryLow" },
-  { "from": 16.48, "to": 21.9, "side": "left", "label": "SO TIRED", "art": "MoonSleep" },
-  { "from": 22.0, "to": 26.4, "side": "left", "label": "STILL DOING IT", "art": "Flame" },
-  { "from": 26.46, "to": 31.9, "side": "left", "label": "REAPED THE BENEFITS", "art": "Lightbulb" },
-  { "from": 32.0, "to": 35.9, "side": "left", "label": "NEW HEIGHTS", "art": "Diamond" },
-  { "from": 38.0, "to": 43.4, "side": "left", "label": "CONSISTENCY", "art": "StreakCalendar" },
-  { "from": 43.52, "to": 49.8, "side": "left", "label": "NOT 1,000 AT ONCE", "art": "SquarePeg" },
-  { "from": 57.65, "to": 63.0, "side": "left", "label": "HABITS STACK UP", "art": "PromiseKept" },
-  { "from": 67.6, "to": 74.4, "side": "left", "label": "WHAT DID I GET INTO?", "art": "Lightning" },
-  { "from": 74.5, "to": 79.2, "side": "left", "label": "ONE DAY AT A TIME", "art": "Footsteps" },
-  { "from": 89.6, "to": 92.5, "side": "left", "label": "10,000 BURPEES", "art": "Dumbbell" },
-  { "from": 92.6, "to": 98.0, "side": "left", "label": "SMALL STEPS", "art": "Target" }
+  {
+   "from": 4.45,
+   "to": 8.8,
+   "side": "left",
+   "label": "100 A DAY, 100 DAYS",
+   "art": "StreakCalendar"
+  },
+  {
+   "from": 13.52,
+   "to": 16.4,
+   "side": "left",
+   "label": "DON'T WANT TO",
+   "art": "BatteryLow"
+  },
+  {
+   "from": 16.48,
+   "to": 21.9,
+   "side": "left",
+   "label": "SO TIRED",
+   "art": "MoonSleep"
+  },
+  {
+   "from": 22.0,
+   "to": 26.4,
+   "side": "left",
+   "label": "STILL DOING IT",
+   "art": "Flame"
+  },
+  {
+   "from": 26.46,
+   "to": 31.9,
+   "side": "left",
+   "label": "REAPED THE BENEFITS",
+   "art": "Lightbulb"
+  },
+  {
+   "from": 32.0,
+   "to": 35.9,
+   "side": "left",
+   "label": "NEW HEIGHTS",
+   "art": "Diamond"
+  },
+  {
+   "from": 38.0,
+   "to": 43.4,
+   "side": "left",
+   "label": "CONSISTENCY",
+   "art": "StreakCalendar"
+  },
+  {
+   "from": 43.52,
+   "to": 49.8,
+   "side": "left",
+   "label": "NOT 1,000 AT ONCE",
+   "art": "SquarePeg"
+  },
+  {
+   "from": 57.65,
+   "to": 63.0,
+   "side": "left",
+   "label": "HABITS STACK UP",
+   "art": "PromiseKept"
+  },
+  {
+   "from": 68.2,
+   "to": 75.6,
+   "side": "left",
+   "label": "WHAT DID I GET INTO?",
+   "art": "Lightning"
+  },
+  {
+   "from": 75.7,
+   "to": 81.5,
+   "side": "left",
+   "label": "ONE DAY AT A TIME",
+   "art": "Footsteps"
+  },
+  {
+   "from": 93.8,
+   "to": 96.9,
+   "side": "left",
+   "label": "10,000 BURPEES",
+   "art": "Dumbbell"
+  },
+  {
+   "from": 96.95,
+   "to": 100.9,
+   "side": "left",
+   "label": "SMALL STEPS",
+   "art": "Target"
+  }
  ],
  "word": null,
  "cardTop": 490,
  "checklist": {
-  "from": 11.8, "to": 98.0, "side": "right", "title": "3 LESSONS",
+  "from": 11.8,
+  "to": 100.9,
+  "side": "right",
+  "title": "3 LESSONS",
   "items": [
-   { "label": "DO IT ANYWAY", "at": 13.0 },
-   { "label": "CONSISTENCY BEATS INTENSITY", "at": 38.2 },
-   { "label": "ONE DAY AT A TIME", "at": 76.3 }
+   {
+    "label": "DO IT ANYWAY",
+    "at": 13.0
+   },
+   {
+    "label": "CONSISTENCY BEATS INTENSITY",
+    "at": 38.2
+   },
+   {
+    "label": "ONE DAY AT A TIME",
+    "at": 76.5
+   }
   ]
  },
- "graph": { "at": 2.1, "title": "Burpees in 100 days", "from": 0, "to": 10000, "fullNumber": true, "top": 1420, "scale": 0.55 }
+ "graph": {
+  "at": 2.1,
+  "title": "Burpees in 100 days",
+  "from": 0,
+  "to": 10000,
+  "fullNumber": true,
+  "top": 1420,
+  "scale": 0.55
+ }
 }
