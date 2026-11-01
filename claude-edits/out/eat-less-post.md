@@ -10,7 +10,7 @@ The reality is you just need to eat less.
 
 I don't care if you're in the gym five, six days a week. If you're eating more than you burn, you will not lose weight.
 
-Eating less does not mean starving yourself. You're decreasing your portion sizes and hitting your macros. Stop eating portion sizes for two, three people. Just eat enough to fill you.
+You're not starving yourself, you're just portion sizing. You're decreasing your portion sizes and hitting your macros. Stop eating portion sizes for two, three people. Just eat enough to fill you.
 
 Stop drinking your calories: juices, sodas, alcohol. Those are calories you could put towards eating actual whole foods.
 
