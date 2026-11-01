@@ -455,13 +455,17 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     return faceRect(fr, inp.proxy.width, inp.proxy.height, seg.focus, zoomOf(t));
   };
   const topSlot = (t0: number, t1: number) => {
-    let faceTop = H;
+    const tops: number[] = [];
     for (let t = t0; t < t1; t += 0.5) {
       const f = faceAt(t, "full");
-      if (f) faceTop = Math.min(faceTop, f.y);
+      if (f) tops.push(f.y);
     }
+    tops.sort((a, b) => a - b);
+    // A title pinned for the whole video ignores brief lean-ins (the closest 10% of moments).
+    const faceTop = tops.length ? tops[d.pinHook && t1 - t0 > 10 ? Math.floor(tops.length * 0.1) : 0] : H;
     const h = Math.min(340, faceTop - 40 - sa.y0);
-    return h >= 200 ? { x: sa.x0 + 20, y: sa.y0, w: sa.x1 - sa.x0 - 40, h } : null;
+    // A pinned title can sit a little smaller above the head (standing, vertical footage) rather than move to the chest.
+    return h >= (d.pinHook ? 150 : 200) ? { x: sa.x0 + 20, y: sa.y0, w: sa.x1 - sa.x0 - 40, h } : null;
   };
 
   const lowerSlot = (t0: number, t1: number) => {
@@ -471,14 +475,19 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
       if (f) faceBottom = Math.max(faceBottom, f.y + f.h);
     }
     const y = Math.min(faceBottom + 30, sa.y1 - 300);
-    return { x: sa.x0 + 20, y, w: sa.x1 - sa.x0 - 40, h: Math.min(380, sa.y1 - y) };
+    // A title pinned for the whole video stays compact under the chin, leaving room for the captions.
+    return { x: sa.x0 + 20, y, w: sa.x1 - sa.x0 - 40, h: Math.min(d.pinHook ? 230 : 380, sa.y1 - y) };
   };
 
   if (firstSentence.length && mode !== "RANKING") {
     const kind = kindAt(0);
     // Above the head if there is room, otherwise on the chest below the chin, never across the face.
     const titleEnd = d.pinHook ? duration : hookEnd;
-    const region = kind === "panel-top" ? panelRegion : topSlot(0, titleEnd) ?? lowerSlot(0, titleEnd);
+    // Standing vertical footage: the padded face box overstates the head, and the wall band above the hair still
+    // takes a compact pinned title, so it stays at the top (his style) rather than moving to the chest.
+    const vertical = inp.proxy.height / inp.proxy.width > 1.2;
+    const compactTop = d.pinHook && vertical ? { x: sa.x0 + 20, y: sa.y0 - 20, w: sa.x1 - sa.x0 - 40, h: 240 } : null;
+    const region = kind === "panel-top" ? panelRegion : topSlot(0, titleEnd) ?? compactTop ?? lowerSlot(0, titleEnd);
     const title = firstSentence.map((w) => displayText(w.text, style)).join(" ");
     const emphIdx: number[] = [];
     firstSentence.forEach((w, i) => inp.phrases.some((p) => p.words.some((pw) => pw.start === w.start && pw.emphasis)) && emphIdx.push(i));

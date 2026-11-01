@@ -18,23 +18,9 @@ export const DEFAULT_FOCUS = { cx: 0.5, cy: 0.38, w: 0.3 };
  * With a widthFraction the shot is backed out instead: it sits on the bottom edge, zooms about the face,
  * and the space above it is left for the wall plate.
  */
-// Vertical (phone) footage backed out: this share of the frame height, on the bottom edge, wall plate around it.
-export const VERTICAL_BACKOUT = 0.8;
-
 export function speakerTransform(f: Frame, pw: number, ph: number, focus: Segment["focus"], zoom: number) {
   const fc = focus ?? DEFAULT_FOCUS;
   const cover = Math.max(f.w / pw, f.h / ph);
-  if (f.widthFraction && ph / pw > 1.2) {
-    // Already vertical: a width share can't back it out, so shrink it to leave room above the head for the title.
-    const s0 = (f.h * VERTICAL_BACKOUT) / ph;
-    const s = s0 * zoom;
-    const w = pw * s;
-    const h = ph * s;
-    const tx = f.w / 2 - fc.cx * w;
-    const faceY = f.h - ph * s0 + fc.cy * ph * s0;
-    const ty = faceY - fc.cy * h;
-    return { s, tx, ty, w, h };
-  }
   if (f.widthFraction && f.w / (pw * f.widthFraction) < cover) {
     const s0 = f.w / (pw * f.widthFraction);
     const s = s0 * zoom;
