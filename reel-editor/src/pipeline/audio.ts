@@ -5,7 +5,9 @@ import { renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ScenePlan } from "../shared/plan";
 import type { HouseStyle } from "./config";
-import { log, run } from "./util";
+import { log, ROOT, run } from "./util";
+
+const RNNOISE_MODEL = path.join(ROOT, "config/models/rnnoise-sh.rnnn");
 
 export type AudioMeasure = { integratedLufs: number; truePeakDb: number; lra: number; maxVolumeDb: number };
 
@@ -61,6 +63,9 @@ export async function buildAudio(plan: ScenePlan, srcWav: string, jobDir: string
   // "gentle": a 3:1 compressor above about -26 dBFS evens out a recording that swings between loud and quiet, so
   // loudnorm can reach the target without clipping peaks and the music stays under the quiet passages too.
   const clean = [`highpass=f=${a.highpassHz}`, a.denoise === "light" ? "afftdn=nr=6:nf=-50:tn=1" : null,
+    // "voice": isolates his voice from outdoor noise (wind, traffic, birds): RNNoise's speech model (config/models,
+    // from github.com/richardpl/arnndn-models), a stronger FFT denoise on what is left, and a small presence lift.
+    a.denoise === "voice" ? `arnndn=m='${RNNOISE_MODEL}':mix=0.9,afftdn=nr=10:nf=-42:tn=1,equalizer=f=3500:t=q:w=1:g=2` : null,
     a.compress === "gentle" ? "acompressor=threshold=0.05:ratio=3:attack=8:release=180:makeup=2:knee=4" : null].filter(Boolean).join(",");
   const voiceGraph = [...parts, `${plan.segments.map((_, i) => `[s${i}]`).join("")}concat=n=${plan.segments.length}:v=0:a=1,${clean}[voice]`];
   const scriptFile = path.join(jobDir, "audio-graph.txt");

@@ -81,7 +81,7 @@
     "truePeakDb": -1.5,
     "lra": 11,
     "highpassHz": 70,
-    "denoise": "light",
+    "denoise": "voice",
     "musicUnderVoiceDb": 10,
     "fadeMs": 12,
     "compress": "gentle"
