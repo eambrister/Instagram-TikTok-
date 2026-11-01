@@ -83,7 +83,8 @@
     "highpassHz": 70,
     "denoise": "light",
     "musicUnderVoiceDb": 10,
-    "fadeMs": 12
+    "fadeMs": 12,
+    "compress": "gentle"
   },
   "transcription": {
     "provider": "local-faster-whisper",

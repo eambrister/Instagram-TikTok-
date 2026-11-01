@@ -30,7 +30,7 @@ export const houseStyleSchema = z.object({
   edit: z.object({ maxPauseSeconds: z.number(), keepPauseSeconds: z.number(), headPadSeconds: z.number(), tailPadSeconds: z.number(),
     silenceDb: z.number(), removeRestarts: z.boolean(), removeFillers: z.boolean() }),
   audio: z.object({ targetLufs: z.number(), truePeakDb: z.number(), lra: z.number(), highpassHz: z.number(), denoise: z.enum(["off", "light"]),
-    musicUnderVoiceDb: z.number(), fadeMs: z.number() }),
+    musicUnderVoiceDb: z.number(), fadeMs: z.number(), compress: z.enum(["off", "gentle"]).default("off") }),
   transcription: z.object({
     provider: z.enum(["local-faster-whisper", "openai"]),
     local: z.object({ modelDir: z.string(), threads: z.number().int() }),

@@ -1,7 +1,7 @@
 // Voice-first audio: same frame-snapped segments as the picture, micro-fades at every join, gentle cleanup,
 // optional licensed music ducked under speech, two-pass loudness normalisation, then measured.
 import { spawn } from "node:child_process";
-import { writeFileSync } from "node:fs";
+import { renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ScenePlan } from "../shared/plan";
 import type { HouseStyle } from "./config";
@@ -58,7 +58,10 @@ export async function buildAudio(plan: ScenePlan, srcWav: string, jobDir: string
     const d = sg.srcEnd - sg.srcStart;
     return `[0:a]atrim=start=${sg.srcStart.toFixed(6)}:end=${sg.srcEnd.toFixed(6)},asetpts=PTS-STARTPTS,afade=t=in:d=${fade},afade=t=out:st=${Math.max(0, d - fade).toFixed(6)}:d=${fade}[s${i}]`;
   });
-  const clean = [`highpass=f=${a.highpassHz}`, a.denoise === "light" ? "afftdn=nr=6:nf=-50:tn=1" : null].filter(Boolean).join(",");
+  // "gentle": a 3:1 compressor above about -26 dBFS evens out a recording that swings between loud and quiet, so
+  // loudnorm can reach the target without clipping peaks and the music stays under the quiet passages too.
+  const clean = [`highpass=f=${a.highpassHz}`, a.denoise === "light" ? "afftdn=nr=6:nf=-50:tn=1" : null,
+    a.compress === "gentle" ? "acompressor=threshold=0.05:ratio=3:attack=8:release=180:makeup=2:knee=4" : null].filter(Boolean).join(",");
   const voiceGraph = [...parts, `${plan.segments.map((_, i) => `[s${i}]`).join("")}concat=n=${plan.segments.length}:v=0:a=1,${clean}[voice]`];
   const scriptFile = path.join(jobDir, "audio-graph.txt");
   writeFileSync(scriptFile, voiceGraph.join(";\n"));
@@ -98,7 +101,16 @@ export async function buildAudio(plan: ScenePlan, srcWav: string, jobDir: string
   await run("ffmpeg", ["-v", "error", "-y", "-i", edited, "-af",
     `${ln}:measured_I=${j.input_i}:measured_TP=${j.input_tp}:measured_LRA=${j.input_lra}:measured_thresh=${j.input_thresh}:offset=${j.target_offset}:linear=true,aresample=48000`,
     "-ar", "48000", final]);
-  const m = await measureLoudness(final);
+  let m = await measureLoudness(final);
+  if (a.compress === "gentle" && m.integratedLufs < a.targetLufs - 0.5) {
+    // Linear loudnorm stopped short (a few high peaks): add the remaining gain under a true-peak limiter.
+    const lifted = path.join(jobDir, "audio-final-lifted.wav");
+    const limit = Math.pow(10, (a.truePeakDb - 1.2) / 20);
+    await run("ffmpeg", ["-v", "error", "-y", "-i", final, "-af",
+      `volume=${(a.targetLufs - m.integratedLufs).toFixed(2)}dB,alimiter=limit=${limit.toFixed(4)}:attack=2:release=50:level=false`, "-ar", "48000", lifted]);
+    renameSync(lifted, final);
+    m = await measureLoudness(final);
+  }
   log("audio", `voice ${j.input_i} LUFS -> ${m.integratedLufs} LUFS, true peak ${m.truePeakDb} dBTP${music ? " (music ducked)" : ""}`);
   return { final, measure: m, normalizationType: j.normalization_type as string, musicUnderVoiceDb };
 }
