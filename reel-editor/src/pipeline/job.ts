@@ -10,7 +10,7 @@ import { chooseFps, detectSilence, makeProxy, probe, type Probe } from "./ingest
 import { buildPlan, type Direction } from "./planner";
 import { reportMarkdown, runQa } from "./qa";
 import { renderVideo } from "./render";
-import { applyCorrections, transcribe, uncertainWords, type Correction } from "./transcribe";
+import { applyCorrections, transcribe, uncertainWords, type Correction, type KeepRange } from "./transcribe";
 import { ensureDir, exists, hashOf, log, py, readJson, rel, round, run, sha256File, writeJson } from "./util";
 import { validatePlan } from "./validate";
 import type { Segment } from "../shared/plan";
@@ -78,7 +78,9 @@ export async function runJob(o: JobOptions) {
   // 2. Transcribe (content-keyed global cache; corrections are applied per job)
   const tr = await timed("transcribe", () => transcribe(media.asr, sourceSha, style));
   const corrFile = path.join(jobDir, "corrections.json");
-  const corrections: Correction[] = existsSync(corrFile) ? readJson(corrFile) : [];
+  const corrRaw: (Correction | KeepRange)[] = existsSync(corrFile) ? readJson(corrFile) : [];
+  const corrections = corrRaw.filter((c): c is Correction => "from" in c);
+  const keepRanges = corrRaw.filter((c): c is KeepRange => "keepFrom" in c).map((c) => ({ start: c.keepFrom, end: c.keepTo }));
   const { words: srcWords, applied, notSpeech } = applyCorrections(tr.words, corrections);
   writeFileSync(path.join(jobDir, "transcript.txt"), srcWords.map((w) => `${w.start.toFixed(2)}\t${w.p ?? ""}\t${w.text}`).join("\n"));
   if (!srcWords.length) throw new Error("No speech was transcribed. Check that the recording has audible speech.");
@@ -109,7 +111,7 @@ export async function runJob(o: JobOptions) {
   // Words Eddie confirmed he did not say count as silence when deciding pause trims.
   const silences = [...(await detectSilence(media.audio, style.edit.silenceDb, 0.3)), ...notSpeech].sort((a, b) => a.start - b.start);
   const timedWords = snapToSpeech(srcWords, silences);
-  const edl = buildEdl(timedWords, silences, pr.duration, style, { keepPauses: o.direction.keepPauses });
+  const edl = buildEdl(timedWords, silences, pr.duration, style, { keepPauses: o.direction.keepPauses, keep: keepRanges });
   const segs = buildSegments(edl.keep, fps);
   writeJson(path.join(jobDir, "edl.json"), { cuts: edl.cuts, keep: edl.keep, segments: segs });
   const focusFor = (s0: number, s1: number): Segment["focus"] => {

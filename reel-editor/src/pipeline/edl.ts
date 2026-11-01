@@ -68,6 +68,13 @@ export function findRetakes(words: Word[], minWords = 5, window = 30): Cut[] {
       const item = /[,.!?;]$/;
       const parallel = j - i === k + 1 && item.test(words[i + k].text) && j + k < words.length && item.test(words[j + k].text);
       if (k >= minWords && parallel) break;
+      // A real retake is abandoned quickly; 30+ words in between means he carried on and came back to the
+      // phrase on purpose ("if you want to get a V-taper ... if you want to get a nicer V-taper").
+      if (k >= minWords && j - i > 30) break;
+      // He finished a sentence and carried on (3+ more words) before the repeat: new content, not a retake
+      // ("you could just do squats honestly. And jumping jacks, ... you could just do burpees honestly").
+      const carriedOn = words.slice(i + k, j).some((w, q, arr) => /[.!?]$/.test(w.text) && arr.length - q - 1 >= 3);
+      if (k >= minWords && carriedOn) break;
       if (k >= minWords) {
         cuts.push({ start: words[i].start, end: words[j].start,
           reason: `retake: "${words.slice(i, Math.min(j, i + 8)).map((w) => w.text).join(" ")}…" said again at ${words[j].start.toFixed(1)}s, kept the later take` });
@@ -94,7 +101,8 @@ export function snapToSpeech<T extends Word>(words: T[], silences: Interval[]): 
   });
 }
 
-export function buildEdl(words: Word[], silences: Interval[], duration: number, style: HouseStyle, opts: { keepPauses?: boolean } = {}): Edl {
+export function buildEdl(words: Word[], silences: Interval[], duration: number, style: HouseStyle,
+  opts: { keepPauses?: boolean; keep?: Interval[] } = {}): Edl {
   const e = style.edit;
   if (!words.length) return { keep: [{ start: 0, end: duration }], cuts: [] };
   const cuts: Cut[] = [];
@@ -112,7 +120,10 @@ export function buildEdl(words: Word[], silences: Interval[], duration: number, 
       cuts.push({ start: Math.max(prevEnd, w.start - 0.03), end: Math.min(nextStart, w.end + 0.03), reason: `filler "${w.text}"` });
     });
 
-  if (e.removeRestarts) cuts.push(...findRetakes(words), ...findRestarts(words));
+  // Ranges he confirmed are deliberate (corrections.json {"keepFrom", "keepTo"}) are never cut as retakes.
+  const keepRanges = opts.keep ?? [];
+  const kept = (c: Cut) => keepRanges.some((r) => overlap(c, r) > 0);
+  if (e.removeRestarts) cuts.push(...[...findRetakes(words), ...findRestarts(words)].filter((c) => !kept(c)));
 
   if (!opts.keepPauses)
     for (let i = 0; i + 1 < words.length; i++) {

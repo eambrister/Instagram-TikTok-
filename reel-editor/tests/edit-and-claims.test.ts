@@ -121,3 +121,16 @@ test("a parallel list is not a retake", () => {
   const r = words("for a lot of people, fat is where, for a lot of people, the stomach is where fat shows up first.");
   assert.equal(findRetakes(r).length, 1);
 });
+
+test("a phrase repeated after a long stretch of real content is not a retake", () => {
+  const filler = Array.from({ length: 35 }, (_, i) => `word${i}`).join(" ");
+  const w = words(`if you want to get a v-taper there's a few things ${filler} if you want to get a nicer v-taper`);
+  assert.equal(findRetakes(w).length, 0);
+});
+
+test("finishing a sentence and moving on is not a retake", () => {
+  const w = words("but you could just do squats honestly. And jumping jacks, yes a good cardio workout, but you could just do burpees honestly.");
+  assert.equal(findRetakes(w).length, 0);
+  const r = words("you have to have a small stomach. You have to have a small waist.");
+  assert.equal(findRetakes(r).length, 1);
+});

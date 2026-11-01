@@ -12,6 +12,8 @@ export type Transcript = { engine: string; model: string; language: string; word
 // the recogniser (removed from captions, its audio kept as part of the previous word).
 // start/end: retime a word the recogniser stretched over a pause (e.g. "4." spanning 5 s of silence).
 export type Correction = { at: number; from: string; to: string; join?: boolean; start?: number; end?: number };
+// {"keepFrom": 140, "keepTo": 144}: a deliberate repeat in that source range is never cut as a retake.
+export type KeepRange = { keepFrom: number; keepTo: number };
 
 export async function transcribe(asrWav: string, sourceSha: string, style: HouseStyle): Promise<Transcript> {
   const t = style.transcription;
