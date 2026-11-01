@@ -1,0 +1,30 @@
+{
+ "video": "reel/tier-list.mp4",
+ "maskDir": "reel-mask-tier-list",
+ "beats": [
+  { "from": 0.8, "to": 6.5, "side": "right", "label": "BASIC CALISTHENICS", "art": "Dumbbell" },
+  { "from": 6.6, "to": 11.2, "side": "right", "label": "GIVE YOUR OPINION", "art": "CommentTyping", "artProps": { "word": "OPINION" } },
+  { "from": 22.6, "to": 29.4, "side": "right", "label": "ALL OVER ENDURANCE", "art": "HeartPulse" },
+  { "from": 33.2, "to": 41.9, "side": "right", "label": "ENTIRE ABDOMEN", "art": "Flame" },
+  { "from": 43.7, "to": 48.7, "side": "right", "label": "THE WHOLE LEGS", "art": "Runner" },
+  { "from": 51.1, "to": 53.9, "side": "right", "label": "Y'ALL AIN'T GONNA LIKE THIS", "art": "Lightning" },
+  { "from": 62.1, "to": 66.5, "side": "right", "label": "PUSH-UPS OVER DIPS", "art": "SquarePeg" },
+  { "from": 72.8, "to": 75.3, "side": "right", "label": "A NARROW GRIP PULL-UP", "art": "OddOneOut" },
+  { "from": 88.9, "to": 91.5, "side": "right", "label": "ONE LEG AT A TIME", "art": "Footsteps" },
+  { "from": 94.8, "to": 96.8, "side": "right", "label": "A GOOD CARDIO WORKOUT", "art": "HeartPulse" },
+  { "from": 100.4, "to": 105.7, "side": "right", "label": "GARBAGE", "art": "BrokenLink" },
+  { "from": 122.2, "to": 127.3, "side": "right", "label": "AGREE OR DISAGREE?", "art": "CommentTyping", "artProps": { "word": "AGREE?" } }
+ ],
+ "word": null,
+ "cardTop": 460,
+ "tiers": {
+  "from": 11.4, "to": 127.3, "side": "left", "top": 440, "title": "MY TIER LIST",
+  "rows": [
+   { "tier": "S", "items": [ { "label": "PUSH-UPS", "at": 13.3 }, { "label": "PULL-UPS", "at": 14.0 }, { "label": "BURPEES", "at": 14.8 } ] },
+   { "tier": "A", "items": [ { "label": "HANGING LEG RAISES", "at": 31.2 }, { "label": "SQUATS", "at": 32.6 } ] },
+   { "tier": "B", "items": [ { "label": "DIPS", "at": 52.5 }, { "label": "CHIN-UPS", "at": 53.2 } ] },
+   { "tier": "C", "items": [ { "label": "LUNGES", "at": 86.4 }, { "label": "JUMPING JACKS", "at": 87.4 } ] },
+   { "tier": "F", "items": [ { "label": "PLANKS", "at": 99.7 }, { "label": "MOUNTAIN CLIMBERS", "at": 107.7 } ] }
+  ]
+ }
+}
