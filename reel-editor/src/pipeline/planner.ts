@@ -517,7 +517,7 @@ export function buildPlan(inp: PlanInput): { plan: ScenePlan; flagged: string[] 
     }
     graphics.push({ kind: "hook", id: "hook", start: 0, end: round(titleEnd, 3), region,
       data: { kicker: d.topic ? d.topic.toUpperCase() : null, title, highlight: emphIdx,
-        times: d.titleText ? title.split(" ").map(() => 0) : firstSentence.map((w) => (d.pinHook ? 0 : round(w.start, 3))) }, source: { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
+        times: d.titleText ? title.split(" ").map(() => 0) : firstSentence.map((w) => (d.pinHook ? 0 : round(w.start, 3))) }, source: d.titleText ? { kind: "instruction", quote: d.titleText, at: firstSentence[0].start } : { kind: "speech", quote: quoteOf(firstSentence), at: firstSentence[0].start, confidence: minConf(firstSentence) } });
     if (kind !== "panel-top" && !topSlot(0, titleEnd)) notes.push("hook title placed below the face (no room above the head)");
     if (d.pinHook) notes.push("hook title pinned at the top for the whole video");
   }
