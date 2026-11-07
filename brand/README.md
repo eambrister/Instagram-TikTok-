@@ -23,3 +23,7 @@ The full design framework, format families, grid, copy structure and quality-con
 ## Second brand kit
 
 The optional **Monumental** kit, a cinematic editorial-serif style, is documented in [`monumental/`](monumental/README.md). It is used only on request and does not change any of the core rules above.
+
+## Posting platforms
+
+Carousels and single-image posts are published to **Instagram only**. Videos such as talking-head clips go to TikTok. See `CLAUDE_ONBOARDING.md` §10.

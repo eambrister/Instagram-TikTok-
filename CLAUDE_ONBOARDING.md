@@ -233,7 +233,16 @@ Edison explicitly disliked the original stick-figure calisthenics design and a v
 - Keep the lower interface area free of critical information
 - Provide both a version with original sound and a silent version when useful
 
-## 10. Repository workflow
+## 10. Where each format is posted
+
+Edison's rule, set in November 2026:
+
+- **Carousels and single-image posts go to Instagram only.** Do not schedule them on TikTok.
+- **Talking-head and other videos go to TikTok** (and to Instagram Reels or YouTube Shorts when Edison asks).
+
+When scheduling through Metricool, a carousel's only provider is `instagram`.
+
+## 11. Repository workflow
 
 Before changing files:
 
@@ -276,7 +285,7 @@ After building:
 
 Do not publish partial, unreviewed renders.
 
-## 11. Existing work to review
+## 12. Existing work to review
 
 Useful references in `outputs/`:
 
@@ -290,7 +299,7 @@ Useful references in `outputs/`:
 
 Treat these as structural references, not current identity references. Most were produced under the retired Cut Throat Discipline name. The newest files in `brand/` are the current source of truth when older work conflicts with them.
 
-## 12. Known lessons from previous revisions
+## 13. Known lessons from previous revisions
 
 - Edison prefers 4:5 posts rather than square carousels.
 - Headlines should be large and use the available canvas.
@@ -303,7 +312,7 @@ Treat these as structural references, not current identity references. Most were
 - He will reject work that looks obviously AI-generated, structurally weak or visually cheap.
 - Download links should point to GitHub raw files because chat attachments have previously been difficult for him to download.
 
-## 13. How to collaborate with Edison
+## 14. How to collaborate with Edison
 
 Edison wants help executing, not only brainstorming. When he gives a clear topic:
 
@@ -319,7 +328,7 @@ Do not repeatedly ask for confirmation on routine design decisions. Ask only whe
 
 When Edison dislikes something, identify the visual reason, correct it and show the revised result. Do not defend a weak design.
 
-## 14. Starter instruction for a new Claude conversation
+## 15. Starter instruction for a new Claude conversation
 
 Paste this after giving Claude access to the repository:
 
