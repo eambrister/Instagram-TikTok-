@@ -6,6 +6,7 @@ These skills adapt editing *techniques* from a private collection of video-editi
 
 ## 1. Identity
 
+- **Setting:** Edison does not train at a gym. Where a skill says "gym", read it as wherever he actually trains or films, such as home, outdoor or bodyweight work. Never invent gym equipment or locations. Adapt each skill to his real footage when it's first used.
 - **Subject:** Edison Ambrister, from his real footage only. Never alter his face, physique or skin tone, and never invent exercises, reactions, a second camera, or results.
 - **Name in copy, credits and captions:** Edison Ambrister (`@edisonambrister` on Instagram, `@e.pamb` on TikTok).
 - **Logo: Cut Throat Discipline.** Edison's instruction on 2026-11-08 sets the CTD logo as the mark for these video skills. This overrides the "CTD emblem retired" line in `brand/README.md`, but only for work made with these skills.
