@@ -42,7 +42,7 @@ SLIDES = [
      "labels": [('Walnuts', 500, 257, 380, 90), ('Eggs', 357, 500, 220, 870), ('Blueberries', 871, 471, 900, 110), ('Salmon', 643, 671, 860, 880)]},
     {"slug": "eyes", "image": "07.png", "title": "EYES",
      "line": "Orange vegetables bring vitamin A. Leafy greens and egg yolks bring lutein.",
-     "labels": [('Carrot', 471, 471, 300, 120), ('Egg yolk', 700, 486, 820, 120), ('Spinach', 357, 580, 200, 830), ('Sweet potato', 857, 657, 880, 830)]},
+     "labels": [('Carrot', 471, 471, 300, 120), ('Egg yolk', 700, 486, 820, 120), ('Spinach', 400, 550, 200, 830), ('Sweet potato', 880, 600, 880, 830)]},
     {"slug": "close", "image": "08.png", "kind": "close",
      "bone": ["BUILD THE PLATE."], "gold": ["THEN REPEAT IT."],
      "body": "Save this for your next shop. Follow for more ways to feed the body you're training."},
