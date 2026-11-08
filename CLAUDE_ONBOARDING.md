@@ -146,6 +146,10 @@ Read those files before designing anything.
 
 A second, optional visual style lives in [`brand/monumental/`](brand/monumental/README.md). It is a cinematic, photo-led look with editorial serif headlines, bone and antique-gold type, and optional sculpture or architecture metaphors, built from four uploaded guides. It **does not replace** the core system above. Use it only when Edison asks for it or the brief names it. It requires real photos of Edison, and it has its own palette, fonts, layouts and caption system ([`brand/monumental/CAPTION_SYSTEM.md`](brand/monumental/CAPTION_SYSTEM.md)). Carousel topic ideas for both kits are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
 
+### Video-editing skills
+
+Twenty `edison-*` editing skills are in [`.claude/skills/`](.claude/skills/README.md): gym films, Reel covers, 60-second vlog Reels, talking-head, form explainers, podcasts, day-in-the-life, video carousels, studio redesign and video review. All of them start from [`.claude/skills/_shared/edison-video-standard.md`](.claude/skills/_shared/edison-video-standard.md), and that standard uses the **Cut Throat Discipline logo** for video work. If you're unsure which skill fits, use `edison-production-standard`.
+
 ### Fixed brand elements
 
 - **Primary logo:** [`brand/assets/edison-ambrister/edison-ambrister-horizontal.png`](brand/assets/edison-ambrister/edison-ambrister-horizontal.png)
