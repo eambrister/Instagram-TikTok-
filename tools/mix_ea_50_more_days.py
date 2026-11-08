@@ -107,7 +107,7 @@ def main():
         if 0 <= i < total:
             sfx[i:j] += clip[:j - i]
 
-    w = whoosh()
+    w = whoosh(gain=0.055)  # regular-title whooshes ~5 dB softer (Edison, v2); punch-word hits unchanged
     for e in build_events():
         if e["kind"] == "depth":
             if e.get("slam"):

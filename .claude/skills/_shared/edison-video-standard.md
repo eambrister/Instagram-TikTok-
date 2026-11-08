@@ -32,6 +32,8 @@ Where an original technique called for "charcoal / brass / bone / crimson / blue
 
 - **Display sans:** Barlow Condensed ExtraBold (stand-in for the requested Heading Now). **Support:** Montserrat Medium/Bold (stand-in for Gotham). **Editorial serif:** Bodoni Moda Bold/Black, which replaces any Bodoni, Didot or Baskerville call in the originals. All of these are in `brand/fonts/`. Disclose a substitution whenever a brief names a licensed font.
 - **Grade intent:** obsidian blacks with detail, graphite/blue-neutral environment, controlled highlights, warm, readable skin, and black clothing that keeps its texture. Balance every shot first, then apply one creative finish. Never guess a log transform from a DJI filename or a BT.709 tag.
+- **No vignette.** Never darken the frame edges unless Edison asks for a vignette on that specific piece. This is his standing rule from 2026-11-08.
+- **Sound effects on titles:** soft whooshes on regular titles sit well under the voice, quieter than the punch-word hits. Punch words keep the full impact.
 - **Edison LUTs:** none exist yet. Do not borrow or describe another creator's LUT as Edison's. Once Edison approves a grade, save it as `brand/luts/EA-OBSIDIAN-709-v1.cube`, with notes on what input it expects.
 - **Monumental kit** (`brand/monumental/`) is the serif / bone / antique-gold variant. Use it when the brief or skill calls for editorial serif treatment.
 

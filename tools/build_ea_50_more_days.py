@@ -32,8 +32,7 @@ CRIMSON = (152, 27, 46)
 
 GRADE = ("scale=1080:1920:flags=lanczos,"
          "eq=contrast=1.07:saturation=0.93:gamma=0.97,"
-         "colorbalance=rs=0.02:bs=0.03:rm=0.02:bm=-0.02,"
-         "vignette=PI/5")
+         "colorbalance=rs=0.02:bs=0.03:rm=0.02:bm=-0.02")  # no vignette (Edison's standing rule)
 
 
 def font(name, size):
