@@ -296,7 +296,7 @@ def main():
         prev_m = m
         rows = np.where((m[:, 330:750] > 0.5).any(1))[0]
         if len(rows):
-            head = 0.85 * head + 0.15 * float(np.clip(rows[0], 380, 540))
+            head = 0.85 * head + 0.15 * float(np.clip(rows[0], 300, 560))
 
         comp = frame.copy()
         # depth layer: titles sit between sky and the real moving body
@@ -322,15 +322,23 @@ def main():
             if sc != 1.0:
                 img = img.resize((int(img.width * sc), int(img.height * sc)), Image.BILINEAR)
             gt, gb = e["img"].info.get("glyph", (40, e["img"].height - 40))
-            y = int(head + 30 - gb * sc)
+            y = int(head + 18 - gb * sc)
             y = max(y, 235 - int(gt * sc))  # keep glyph tops inside the safe area
             y -= int(e["rise"] * ease(u)) - int(24 * (1 - ease((t - e["t0"]) / 0.3)))
             over(comp, img, (W - img.width) // 2, y, al)
         mm = m[..., None]
         comp = frame * mm + comp * (1 - mm)
+        clean = frame  # end-card freeze: graded picture only, no titles or captions
 
         # whole-picture camera move: slam shake, plus a slow push through the closing minute
         push = 1.0 + 0.035 * ease((t - 63.0) / 14.0) if t > 63 else 1.0
+        if push != 1.0:
+            ci = Image.fromarray(np.clip(clean, 0, 255).astype(np.uint8))
+            ci = ci.resize((int(W * push), int(H * push)), Image.BILINEAR)
+            cx, cy = (ci.width - W) // 2, (ci.height - H) // 2
+            last = np.asarray(ci.crop((cx, cy, cx + W, cy + H)))
+        else:
+            last = np.clip(clean, 0, 255).astype(np.uint8)
         if push != 1.0 or shake != (0, 0):
             im = Image.fromarray(np.clip(comp, 0, 255).astype(np.uint8))
             nw, nh = int(W * push), int(H * push)
@@ -341,7 +349,6 @@ def main():
             canvas.paste(im, (20 - ox, 20 - oy))
             comp = np.asarray(canvas.crop((20, 20, 20 + W, 20 + H)), np.float32).copy()
 
-        last = np.clip(comp, 0, 255).astype(np.uint8)  # end-card freeze: no captions
         # front layer: progress card, new-year strike, captions
         for e in events:
             al = env(t, e["t0"], e["t1"])
