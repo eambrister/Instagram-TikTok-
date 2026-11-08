@@ -37,4 +37,4 @@ Made with the `edison-full-message` skill. Built by `tools/build_ea_50_more_days
 - **Not done:** a continuous real-time watch and a listening pass. Meters and sampled frames aren't the same as watching and listening, so Edison should watch it once before posting.
 
 ## Not done
-- Not posted or scheduled anywhere.
+- Scheduled (not yet posted) in Metricool for Wed 11 Nov 2026, 4:00 PM ET, to Instagram and TikTok.
