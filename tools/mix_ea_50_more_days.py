@@ -1,7 +1,9 @@
 """Audio for "50 MORE DAYS": Edison's original voice (cleaned), an original music bed and
 designed (synthesized) SFX timed to the graphics in build_ea_50_more_days.py.
 
-    python3 -I tools/mix_ea_50_more_days.py SRC.MOV OUT_DIR
+    python3 -I tools/mix_ea_50_more_days.py SRC.MOV OUT_DIR [FILM_MODULE]
+
+FILM_MODULE (default build_ea_50_more_days) supplies build_events() and optional STEPS.
 
 Writes voice.wav, music.wav, sfx.wav (stems, pre-limiter) and mix.wav.
 Voice is never retimed or replaced. No speech-separation model is used here:
@@ -16,7 +18,9 @@ import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
-from build_ea_50_more_days import END_CARD, build_events  # noqa: E402
+import importlib  # noqa: E402
+
+from build_ea_50_more_days import END_CARD  # noqa: E402
 
 SR = 48000
 
@@ -70,6 +74,8 @@ def tick(gain=0.12):
 
 def main():
     src, out = sys.argv[1], pathlib.Path(sys.argv[2])
+    film = importlib.import_module(sys.argv[3] if len(sys.argv) > 3 else "build_ea_50_more_days")
+    build_events = film.build_events
     out.mkdir(parents=True, exist_ok=True)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vn", "-ac", "1", "-ar", str(SR),
                     "-af", "highpass=f=85,afftdn=nf=-28,"
@@ -119,6 +125,8 @@ def main():
                 place(e["t0"] + 0.3 + i * 0.22, tick())
         elif e["kind"] == "newyear":
             place(30.30, impact(0.35))
+    for _, s in getattr(film, "STEPS", []):  # step-tracker light-ups
+        place(s - 0.2, tick(0.16))
     place(speech_end / SR - 0.35, whoosh(0.6, 0.16))
     place(speech_end / SR + 0.1, impact(0.4))
 
