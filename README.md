@@ -6,6 +6,10 @@ New collaborators should begin with [`CLAUDE_ONBOARDING.md`](CLAUDE_ONBOARDING.m
 
 A second, optional brand kit, **Monumental** (cinematic and photo-led, with editorial serif headlines), is in [`brand/monumental/`](brand/monumental/README.md). Carousel topic ideas are in [`ideas/carousel-topic-bank.md`](ideas/carousel-topic-bank.md).
 
+## Week of 2–8 November 2026
+
+Seven typographic carousels, one per day, with schedule and upload bundle in [`outputs/edison-ambrister-week-2026-11-02`](outputs/edison-ambrister-week-2026-11-02).
+
 ## Inspo posts
 
 Six original 1080 × 1350 single-image posts for Instagram and TikTok (nutrients, food swaps, fridge setup, Choose Your Hard, 60 g protein shake, grocery list) are in [`outputs/edison-ambrister-inspo-posts`](outputs/edison-ambrister-inspo-posts).
