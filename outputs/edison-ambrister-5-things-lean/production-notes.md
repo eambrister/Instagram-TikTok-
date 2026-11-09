@@ -34,7 +34,7 @@ There are also 25 dead-air trims: every pause over about 0.4 s, cut back to a na
 - **Picture:** the same daylight grade, **no vignette**. Head-tracked depth titles, now remapped to the cut timeline with a minimum hold of 1.1 s so the punch titles survive the trims. Step tracker, word-timed captions and the CTD end card as in v1.
 - **Voice:** reassembled from the kept segments with 6 ms fades at every joint. High-pass, FFT denoise and compression; this is not neural isolation.
 - **Music and SFX:** original music bed. Soft whooshes on regular titles, hits on the punch titles, ticks on the step tracker. All SFX are synthesized.
-- **Loudness:** normalized, measured and corrected to −14 LUFS with a true-peak limiter.
+- **Loudness:** −14.7 LUFS integrated, −2.6 dBTP. Delivery: 1080 × 1920, 30 fps, 2,418 frames, 80.6 s, full decode with no errors and no black gaps.
 - **No "GUARANTEED" titles on screen** (onboarding rule). The word stays in the audio and captions only.
 
 ## Not done
