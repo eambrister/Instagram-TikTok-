@@ -42,4 +42,4 @@ There are also 10 dead-air trims, totalling 3.4 s.
 
 ## Not done
 - No continuous real-time watch or listening pass. Edison should watch it once.
-- Not scheduled.
+- Not scheduled: Edison posts it himself.

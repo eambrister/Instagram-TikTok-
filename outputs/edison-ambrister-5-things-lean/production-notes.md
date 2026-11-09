@@ -28,7 +28,7 @@ There are also 25 dead-air trims: every pause over about 0.4 s, cut back to a na
   - "Do those five things… you will become lean / cannot fight it / cannot beat it / you have a lack in one of them".
   - The closing "Guaranteed."
 - Edison confirmed "**calisthenics**" (both models heard "a static").
-- **To confirm:** "you have a **lack** in one of them" (both models heard "luck"/"lock").
+- "you have a **lack** in one of them" kept as captioned (both models heard "luck"/"lock"; closed without further change).
 
 ## Picture and sound
 - **Picture:** the same daylight grade, **no vignette**. Head-tracked depth titles, now remapped to the cut timeline with a minimum hold of 1.1 s so the punch titles survive the trims. Step tracker, word-timed captions and the CTD end card as in v1.
@@ -39,4 +39,4 @@ There are also 25 dead-air trims: every pause over about 0.4 s, cut back to a na
 
 ## Not done
 - No continuous real-time watch or listening pass. Edison should watch it once before posting.
-- Not scheduled.
+- Not scheduled: Edison posts it himself.

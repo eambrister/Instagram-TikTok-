@@ -1,6 +1,6 @@
 # 5 things to get lean
 
-Reel: `5-things-lean-v2.mp4` (1080 × 1920). Pillars: **EDISON EATS** and **EDISON TRAINS**. Not scheduled.
+Reel: `5-things-lean-v2.mp4` (1080 × 1920). Pillars: **EDISON EATS** and **EDISON TRAINS**. Edison posts this one himself (Metricool post quota used up).
 
 **TikTok title:** 5 things I hit every day to stay lean
 

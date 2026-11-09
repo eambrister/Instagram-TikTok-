@@ -1,6 +1,6 @@
 # Above average
 
-Reel: `above-average-v1.mp4` (1080 × 1920). Pillar: **THE STANDARD**. Not scheduled. Per the posting rule, videos go to TikTok, and to Instagram Reels only when Edison asks.
+Reel: `above-average-v1.mp4` (1080 × 1920). Pillar: **THE STANDARD**. Edison posts this one himself (Metricool post quota used up).
 
 **TikTok title:** Being above average is easier than you think
 
