@@ -97,7 +97,7 @@ def frequency_slide():
     img = surface(2, light=(0.85, 0.05))
     d = ImageDraw.Draw(img)
     y = header(d, "HOW OFTEN TO TRAIN BACK", "Weekly sessions that hit the back hard.")
-    cols = [("BEGINNER", "1–2× A WEEK", ["Learn the form.", "Basic pulls and rows.", "Keep volume low."]),
+    cols = [("BEGINNER", "1–2× A WEEK", ["Learn the form.", "Assisted pull-ups and rows.", "Keep volume low."]),
             ("INTERMEDIATE", "2× A WEEK", ["Best for most people.", "One width day, one thickness day."]),
             ("ADVANCED", "2–3× A WEEK", ["Only if you're recovering.", "Spread sets across the week."])]
     w = (920 - 2 * 20) / 3
@@ -118,8 +118,8 @@ def frequency_slide():
                 ly += 34
             ly += 12
     y += 450
-    card(d, (80, y, 530, y + 300), "WIDTH DAY", ["Pull-ups, lat pulldowns, straight-arm pulldowns."])
-    card(d, (550, y, 1000, y + 300), "THICKNESS DAY", ["Rows, rear delts, shrugs, back extensions."])
+    card(d, (80, y, 530, y + 300), "WIDTH DAY", ["Pull-ups, chin-ups, negatives, wide-grip pull-ups."])
+    card(d, (550, y, 1000, y + 300), "THICKNESS DAY", ["Inverted rows, prone Y and T raises, supermans."])
     y += 330
     nf = font(BODY, 30)
     for ln in wrap(nf, "Train it again when soreness is mostly gone and your lifts are back to normal.", 900):
@@ -131,13 +131,13 @@ def frequency_slide():
 def exercises_slide():
     img = surface(3, light=(0.1, 0.05))
     d = ImageDraw.Draw(img)
-    y = header(d, "MUSCLE + BEST EXERCISES", "Match each muscle to the movement that trains it.")
-    rows = [("TRAPS", "Shrugs · Deadlifts"),
-            ("REAR DELTS", "Reverse flys · Face pulls"),
-            ("RHOMBOIDS", "Bent-over rows · Seated cable rows"),
-            ("LATS", "Pull-ups · Lat pulldowns"),
-            ("TERES MAJOR", "Pulldowns · One-arm DB rows"),
-            ("ERECTORS", "Back extensions · Romanian deadlifts")]
+    y = header(d, "MUSCLE + BEST EXERCISES", "No gym needed. A bar and a sturdy table will do.")
+    rows = [("TRAPS", "Scap pull-ups · Prone Y-raises"),
+            ("REAR DELTS", "Wide inverted rows · Prone T-raises"),
+            ("RHOMBOIDS", "Inverted rows · Scap retractions"),
+            ("LATS", "Pull-ups · Chin-ups"),
+            ("TERES MAJOR", "Wide pull-ups · Negatives"),
+            ("ERECTORS", "Supermans · Bird dogs")]
     nf, ef = font(HEAD, 50), font(BODY, 30)
     row_h = 132
     for i, (m, ex) in enumerate(rows):
@@ -149,7 +149,7 @@ def exercises_slide():
         d.text((470, ry + (row_h - (eb[3] - eb[1])) / 2 - eb[1]), ex, font=ef, fill=BONE)
     d.line((80, y + len(rows) * row_h, 1000, y + len(rows) * row_h), fill=RULE, width=1)
     y += len(rows) * row_h + 34
-    t = "Pulls and pulldowns build width. Rows build thickness."
+    t = "Pull-ups build width. Rows build thickness."
     d.text(((W - ef.getlength(t)) / 2, y), t, font=ef, fill=STONE)
     return img
 
@@ -157,11 +157,11 @@ def exercises_slide():
 def load_slide():
     img = surface(4, light=(0.9, 0.05))
     d = ImageDraw.Draw(img)
-    y = header(d, "HOW HEAVY SHOULD YOU LIFT?", "Pick the weight by reps and effort, not ego.")
-    cols = [("LIGHT", "15–20", "Warm-ups, learning form."),
-            ("MODERATE", "10–15", "Most accessory work."),
-            ("HEAVY", "6–10", "Rows, pulldowns, main lifts."),
-            ("VERY HEAVY", "3–6", "Experienced lifters, big lifts only.")]
+    y = header(d, "LEVEL UP YOUR PULL-UPS", "No weights needed. Progress the movement.")
+    cols = [("ASSISTED", "01", "Band or feet on a chair. Build to 3 sets of 8."),
+            ("NEGATIVES", "02", "Jump up, lower slowly for 3–5 seconds."),
+            ("STRICT", "03", "Dead hang to chin over the bar. Build to 3×10."),
+            ("HARDER", "04", "Slow tempo or archer pull-ups once 3×10 is easy.")]
     w = (920 - 3 * 16) / 4
     for i, (t, reps, use) in enumerate(cols):
         x0 = 80 + i * (w + 16)
@@ -175,7 +175,7 @@ def load_slide():
             rf = font(HEAD, rf.size - 4)
         d.text((x0 + (w - rf.getlength(reps)) / 2, y + 74), reps, font=rf, fill=GOLD)
         lf = font(UTIL, 20)
-        tracked(d, x0 + (w - tracked_width("REPS", lf, 3)) / 2, y + 190, "REPS", lf, STONE, 3)
+        tracked(d, x0 + (w - tracked_width("STEP", lf, 3)) / 2, y + 190, "STEP", lf, STONE, 3)
         bf = font(BODY, 25)
         ly = y + 250
         for ln in wrap(bf, use, w - 30):
@@ -187,7 +187,7 @@ def load_slide():
     d.text((112, y + 30 - tf.getbbox("H")[1]), "THE SIMPLE RULE", font=tf, fill=GOLD)
     bf = font(BODY, 30)
     ly = y + 104
-    for ln in wrap(bf, "The last 2–3 reps should be hard, with clean form. Form breaks: too heavy. 5+ easy reps left: too light.", 860):
+    for ln in wrap(bf, "Use the hardest version where the last 2–3 reps are hard but clean. Hit the target on every set, then move up a step.", 860):
         d.text((112, ly), ln, font=bf, fill=BONE)
         ly += 42
     return img
@@ -218,7 +218,7 @@ def close_slide():
 def main():
     (OUT / "jpg").mkdir(parents=True, exist_ok=True)
     slides = [("01-muscle-map", map_slide()), ("02-frequency", frequency_slide()),
-              ("03-exercises", exercises_slide()), ("04-how-heavy", load_slide()), ("05-close", close_slide())]
+              ("03-exercises", exercises_slide()), ("04-pull-up-progression", load_slide()), ("05-close", close_slide())]
     pngs = []
     for i, (name, img) in enumerate(slides, 1):
         furniture(img, i, len(slides))
