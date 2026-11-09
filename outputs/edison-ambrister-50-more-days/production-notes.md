@@ -1,4 +1,4 @@
-# 50 MORE DAYS: production notes (v1)
+# 50 MORE DAYS: production notes (v2)
 
 Made with the `edison-full-message` skill. Built by `tools/build_ea_50_more_days.py` (picture) and `tools/mix_ea_50_more_days.py` (sound).
 
@@ -7,13 +7,13 @@ Made with the `edison-full-message` skill. Built by `tools/build_ea_50_more_days
 - Kept outside the repo; the original file is unchanged in Drive.
 
 ## Message retention
-- **100%.** The whole take plays in order at natural speed: 250 of 250 transcribed words, nothing removed and nothing retimed.
+- **100%.** The whole take plays in order at natural speed: all 251 words, nothing removed and nothing retimed.
 - Transcript: local NVIDIA Parakeet TDT 0.6B v2 (sherpa-onnx), cross-checked with Whisper small.en. No audio left this session.
-- **Line to confirm (around 36 s):** Parakeet heard "But most likely, you're gonna change yourself." Whisper heard "most likely you can change yourself." From the context, Edison may have said "you're **not** gonna" or "you **can't**". The caption shows Parakeet's wording. If it's wrong, fix the words in `transcript-words.json` and re-render.
+- **Line at 0:36:** Edison confirmed "But most likely, you're **not** gonna change yourself." Both speech models missed the "not", so it was corrected by hand.
 - Around 57 s, the two models agree on "because you cannot get the habits…", and the caption is fixed to read that way as one sentence.
 
 ## Picture
-- **Grade:** a light, natural one, because the footage is sunny daylight and forcing it dark would look fake. Slight contrast lift, saturation 0.93, a touch of warmth in the mids, cooler sky, soft vignette.
+- **Grade:** a light, natural one, because the footage is sunny daylight and forcing it dark would look fake. Slight contrast lift, saturation 0.93, a touch of warmth in the mids, cooler sky. No vignette (Edison's standing rule).
 - **Depth titles:** 24 thesis words placed in the sky behind Edison's head. A selfie segmenter (MediaPipe, run on LiteRT) makes a mask for every frame, and the sky colour is used to tighten the hair and shoulder edges. Each title follows his head height frame by frame so it overlaps by about 18 px.
 - **Fonts:** Barlow Condensed ExtraBold for ivory, gold and crimson titles; Bodoni Moda Black for thesis words (COMPLETELY, START NOW, HABITS, COMMITTED, HIGHER SELF, HIGHER HEIGHTS).
 - **Front graphics:**
@@ -27,10 +27,10 @@ Made with the `edison-full-message` skill. Built by `tools/build_ea_50_more_days
 ## Sound
 - **Voice:** Edison's original recording. High-pass 85 Hz, FFT denoise, gentle compression. This is basic cleanup, not neural voice isolation (no separation model was available here). No retiming.
 - **Music:** original A-minor bed from `video/tools/make_music.py` (no samples or licence needed), ducked under speech and lifted into the end card.
-- **SFX:** all **synthesized** designed effects: air whooshes on title entries, sub-boom impacts on the slams, ticks on the progress card.
+- **SFX:** all **synthesized** designed effects: soft air whooshes on regular title entries (set low under the voice), sub-boom impacts on the slams, ticks on the progress card.
 - **Delivery mix:** −14.4 LUFS integrated, −2.4 dBTP.
 
-## Delivery checks (`50-more-days-v1.mp4`)
+## Delivery checks (`50-more-days-v2.mp4`)
 - 1080 × 1920, 30 fps, H.264 High / AAC 48 kHz, 2,411 frames, 80.37 s. Video 80.367 s and audio 80.362 s.
 - The whole file decodes with no errors and no black gaps.
 - Frames sampled at every title beat and on the end card were inspected at phone size.

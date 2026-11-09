@@ -1,6 +1,6 @@
 # 50 more days
 
-Reel: `50-more-days-v1.mp4` (1080 × 1920, 80 s). Pillar: **THE STANDARD**. Scheduled in Metricool for **Wed 11 Nov 2026, 4:00 PM ET** (day 315 of 365, the day with 50 days left) to Instagram (Reel) and TikTok; cover frame at 2.0 s.
+Reel: `50-more-days-v2.mp4` (1080 × 1920, 80 s). Pillar: **THE STANDARD**. Scheduled in Metricool for **Wed 11 Nov 2026, 4:00 PM ET** (day 315 of 365, the day with 50 days left) to Instagram (Reel) and TikTok; cover frame at 2.0 s.
 
 **TikTok title:** 50 days left in 2026. What are you doing with them?
 
