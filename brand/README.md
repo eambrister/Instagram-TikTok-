@@ -8,6 +8,7 @@ Use these preferences for future carousel work. They record the user's decisions
 - Compact mark: `assets/edison-ambrister/ea-monogram.png`.
 - Profile mark: `assets/edison-ambrister/edison-ambrister-profile.png`.
 - The former Cut Throat Discipline emblem is retained only for historical output compatibility and must not appear on new work.
+- Exception (Edison, 2026-11-08): video work made with the `edison-*` skills in `.claude/skills/` uses the Cut Throat Discipline logo (`assets/ctd-cinematic-logo.png` and the `templates/ctd-*` overlays). The brand name in copy and credits stays Edison Ambrister.
 - Footer: **DISCIPLINE - ACCOUNTABILITY - CONSISTENCY**.
 - Requested typography: Heading Now 31–38 Bold for headlines, Gotham for supporting copy. Licensed files have not been supplied.
 - Available temporary typography: Barlow Condensed ExtraBold plus Montserrat Medium/Bold; open font files and OFL licenses are in `fonts/`. Describe substitutes accurately.
