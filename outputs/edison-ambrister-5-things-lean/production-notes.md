@@ -1,38 +1,42 @@
-# 5 THINGS TO GET LEAN: production notes (v1)
+# 5 THINGS TO GET LEAN: production notes (v2, cut edit)
 
-Made with the `edison-full-message` skill. Built by `tools/build_ea_5_things_lean.py` (picture, reusing the 50 MORE DAYS engine) and `tools/mix_ea_50_more_days.py … build_ea_5_things_lean` (sound).
+Made with `edison-full-message` and the cut-the-raw-footage rule (shared standard §4b). Built by `tools/build_ea_5_things_lean.py` with the engine in `tools/ea_cut_edit.py`. The edit decision list is in `edl.json`.
 
-## Source
-- Drive video (iPhone HEVC 3840 × 2160, rotated to vertical), 30 fps, BT.709 SDR, AAC, 101.34 s. It is a single take, an outdoor selfie under blue sky.
+**v2 vs v1:** v1 was the uncut raw take with graphics on top. Edison asked for a real edit, so v2 cuts dead air, filler, repeats and the flubbed retake. The source runs 101.3 s; the edit runs 78.1 s, plus the 2.5 s end card.
 
-## Message retention
-- **100%.** The whole take plays in order at natural speed, including pauses and the repeated "steps, steps". All 301 words are kept.
-- Transcript: local Parakeet, with Whisper small.en cross-checking the uncertain words.
-- Fixed by hand:
-  - "Hyrocks" → **HYROX** (Whisper heard "high rocks").
-  - "Cross fits" → **CrossFit**.
-- **To confirm with Edison:**
-  - At 0:62, both models heard "I just do a static"; the caption says **"I just do aesthetics."**
-  - At 0:87 and 0:96, the models heard "luck"/"lock"; the captions say **"you have a lack in one of them / these areas."**
+## Cuts
+23 kept segments. Every jump cut alternates between a 1.0× and a 1.12× punch-in.
 
-## Picture
-- **Grade:** the same light daylight grade as 50 MORE DAYS. **No vignette** (standing rule).
-- **Depth titles:** head-tracked titles behind Edison: GET LEAN, 5 THINGS, the five step titles, the numbers he says (7–8 HOURS, 10K/15K/20K, 3× · 4× · 5×), RECOVERY., DEFICIT / SURPLUS, CARBS? FATS?, PROTEIN., BEFORE BED., EVERY SINGLE DAY., DO ALL 5., LEAN., FOLLOW THE 5 STEPS., 5 STEPS. EVERY DAY.
-- **No "GUARANTEED" titles.** The onboarding rules ban guaranteed-outcome copy, so the spoken "guaranteed" stays in the audio and captions only.
-- **Step tracker:** five pills at y ≈ 1478 (SLEEP · CALORIES · PROTEIN · STEPS · TRAINING). The current step is gold, finished steps get a gold check, and all five pulse at "you have a lack in one of them".
-- Word-timed captions as in 50 MORE DAYS, followed by a 2.5 s CTD end card.
+| Source | Reason | Words |
+|---|---|---|
+| 0.12–0.66 s | filler | "Alright," |
+| 30.52–32.42 s | restates the protein point | "So make sure you hit your protein goal." |
+| 68.49–69.59 s | repeat | "guaranteed," |
+| 74.33–76.64 s | repeat + filler | "Guaranteed, you will become lean. Okay," |
+| 92.10–99.20 s | retake | "If you don't get lean from these five steps, Steps, you have a lack in one of these areas." |
 
-## Sound
-- **Voice:** Edison's original, with high-pass, FFT denoise and gentle compression. This is not neural isolation.
-- **Music:** original bed from `video/tools/make_music.py`, ducked under speech.
-- **SFX:** all synthesized:
-  - Soft, low whooshes on regular titles.
-  - Hits on 5 THINGS, PROTEIN., 20K and LEAN.
-  - Ticks when each step lights up.
-- **Delivery mix:** −14.5 LUFS integrated, −2.4 dBTP.
+There are also 25 dead-air trims: every pause over about 0.4 s, cut back to a natural breath, totalling 10.5 s.
 
-## Delivery checks (`5-things-lean-v1.mp4`)
-- 1080 × 1920, 30 fps, 3,115 frames, 103.83 s (A/V lengths match). Full decode with no errors and no black gaps. 80 MB.
-- Frames sampled at every title and tracker change and on the end card were inspected at phone size.
-- **Not done:** a continuous real-time watch and a listening pass. Edison should watch it once before posting.
-- Not scheduled or posted.
+## Message
+- 266 of 301 words are kept. Every point stays, in order:
+  - The hook and the 5-things promise.
+  - Sleep 7–8 h for recovery.
+  - Calories, with deficit and surplus.
+  - Protein over exact carbs and fats.
+  - Steps (10k/15k/20k), done before bed.
+  - Training 3–5× a week, with HYROX/CrossFit vs calisthenics.
+  - "Do those five things… you will become lean / cannot fight it / cannot beat it / you have a lack in one of them".
+  - The closing "Guaranteed."
+- Edison confirmed "**calisthenics**" (both models heard "a static").
+- **To confirm:** "you have a **lack** in one of them" (both models heard "luck"/"lock").
+
+## Picture and sound
+- **Picture:** the same daylight grade, **no vignette**. Head-tracked depth titles, now remapped to the cut timeline with a minimum hold of 1.1 s so the punch titles survive the trims. Step tracker, word-timed captions and the CTD end card as in v1.
+- **Voice:** reassembled from the kept segments with 6 ms fades at every joint. High-pass, FFT denoise and compression; this is not neural isolation.
+- **Music and SFX:** original music bed. Soft whooshes on regular titles, hits on the punch titles, ticks on the step tracker. All SFX are synthesized.
+- **Loudness:** normalized, measured and corrected to −14 LUFS with a true-peak limiter.
+- **No "GUARANTEED" titles on screen** (onboarding rule). The word stays in the audio and captions only.
+
+## Not done
+- No continuous real-time watch or listening pass. Edison should watch it once before posting.
+- Not scheduled.

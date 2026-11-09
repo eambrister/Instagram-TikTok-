@@ -120,14 +120,24 @@ def remap_words(words, rm):
     return out
 
 
-def remap_events(events, rm, min_len=0.25):
+def remap_events(events, rm, min_hold=1.1):
+    """Map titles to output time. A cut can collapse a title's source span (e.g. the pause after
+    'lean.' is removed), so every title keeps at least min_hold seconds (or its original length if
+    shorter), trimmed only where the next title starts."""
     out = []
     for e in events:
+        orig = e["t1"] - e["t0"]
         e = dict(e)
         e["t0"], e["t1"] = rm(e["t0"]), rm(e["t1"])
-        if e["t1"] - e["t0"] >= min_len:
-            out.append(e)
-    return out
+        want = min(orig, min_hold)
+        if e["t1"] - e["t0"] < want:
+            e["t1"] = e["t0"] + want
+        out.append(e)
+    out.sort(key=lambda x: x["t0"])
+    for a, b in zip(out[:-1], out[1:]):
+        if a["kind"] == "depth" and b["kind"] == "depth" and a["t1"] > b["t0"]:
+            a["t1"] = b["t0"]
+    return [e for e in out if e["t1"] - e["t0"] >= 0.2]
 
 
 # ---------------------------------------------------------------- picture
@@ -322,8 +332,15 @@ def mix(src, out_dir, film):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(out / "mix.wav"), "-af",
                     "acompressor=threshold=-18dB:ratio=3:attack=5:release=120,"
                     "alimiter=limit=0.35:attack=1:release=60:level=false,"
-                    "loudnorm=I=-14:TP=-2.5:LRA=7", "-ar", str(SR), str(out / "mix_final.wav")],
+                    "loudnorm=I=-14:TP=-2.5:LRA=7", "-ar", str(SR), str(out / "mix_ln.wav")],
                    check=True)
+    # loudnorm's dynamic mode undershoots on punchy mixes: measure, make up the gain, limit
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(out / "mix_ln.wav"), "-af", "ebur128",
+                        "-f", "null", "-"], capture_output=True, text=True).stderr
+    integ = float([ln for ln in r.splitlines() if ln.strip().startswith("I:")][-1].split()[1])
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(out / "mix_ln.wav"), "-af",
+                    f"volume={-14.0 - integ:.2f}dB,alimiter=limit=0.70:attack=1:release=60:level=false",
+                    "-ar", str(SR), str(out / "mix_final.wav")], check=True)
     print("mix", round(total / SR, 2), "s")
 
 
