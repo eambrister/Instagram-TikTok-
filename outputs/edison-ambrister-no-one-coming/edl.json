@@ -1,0 +1,146 @@
+{
+ "keep": [
+  [
+   0.16666666666666666,
+   6.066666666666666
+  ],
+  [
+   6.333333333333333,
+   6.933333333333334
+  ],
+  [
+   8.033333333333333,
+   12.1
+  ],
+  [
+   12.233333333333333,
+   18.0
+  ],
+  [
+   24.333333333333332,
+   40.5
+  ],
+  [
+   40.86666666666667,
+   51.2
+  ],
+  [
+   52.233333333333334,
+   56.03333333333333
+  ],
+  [
+   56.2,
+   63.7
+  ],
+  [
+   63.86666666666667,
+   65.53333333333333
+  ],
+  [
+   65.86666666666666,
+   71.83333333333333
+  ],
+  [
+   72.03333333333333,
+   83.4
+  ]
+ ],
+ "cuts": [
+  {
+   "src": [
+    -0.04,
+    0.18
+   ],
+   "why": "filler opener: 'So'",
+   "text": "So"
+  },
+  {
+   "src": [
+    6.92,
+    8.02
+   ],
+   "why": "filler: 'saying, you know,'",
+   "text": "saying, you know,"
+  },
+  {
+   "src": [
+    18.28,
+    24.34
+   ],
+   "why": "rambling aside restating 'people will help you' ('Like, if you call up someone right now... bind or something, right?')",
+   "text": "Like, if you call up someone right now, I sure I have people like a call right now to assist me if I ever get inside like a bind or something, right?"
+  },
+  {
+   "src": [
+    83.41,
+    85.52
+   ],
+   "why": "filler sign-off: 'Just so you know.'",
+   "text": "Just so you know."
+  },
+  {
+   "src": [
+    6.07,
+    6.33
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    12.09,
+    12.23
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    17.99,
+    18.22
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    40.51,
+    40.86
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    51.19,
+    52.22
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    56.03,
+    56.21
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    63.71,
+    63.88
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    65.55,
+    65.88
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    71.83,
+    72.04
+   ],
+   "why": "silence"
+  }
+ ],
+ "out_duration": 73.13333333333334
+}
