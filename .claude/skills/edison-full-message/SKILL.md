@@ -8,7 +8,7 @@ description: Edit Edison Ambrister's talking-head videos keeping at least 96% (a
 Read `../_shared/edison-video-standard.md` first.
 
 ## Contract
-- Keep ≥96% of the spoken content, 100% preferred — measured on words and meaning, not runtime. Keep order, speed, logic, examples, qualifications and the ending. A later explicit request for a short extract overrides this.
+- **Cut the raw footage first** (shared standard §4b): remove dead air, flubbed retakes, stutters, filler and restated lines. Then keep ≥96% of the *message*: every point, example, number, qualification and the ending. This is measured on meaning, not raw word count. Keep order, speed, logic, examples, qualifications and the ending. A later explicit request for a short extract overrides this.
 - Engagement comes from framing, layered type, graphics, sound and transitions — not from cutting the message.
 - Deliver a playable edit; a storyboard is not completion.
 
