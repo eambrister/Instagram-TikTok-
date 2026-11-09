@@ -51,6 +51,17 @@ Where an original technique called for "charcoal / brass / bone / crimson / blue
 - The 80-lb story (222 → about 142 lb in under two years) is Edison's personal experience, never a promise.
 - **No offer, price or "DM me" CTA posts** until Edison finalizes the coaching offer. No invented testimonials, client results or credentials.
 
+## 4b. Cut the raw footage (standing rule, 2026-11-09)
+
+Edison sends **raw footage**. Never just add graphics to the whole take. Edit it into a tight, cohesive piece first:
+
+- **Dead air:** cut silences down to a natural breath (about 0.1–0.2 s each side). Trim the setup before the first line and the dead time after the last.
+- **Retakes:** when Edison repeats a line because he flubbed it, keep the cleanest complete take (usually the last) and cut the others.
+- **Repeats and stutters:** cut stuttered words ("steps, steps"), doubled words, filler openers ("Alright,", "Okay,") and sentences that only restate a point he has already made. Rhetorical repetition he clearly means as emphasis can stay ("start now… start now").
+- **Keep the message:** every distinct point, example, number, qualification and the ending stays. The full-message 96% rule measures **meaning**, not raw word count.
+- **Jump cuts:** disguise them with alternating punch-ins (about 1.0× ↔ 1.12×) or a motivated graphic, never a soft dissolve.
+- **Record the cuts:** list every cut with source times and the reason in the production notes (silence / retake / repeat / filler).
+
 ## 5. Honesty and verification (every film)
 
 - Inspect the actual footage before planning. Say what was sampled and what was watched in motion. Thumbnails are not a watch-through.

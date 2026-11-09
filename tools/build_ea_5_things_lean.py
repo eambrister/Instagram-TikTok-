@@ -5,7 +5,9 @@ reuses the 50 MORE DAYS engine helpers (head-tracked depth titles, per-frame sel
 word-timed captions, CTD end card) and adds a 5-step tracker that lights up per step.
 No vignette (Edison's standing rule).
 
-    python3 -I tools/build_ea_5_things_lean.py SRC.MOV WORDS.json SELFIE.tflite OUT_DIR [--only a:b]
+    python3 -I tools/build_ea_5_things_lean.py SRC.MOV WORDS.json SELFIE.tflite OUT_DIR [--only a:b] [--final OUT.mp4]
+
+v2 cuts the raw take (tools/ea_cut_edit.py): filler, repeats, the flubbed retake and dead air.
 """
 import argparse
 import json
@@ -104,114 +106,48 @@ def tracker(t, f_num, f_lab):
     return img
 
 
+# Word ranges to cut (indices in outputs/edison-ambrister-5-things-lean/transcript-words.json).
+CUTS = [
+    (0, 0, "filler: 'Alright,'"),
+    (128, 135, "restates the protein point: 'So make sure you hit your protein goal.'"),
+    (236, 236, "repeat: second 'guaranteed,'"),
+    (241, 246, "repeat + filler: 'Guaranteed, you will become lean. Okay,'"),
+    (281, 299, "retake: second 'If you don't get lean from these five steps, steps, ... areas.'"),
+]
+TRACK_F = None
+
+
+def front(comp, t, rm):
+    global TRACK_F
+    if TRACK_F is None:
+        TRACK_F = (font(BARLOW, 50), font(MONT_B, 25))
+    src = _out_to_src(t, rm)
+    tr = tracker(src, *TRACK_F)
+    if tr is not None:
+        over(comp, tr, (W - tr.width) // 2, 1478, ease((t - rm(STEPS[0][1] - 0.2)) / 0.4))
+
+
+def _out_to_src(t, rm):
+    for (s, e), o in zip(rm.keep, rm.offs):
+        if t < o + (e - s):
+            return s + (t - o)
+    return rm.keep[-1][1]
+
+
 def main():
+    import ea_cut_edit as eng
     ap = argparse.ArgumentParser()
     for k in ("src", "words", "selfie", "out"):
         ap.add_argument(k)
     ap.add_argument("--only")
+    ap.add_argument("--final")
     a = ap.parse_args()
-    from ai_edge_litert.interpreter import Interpreter
-
-    out = pathlib.Path(a.out)
-    out.mkdir(parents=True, exist_ok=True)
-    caps = caption_groups(json.load(open(a.words)))
-    events = build_events()
-    capf = font(BARLOW, 84)
-    f_num, f_lab = font(BARLOW, 50), font(MONT_B, 25)
-
-    it = Interpreter(model_path=a.selfie)
-    it.allocate_tensors()
-    iin, iout = it.get_input_details()[0]["index"], it.get_output_details()[0]["index"]
-    dur = float(subprocess.check_output(
-        ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", a.src]))
-    ss, to = (float(v) for v in a.only.split(":")) if a.only else (0.0, dur)
-    dec = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", str(ss), "-to", str(to), "-i", a.src,
-                            "-vf", GRADE + f",fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
-                           stdout=subprocess.PIPE)
-    name = "proof.mp4" if a.only else "video-only.mp4"
-    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24",
-                            "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                            "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-pix_fmt", "yuv420p",
-                            "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
-                            "-movflags", "+faststart", str(out / name)], stdin=subprocess.PIPE)
-    logo = Image.open(ROOT / "brand/assets/ctd-cinematic-logo.png").convert("RGBA")
-    prev_m, last, head, n = None, None, 450.0, 0
-    fsize = W * H * 3
-    while True:
-        buf = dec.stdout.read(fsize)
-        if len(buf) < fsize:
-            break
-        t = ss + n / FPS
-        n += 1
-        frame = np.frombuffer(buf, np.uint8).reshape(H, W, 3).astype(np.float32)
-        x = np.asarray(Image.fromarray(frame.astype(np.uint8)).resize((256, 256), Image.BILINEAR),
-                       np.float32)[None] / 255.0
-        it.set_tensor(iin, x)
-        it.invoke()
-        m = refine_mask(it.get_tensor(iout)[0, ..., 0], frame)
-        if prev_m is not None:
-            m = 0.6 * m + 0.4 * prev_m
-        prev_m = m
-        rows = np.where((m[:, 330:750] > 0.5).any(1))[0]
-        if len(rows):
-            head = 0.85 * head + 0.15 * float(np.clip(rows[0], 300, 560))
-
-        comp = frame.copy()
-        shake = (0, 0)
-        for e in events:
-            al = env(t, e["t0"], e["t1"], 0.12 if e["slam"] else 0.25)
-            if al <= 0:
-                continue
-            img = e["img"]
-            if e["slam"]:
-                sc = 1.25 - 0.25 * ease((t - e["t0"]) / 0.12)
-                if t - e["t0"] < 0.2:
-                    k = min(int((t - e["t0"]) * FPS), 5)
-                    shake = ((-14, 10, -7, 5, -3, 0)[k], (8, -10, 6, -4, 2, 0)[k])
-            else:
-                sc = 1.04 - 0.04 * ease((t - e["t0"]) / 0.4)
-            sc *= min(1.0, (W - 80) / (img.width * sc))
-            gt, gb = img.info.get("glyph", (40, img.height - 40))
-            img = img.resize((int(img.width * sc), int(img.height * sc)), Image.BILINEAR)
-            y = max(int(head + 18 - gb * sc), 235 - int(gt * sc))
-            y += int(24 * (1 - ease((t - e["t0"]) / 0.3)))
-            over(comp, img, (W - img.width) // 2, y, al)
-        mm = m[..., None]
-        comp = frame * mm + comp * (1 - mm)
-        last = np.clip(frame, 0, 255).astype(np.uint8)
-        if shake != (0, 0):
-            im = Image.fromarray(np.clip(comp, 0, 255).astype(np.uint8))
-            canvas = Image.new("RGB", (W + 40, H + 40))
-            canvas.paste(im, (20 + shake[0], 20 + shake[1]))
-            comp = np.asarray(canvas.crop((20, 20, 20 + W, 20 + H)), np.float32).copy()
-
-        tr = tracker(t, f_num, f_lab)
-        if tr is not None:
-            over(comp, tr, (W - tr.width) // 2, 1478, ease((t - STEPS[0][1] + 0.2) / 0.4))
-        for g in caps:
-            if g["t0"] <= t < g["t1"]:
-                ci = render_caption(g, t, capf)
-                if ci.width > W - 96:
-                    ci = ci.resize((W - 96, int(ci.height * (W - 96) / ci.width)), Image.LANCZOS)
-                over(comp, ci, (W - ci.width) // 2, 1330, env(t, g["t0"], g["t1"], 0.08, 0.06))
-                break
-        enc.stdin.write(np.clip(comp, 0, 255).astype(np.uint8).tobytes())
-
-    if not a.only and last is not None:
-        lg = logo.resize((520, 520), Image.LANCZOS)
-        name_img = plain("EDISON AMBRISTER", font(MONT_B, 50), IVORY, 10, 0.3)
-        foot = plain("DISCIPLINE - ACCOUNTABILITY - CONSISTENCY", font(MONT_M, 30), PALE_GOLD, 4, 0.3)
-        for k in range(int(END_CARD * FPS)):
-            u = ease(k / 18)
-            comp = last.astype(np.float32) * (1 - 0.9 * u) + np.array(OBSIDIAN, np.float32) * 0.9 * u
-            over(comp, lg, (W - 520) // 2, 560, u)
-            over(comp, name_img, (W - name_img.width) // 2, 1110, u)
-            over(comp, foot, (W - foot.width) // 2, 1195, u)
-            enc.stdin.write(np.clip(comp, 0, 255).astype(np.uint8).tobytes())
-    enc.stdin.close()
-    enc.wait()
-    dec.wait()
-    print("frames", n, "->", out / name)
+    film = sys.modules[__name__]
+    eng.render(a.src, a.words, a.selfie, a.out, film, a.only)
+    if not a.only:
+        eng.mix(a.src, a.out, film)
+        if a.final:
+            eng.finish(a.out, a.final)
 
 
 if __name__ == "__main__":
