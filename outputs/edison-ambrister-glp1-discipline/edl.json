@@ -1,0 +1,119 @@
+{
+ "keep": [
+  [
+   0.3333333333333333,
+   5.166666666666667
+  ],
+  [
+   5.866666666666666,
+   36.3
+  ],
+  [
+   36.93333333333333,
+   39.166666666666664
+  ],
+  [
+   39.53333333333333,
+   40.43333333333333
+  ],
+  [
+   40.7,
+   49.0
+  ],
+  [
+   49.43333333333333,
+   53.166666666666664
+  ],
+  [
+   53.36666666666667,
+   66.53333333333333
+  ],
+  [
+   67.0,
+   74.2
+  ]
+ ],
+ "cuts": [
+  {
+   "src": [
+    -0.04,
+    0.34
+   ],
+   "why": "filler opener: 'And then'",
+   "text": "And then"
+  },
+  {
+   "src": [
+    5.16,
+    5.86
+   ],
+   "why": "filler: 'it's like'",
+   "text": "it's like"
+  },
+  {
+   "src": [
+    74.22,
+    81.75
+   ],
+   "why": "restates the 'put it all back on' point with a flubbed restart, then 'So yeah.'",
+   "text": "Because when you hop on them off, when you hop off of it, you're gonna put the weight back on. So yeah."
+  },
+  {
+   "src": [
+    36.31,
+    36.93
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    39.15,
+    39.53
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    40.43,
+    40.71
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    48.99,
+    49.43
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    53.15,
+    53.35
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    66.55,
+    66.99
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    77.23,
+    77.52
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    79.33,
+    81.29
+   ],
+   "why": "silence"
+  }
+ ],
+ "out_duration": 70.8
+}
