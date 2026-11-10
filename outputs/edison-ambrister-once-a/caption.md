@@ -1,6 +1,6 @@
 # Once a month / once a week / once a day
 
-Reel: `once-a-v1.mp4` (1080 × 1920, 32.6 s). Pillar: **EDISON EATS**. Edison posts this one himself. Format: "how often I eat it", based on the reference Edison supplied.
+Reel: `once-a-v2.mp4` (1080 × 1920, 23.7 s). Pillar: **EDISON EATS**. Edison posts this one himself. Format: "how often I eat it", based on the reference Edison supplied.
 
 **TikTok title:** How often I actually eat these
 

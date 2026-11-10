@@ -1,4 +1,8 @@
-# ONCE A MONTH / WEEK / DAY: production notes (v1)
+# ONCE A MONTH / WEEK / DAY: production notes (v2)
+
+**v2 changes (Edison's feedback on v1):**
+- **Dead space removed.** Every phrase is now cut from 0.08 s before "once" to 0.42 s after its last word, and every pause over 0.2 s, inside or between cycles, is trimmed to a quick beat. The edit runs 21.2 s, down from 30.2 s in v1.
+- **Foods made solid and sharp.** The cutouts are fully opaque inside, with only a 2 px edge feather; before, dark chocolate on the sundae, cake and cookies turned see-through. They are also unsharp-masked after enlarging. v1 remains in git history.
 
 A format edit, not a talking head. Built by `tools/build_ea_once_a.py`; cycle timings are in `edl.json`.
 
@@ -13,9 +17,9 @@ A format edit, not a talking head. Built by `tools/build_ea_once_a.py`; cycle ti
 - He points up-left for month, left for week and down-left for day.
 
 ## Edit
-- **Kept:** the 6 cycles. Each runs from 0.3 s before "once a month" to 0.85 s after "day".
+- **Kept:** 18 phrase segments across the 6 cycles, each tight to the spoken words.
 - **Cut** (standing rule §4b): the walk-in, the 2–3 s resets between cycles, and the walk-out.
-- **Length:** 45.8 s raw → 30.2 s, plus the 2.5 s CTD end card.
+- **Length:** 45.8 s raw → 21.2 s, plus the 2.5 s CTD end card.
 - **No punch-ins.** The slot layout needs a locked frame; the new food set motivates each cut.
 
 ## Graphics
@@ -28,17 +32,17 @@ A format edit, not a talking head. Built by `tools/build_ea_once_a.py`; cycle ti
   4. Chocolate cake / cookies / yogurt + berries
   5. Donuts / fries / boiled eggs
   6. Hot dog / steak / salmon
-- **Cutout source:** Edison's own craving-swaps and protein-tier-list images, cut out of their black backgrounds with floor reflections trimmed. No new images were generated.
+- **Cutout source:** Edison's own craving-swaps and protein-tier-list images, cut out of their black backgrounds as solid, sharpened mattes with floor reflections trimmed. No new images were generated.
 - **Picture:** light grade, no vignette, CTD end card.
 
 ## Sound
 - Edison's voice only, on the cut timeline with 6 ms fades. High-pass, FFT denoise and compression; this is not neural isolation.
 - No music or SFX, per the brief.
-- Oversampled brickwall limiter plus measured make-up gain: −14.0 LUFS integrated, −2.6 dBTP.
+- Oversampled brickwall limiter plus measured make-up gain: −14.0 LUFS integrated, −2.7 dBTP.
 
-## Delivery checks (`once-a-v1.mp4`)
-- 1080 × 1920, 30 fps, 979 frames, 32.6 s (A/V lengths match).
-- Full decode with no errors. 9.7 MB.
+## Delivery checks (`once-a-v2.mp4`)
+- 1080 × 1920, 30 fps, 711 frames, 23.7 s (A/V lengths match).
+- Full decode with no errors. 7.5 MB.
 - Every set was inspected at phone size.
 
 ## Not done

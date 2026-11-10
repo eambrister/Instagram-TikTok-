@@ -3,7 +3,8 @@
 Format reference: a creator standing still while food cutouts in three labelled slots swap each
 cycle. This is not a talking head, so it has no captions, depth titles or whooshes. Edison stands
 on the right and points up-left (month), left (week) and down-left (day); each food pops into the
-matching slot on the beat. Resets between cycles and the walk in/out are cut (standing rule §4b).
+matching slot on the beat. Resets between cycles and the walk in/out are cut, and every pause over 0.2 s
+inside or between cycles is trimmed to a quick beat (standing rule §4b).
 Food cutouts come from Edison's own craving-swaps / protein-tier-list source images.
 No vignette, CTD end card.
 
@@ -55,8 +56,9 @@ def cutout(src, idx):
     objs = [(sl, i + 1) for i, sl in enumerate(ndimage.find_objects(lab))
             if (sl[0].stop - sl[0].start) * (sl[1].stop - sl[1].start) >= 0.004 * m.size]
     sl, k = objs[idx]
-    region = ndimage.binary_dilation(lab == k, iterations=1)
-    alpha = region * np.clip((mx - 22) / 40, 0, 1)
+    region = ndimage.binary_fill_holes(lab == k)
+    # solid inside (dark chocolate must not turn see-through); feather only the outer 2 px
+    alpha = np.clip(ndimage.distance_transform_edt(region) / 2.0, 0, 1)
     strong = (region & (mx > 85))[sl[0], sl[1]]
     rows = np.where(strong.sum(1) > 0.03 * strong.shape[1])[0]
     bottom = rows[-1] + 4 if len(rows) else strong.shape[0]
@@ -78,7 +80,10 @@ def cutout(src, idx):
 
 def fit(img, box):
     s = min(box[0] / img.width, box[1] / img.height)
-    return img.resize((int(img.width * s), int(img.height * s)), Image.LANCZOS)
+    img = img.resize((int(img.width * s), int(img.height * s)), Image.LANCZOS)
+    rgb = img.convert("RGB").filter(ImageFilter.UnsharpMask(radius=2, percent=90, threshold=2))
+    rgb.putalpha(img.getchannel("A"))
+    return rgb
 
 
 def shadowed(img):
@@ -97,24 +102,34 @@ def plan(words):
     """Cycles = each 'Once a month … once a day'. Keep each cycle tight; cut the resets."""
     starts = [i for i, w in enumerate(words) if w["w"].lower().startswith("once")
               and i + 2 < len(words) and words[i + 2]["w"].lower().startswith("month")]
-    cyc = []
+    q = lambda x: round(x * FPS) / FPS
+    cyc, segs = [], []
     for n, i in enumerate(starts):
         month, week, day = i, i + 3, i + 6
         assert words[day + 2]["w"].lower().startswith("day"), words[day:day + 3]
-        s = words[month]["t"] - (0.45 if n == 0 else 0.30)
-        e = words[day + 2]["t"] + 0.85
-        cyc.append(dict(s=round(s * FPS) / FPS, e=round(e * FPS) / FPS,
+        # each phrase: from just before "once" to just after its last word (month/week/day)
+        phr = [(words[j]["t"] - 0.08, words[j + 2]["t"] + 0.42) for j in (month, week, day)]
+        merged = [list(phr[0])]
+        for s, e in phr[1:]:
+            if s - merged[-1][1] <= 0.20:  # tiny gap: keep continuous
+                merged[-1][1] = e
+            else:  # pause > 0.2 s: cut it down to a quick 0.1 s beat
+                merged[-1][1] += 0.05
+                merged.append([s - 0.05, e])
+        for s, e in merged:
+            segs.append(dict(s=q(s), e=q(e), cycle=n))
+        cyc.append(dict(s=segs[-len(merged)]["s"], e=segs[-1]["e"],
                         beats=(words[month]["t"], words[week]["t"], words[day]["t"])))
-    return cyc
+    return cyc, segs
 
 
 def render(src, words_path, out_dir, only=None):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    cyc = plan(json.load(open(words_path)))
-    offs = np.cumsum([0] + [c["e"] - c["s"] for c in cyc])
+    cyc, segs = plan(json.load(open(words_path)))
+    offs = np.cumsum([0] + [g["e"] - g["s"] for g in segs])
     total = float(offs[-1])
-    json.dump(dict(cycles=cyc, out_duration=total), open(out / "edl.json", "w"), indent=1)
+    json.dump(dict(cycles=cyc, segments=segs, out_duration=total), open(out / "edl.json", "w"), indent=1)
 
     items = [[shadowed(fit(cutout(*f), SLOTS[k][1])) for k, f in enumerate(s)] for s in SETS]
     lab_f = font(BARLOW, 72)
@@ -136,11 +151,12 @@ def render(src, words_path, out_dir, only=None):
             break
         ts = k / FPS + 1e-4
         k += 1
-        ci = next((i for i, c in enumerate(cyc) if c["s"] <= ts < c["e"]), None)
-        if ci is None:
+        gi = next((i for i, g in enumerate(segs) if g["s"] <= ts < g["e"]), None)
+        if gi is None:
             continue
+        ci = segs[gi]["cycle"]
         c = cyc[ci]
-        t = offs[ci] + ts - c["s"]
+        t = offs[gi] + ts - segs[gi]["s"]
         if not (lo <= t < hi):
             continue
         comp = np.frombuffer(buf, np.uint8).reshape(H, W, 3).astype(np.float32).copy()
@@ -184,7 +200,7 @@ def render(src, words_path, out_dir, only=None):
 def audio(src, out_dir):
     """Edison's voice on the cut timeline (6 ms fades), cleaned; no music or SFX (per brief)."""
     out = pathlib.Path(out_dir)
-    cyc = json.load(open(out / "edl.json"))["cycles"]
+    cyc = json.load(open(out / "edl.json"))["segments"]
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vn", "-ac", "1", "-ar", str(SR),
                     "-af", "highpass=f=85,afftdn=nf=-28,"
                     "acompressor=threshold=-22dB:ratio=2.5:attack=8:release=160:makeup=2",
