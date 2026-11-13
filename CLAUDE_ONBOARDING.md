@@ -154,6 +154,7 @@ Twenty `edison-*` editing skills are in [`.claude/skills/`](.claude/skills/READM
 
 - **Primary logo:** [`brand/assets/edison-ambrister/edison-ambrister-horizontal.png`](brand/assets/edison-ambrister/edison-ambrister-horizontal.png)
 - **Carousel logo (from 13 Nov 2026):** [`brand/assets/cutthroat-discipline/ctd-logo.png`](brand/assets/cutthroat-discipline/ctd-logo.png). Use it on every new carousel and single-image post instead of the EA mark; don't re-render older posts.
+- **AI people:** any AI-generated person in a post (faces, bodies, scenes) is a Black man unless Edison asks otherwise. Never present them as Edison; turn on Instagram's AI label.
 - **Compact EA mark:** [`brand/assets/edison-ambrister/ea-monogram.png`](brand/assets/edison-ambrister/ea-monogram.png)
 - **Profile image:** [`brand/assets/edison-ambrister/edison-ambrister-profile.png`](brand/assets/edison-ambrister/edison-ambrister-profile.png)
 - **Footer:** `DISCIPLINE - ACCOUNTABILITY - CONSISTENCY`

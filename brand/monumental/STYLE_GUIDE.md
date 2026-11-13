@@ -109,6 +109,7 @@ Leading: headlines 0.92–1.05 × the font size; body 1.25–1.4 ×. Tracking: d
 ## 6. Brand marks on every slide
 
 - **Logo:** from 13 Nov 2026 every new Monumental post uses the Cutthroat Discipline (CTD) emblem, `brand/assets/cutthroat-discipline/ctd-logo.png`, **lower-left** at about 104 px. It replaces the EA monogram on carousels. Posts made before that keep the EA mark; don't re-render them. Never redraw it, recolour it or place it over the subject.
+- **AI people:** any AI-generated person in a post (faces, bodies, scenes) is a Black man unless Edison asks otherwise. Never present them as Edison; turn on Instagram's AI label.
 - **Footer / folio:** lower-right in the footer band, Montserrat Bold, Stone, tracked:
   `DISCIPLINE · ACCOUNTABILITY · CONSISTENCY  ·  03/09`
   The wording is the core brand footer, so it must never change. Folios run in sequence, and every slide shows the correct total.

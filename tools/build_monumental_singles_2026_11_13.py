@@ -107,7 +107,7 @@ def day_one():
     top = 110
     img.paste(src, (0, top), faded(src, 90, (True, True, False, False)))
     d = ImageDraw.Draw(img)
-    outlined(d, "DAY 1.", 290, top + 560, font(HEAD, 76), BONE)
+    outlined(d, "DAY 1.", 250, top + 370, font(HEAD, 76), BONE)
     outlined(d, "ONE DAY.", 812, top + 300, font(HEAD, 76), GOLD)
     y = top + src.height + 40
     y = ctext(d, y, "SAME PERSON.", font(HEAD, 92), BONE) + 22
