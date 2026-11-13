@@ -169,13 +169,13 @@ def centred(img, build, x, width, top=110, bottom=1150, align="left"):
 
 def furniture(img, index):
     d = ImageDraw.Draw(img)
-    mono = Image.open(ROOT / TOKENS["logo"]["compact"]).convert("RGBA").resize((64, 64), Image.LANCZOS)
-    img.paste(mono, (80, 1206), mono)
+    mono = Image.open(ROOT / TOKENS["logo"]["compact"]).convert("RGBA").resize((104, 104), Image.LANCZOS)
+    img.paste(mono, (70, 1188), mono)
     f = font(UTIL, 18)
     text = f"{FOOTER}  ·  {index:02d}/{TOTAL:02d}"
     w = tracked_width(text, f, 2)
     tracked(d, 1000 - w, 1240 - f.getbbox(text)[1], text, f, STONE, 2)
-    d.line((166, 1248, 1000 - w - 28, 1248), fill=GOLD, width=1)
+    d.line((198, 1248, 1000 - w - 28, 1248), fill=GOLD, width=1)
 
 
 # ---------------------------------------------------------------- slides
