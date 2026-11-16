@@ -1,0 +1,470 @@
+{
+ "keep": [
+  [
+   10.533333333333333,
+   16.533333333333335
+  ],
+  [
+   18.4,
+   27.1
+  ],
+  [
+   29.8,
+   30.533333333333335
+  ],
+  [
+   40.233333333333334,
+   50.93333333333333
+  ],
+  [
+   61.43333333333333,
+   66.9
+  ],
+  [
+   69.73333333333333,
+   88.4
+  ],
+  [
+   120.4,
+   128.7
+  ],
+  [
+   131.56666666666666,
+   134.13333333333333
+  ],
+  [
+   135.4,
+   148.3
+  ],
+  [
+   150.56666666666666,
+   163.5
+  ],
+  [
+   166.66666666666666,
+   172.9
+  ],
+  [
+   174.1,
+   174.46666666666667
+  ],
+  [
+   175.06666666666666,
+   180.9
+  ],
+  [
+   184.2,
+   193.1
+  ],
+  [
+   197.7,
+   210.76666666666668
+  ],
+  [
+   215.03333333333333,
+   224.06666666666666
+  ],
+  [
+   241.96666666666667,
+   254.8
+  ],
+  [
+   255.93333333333334,
+   256.43333333333334
+  ],
+  [
+   258.6,
+   265.26666666666665
+  ],
+  [
+   278.23333333333335,
+   288.43333333333334
+  ],
+  [
+   290.8666666666667,
+   291.3
+  ],
+  [
+   297.8333333333333,
+   307.3333333333333
+  ],
+  [
+   310.73333333333335,
+   311.3666666666667
+  ],
+  [
+   323.4,
+   335.6
+  ],
+  [
+   339.6666666666667,
+   348.4
+  ],
+  [
+   351.3333333333333,
+   365.8
+  ],
+  [
+   367.06666666666666,
+   373.6666666666667
+  ],
+  [
+   374.53333333333336,
+   381.7
+  ],
+  [
+   383.1666666666667,
+   384.3666666666667
+  ],
+  [
+   384.7,
+   389.53333333333336
+  ]
+ ],
+ "cuts": [
+  {
+   "src": [
+    30.52,
+    40.24
+   ],
+   "why": "retake: first '$4.5 trillion' attempt",
+   "text": "Going into November, NVIDIA was worth almost four and a half"
+  },
+  {
+   "src": [
+    53.54,
+    61.44
+   ],
+   "why": "retake: first 'in less than a week, he was gone. So, here's what happened.'",
+   "text": "And in less than a week, he was gone. So, here's what happened."
+  },
+  {
+   "src": [
+    92.69,
+    120.41
+   ],
+   "why": "retakes: four flubbed starts of the November 8th letter line",
+   "text": "On November 8th, Jensen wrote a letter to his employees On November 8th, Jensen wrote a letter to all his employees stating that he would have had an affair for November 8th, Jensen would have wrote a letter to all of his on November 8th, Jensen would have written a"
+  },
+  {
+   "src": [
+    233.57,
+    241.95
+   ],
+   "why": "retake: first 'HP CEO Mark Hurd in 2010\u2026' start",
+   "text": "HP CEO Mark Hurd in 2010, a relationship came out where he"
+  },
+  {
+   "src": [
+    266.41,
+    278.23
+   ],
+   "why": "retake: first 'It took them years\u2026 one decision.'",
+   "text": "It took them years to build their companies, years to climb the corporate ladder, and it only took one decision."
+  },
+  {
+   "src": [
+    291.29,
+    297.84
+   ],
+   "why": "retake: 'Now here's the part that relates to you. You may not necessarily have a fault.'",
+   "text": "Now here's the part that relates to you. You may not necessarily have a fault."
+  },
+  {
+   "src": [
+    311.38,
+    323.39
+   ],
+   "why": "retake: first 'But you have something that you've been building\u2026' list",
+   "text": "But you have something that you've been building: your relationship. Your marriage, your kids, your reputation, your outlook."
+  },
+  {
+   "src": [
+    0.89,
+    2.19
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    2.49,
+    3.17
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    4.83,
+    6.65
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    10.07,
+    10.54
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    16.53,
+    18.41
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    27.11,
+    29.79
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    36.41,
+    36.69
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    36.99,
+    40.15
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    50.95,
+    53.45
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    58.59,
+    61.4
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    66.91,
+    69.73
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    88.41,
+    92.63
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    104.23,
+    106.01
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    108.91,
+    109.15
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    114.75,
+    115.81
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    119.41,
+    120.03
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    128.71,
+    131.55
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    134.13,
+    135.41
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    148.31,
+    150.58
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    163.49,
+    166.66
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    172.91,
+    174.09
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    174.45,
+    175.06
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    180.91,
+    184.19
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    193.09,
+    197.71
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    210.77,
+    215.03
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    224.07,
+    233.53
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    240.57,
+    241.91
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    254.81,
+    255.95
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    256.43,
+    258.61
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    265.27,
+    266.25
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    274.57,
+    278.19
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    288.43,
+    290.87
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    307.33,
+    310.73
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    321.25,
+    322.43
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    335.59,
+    339.67
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    348.39,
+    351.35
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    365.79,
+    367.05
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    373.65,
+    374.53
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    381.71,
+    383.15
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    384.37,
+    384.71
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    391.29,
+    393.53
+   ],
+   "why": "silence"
+  }
+ ],
+ "out_duration": 226.36666666666673
+}
