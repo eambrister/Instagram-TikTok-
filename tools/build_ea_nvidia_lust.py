@@ -54,7 +54,7 @@ BROLL = [
     (302, 330, "IMG_8265.png", "image"),  # Steve Easterbrook
     (330, 354, "IMG_8266.png", "image"),  # Brian Krzanich
     (366, 396, "IMG_8267.png", "image"),  # Mark Hurd
-    (448, 459, "v15230857.mp4", "video"), # one decision to burn it all down: match
+    (448, 459, "v15230857.mp4@7.0", "video"),  # burn it all down: match (from 7 s, flame lit)
     (483, 498, "v16857566.mp4", "video"), # trillion / billion-dollar company: trading screens
     (530, 540, "v5894890.mp4", "video"),  # people depending on you: family
 ]
@@ -75,10 +75,11 @@ def build_events():
         ev.append(dict(t0=_w(a) - 0.05, t1=_w(b) - 0.05, img=img, y=None, rise=0, slam=slam,
                        kind="depth"))
 
-    gold = lambda s, f=big, tr=4: dimensional(s, f, face=PALE_GOLD, edge=(110, 80, 8), tracking=tr)
-    ivory = lambda s, f=big, tr=4: dimensional(s, f, face=IVORY, edge=(90, 90, 96), tracking=tr)
-    silver = lambda s, f=big, tr=4: dimensional(s, f, face=SILVER, edge=(60, 64, 72), tracking=tr)
-    crimson = lambda s, f=huge, tr=2: dimensional(s, f, face=(214, 52, 70), edge=(70, 10, 20), tracking=tr)
+    g = 1.0  # light wall behind Edison: stronger dark halo so thin serif/silver titles read
+    gold = lambda s, f=big, tr=4: dimensional(s, f, face=PALE_GOLD, edge=(110, 80, 8), tracking=tr, glow=g)
+    ivory = lambda s, f=big, tr=4: dimensional(s, f, face=IVORY, edge=(90, 90, 96), tracking=tr, glow=g)
+    silver = lambda s, f=big, tr=4: dimensional(s, f, face=SILVER, edge=(60, 64, 72), tracking=tr, glow=g)
+    crimson = lambda s, f=huge, tr=2: dimensional(s, f, face=(214, 52, 70), edge=(70, 10, 20), tracking=tr, glow=g)
 
     depth(3, 13, gold("33 YEARS."))
     depth(80, 83, crimson("GONE."), slam=True)
@@ -162,8 +163,9 @@ def front(comp, t, rm):
                  min(1.0, (t - bt["t0"]) / 0.12))
         else:
             if "proc" not in bt:
+                name, _, ss = bt["f"].partition("@")
                 bt["proc"] = subprocess.Popen(
-                    ["ffmpeg", "-v", "error", "-i", str(BROLL_DIR / bt["f"]), "-vf",
+                    ["ffmpeg", "-v", "error", "-ss", ss or "0", "-i", str(BROLL_DIR / name), "-vf",
                      f"fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
                      "eq=contrast=1.05:saturation=0.95", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                     stdout=subprocess.PIPE)
