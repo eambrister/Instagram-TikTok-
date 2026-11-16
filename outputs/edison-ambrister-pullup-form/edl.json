@@ -1,0 +1,73 @@
+{
+ "keep": [
+  [
+   2.1333333333333333,
+   16.266666666666666
+  ],
+  [
+   16.566666666666666,
+   23.3
+  ],
+  [
+   24.633333333333333,
+   40.5
+  ],
+  [
+   40.766666666666666,
+   53.56666666666667
+  ]
+ ],
+ "cuts": [
+  {
+   "src": [
+    23.3,
+    24.64
+   ],
+   "why": "repeat: first 'That's what I want to see.' (restated as 'This is what I want to see' before the demo)",
+   "text": "That's what I want to see."
+  },
+  {
+   "src": [
+    0.13,
+    0.99
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    16.25,
+    16.57
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    40.49,
+    40.76
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    53.57,
+    54.51
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    56.09,
+    56.67
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    57.19,
+    57.65
+   ],
+   "why": "silence"
+  }
+ ],
+ "out_duration": 49.53333333333334
+}

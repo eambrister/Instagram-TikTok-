@@ -51,7 +51,7 @@ def vad_silences(wav16, min_len=0.4, above_floor_db=8):
     return out, len(a) / sr
 
 
-def plan_edl(words, cuts, wav16, keep_breath=0.13):
+def plan_edl(words, cuts, wav16, keep_breath=0.13, protect=()):
     """Return frame-quantized kept segments [(s, e)] in source seconds plus a cut log."""
     sil, dur = vad_silences(wav16)
     starts = [w["t"] for w in words]
@@ -63,6 +63,8 @@ def plan_edl(words, cuts, wav16, keep_breath=0.13):
         log.append(dict(src=(round(s, 2), round(e, 2)), why=why,
                         text=" ".join(w["w"] for w in words[i0:i1 + 1])))
     for (s, e) in sil:
+        if any(s < pe and e > ps for ps, pe in protect):
+            continue  # silent action (e.g. an exercise demo) is never trimmed
         # split the pause at any word start inside it, never cutting into a word's onset
         edges = [s] + [t for t in starts if s + 0.05 < t < e - 0.05] + [e]
         for a0, b0 in zip(edges[:-1], edges[1:]):
@@ -161,7 +163,7 @@ def render(src, words_path, selfie, out_dir, film, only=None):
     wav16 = out / "a16.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vn", "-ac", "1", "-ar", "16000",
                     str(wav16)], check=True)
-    keep, log = plan_edl(words, film.CUTS, wav16)
+    keep, log = plan_edl(words, film.CUTS, wav16, protect=getattr(film, "PROTECT", ()))
     rm = Remap(keep)
     json.dump(dict(keep=keep, cuts=log, out_duration=rm.total), open(out / "edl.json", "w"), indent=1)
     caps = caption_groups(remap_words(words, rm))
@@ -339,7 +341,8 @@ def mix(src, out_dir, film):
                         "-f", "null", "-"], capture_output=True, text=True).stderr
     integ = float([ln for ln in r.splitlines() if ln.strip().startswith("I:")][-1].split()[1])
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(out / "mix_ln.wav"), "-af",
-                    f"volume={-14.0 - integ:.2f}dB,alimiter=limit=0.70:attack=1:release=60:level=false",
+                    f"volume={-14.0 - integ:.2f}dB,aresample=192000,"
+                    "alimiter=limit=0.66:attack=1:release=60:level=false,aresample=48000",  # oversampled: true-peak safe
                     "-ar", str(SR), str(out / "mix_final.wav")], check=True)
     print("mix", round(total / SR, 2), "s")
 
