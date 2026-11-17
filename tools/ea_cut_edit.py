@@ -296,7 +296,8 @@ def mix(src, out_dir, film):
     total = speech_end + int(END_CARD * SR)
     voice = np.pad(voice, (0, total - len(voice)))
 
-    subprocess.run([sys.executable, "-I", str(ROOT / "video/tools/make_music.py"),
+    music_tool = getattr(film, "MUSIC_TOOL", "video/tools/make_music.py")  # e.g. make_hiphop_beat.py
+    subprocess.run([sys.executable, "-I", str(ROOT / music_tool),
                     str(out / "music_src.wav"), "--seconds", f"{total / SR + 1:.2f}"], check=True)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(out / "music_src.wav"), "-ac", "1",
                     "-ar", str(SR), str(out / "music_48k.wav")], check=True)
@@ -304,8 +305,9 @@ def mix(src, out_dir, film):
     music = np.pad(music[:total], (0, max(0, total - len(music))))
     envv = np.convolve(np.abs(voice), np.ones(int(0.25 * SR)) / int(0.25 * SR), "same")
     duck = np.clip(1 - envv / (envv.max() * 0.18), 0.35, 1.0)
-    level = np.full(total, 0.16)
-    level[speech_end:] = np.linspace(0.16, 0.42, total - speech_end)
+    base = getattr(film, "MUSIC_LEVEL", 0.16)
+    level = np.full(total, base)
+    level[speech_end:] = np.linspace(base, max(0.42, base), total - speech_end)
     fade = np.ones(total)
     fade[:SR] = np.linspace(0, 1, SR)
     fade[-int(0.8 * SR):] = np.linspace(1, 0, int(0.8 * SR))

@@ -1,6 +1,6 @@
 # No half-rep pull-ups
 
-Reel: `pullup-form-v1.mp4` (1080 × 1920, 52 s). Pillar: **EDISON TRAINS** (form). Edison posts this one himself.
+Reel: `pullup-form-v2.mp4` (1080 × 1920, 52 s). Pillar: **EDISON TRAINS** (form). Edison posts this one himself.
 
 **TikTok title:** If your chin doesn't clear the bar, it doesn't count
 

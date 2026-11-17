@@ -24,6 +24,8 @@ CUTS = [
 GOOD_DEMO = (26.0, 37.9)   # full-rep demonstration (source seconds)
 BAD_DEMO = (45.1, 51.4)    # half-rep demonstration
 PROTECT = [GOOD_DEMO, BAD_DEMO]
+MUSIC_TOOL = "video/tools/make_hiphop_beat.py"  # Edison asked for a hip hop beat (v2)
+MUSIC_LEVEL = 0.30  # beat sits under speech (ducked) and carries the silent demos
 
 
 def _w(i):
