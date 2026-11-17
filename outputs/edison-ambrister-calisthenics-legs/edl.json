@@ -1,0 +1,75 @@
+{
+ "keep": [
+  [
+   2.9,
+   17.933333333333334
+  ],
+  [
+   18.2,
+   23.4
+  ],
+  [
+   23.7,
+   44.666666666666664
+  ],
+  [
+   45.13333333333333,
+   46.5
+  ]
+ ],
+ "cuts": [
+  {
+   "src": [
+    2.2,
+    2.9
+   ],
+   "why": "filler opener: 'And then'",
+   "text": "And then"
+  },
+  {
+   "src": [
+    23.4,
+    23.7
+   ],
+   "why": "filler: 'like'",
+   "text": "like"
+  },
+  {
+   "src": [
+    44.67,
+    45.13
+   ],
+   "why": "stutter: first 'a good' in 'a good a good start'",
+   "text": "a good"
+  },
+  {
+   "src": [
+    0.13,
+    2.14
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    17.95,
+    18.21
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    48.25,
+    48.81
+   ],
+   "why": "silence"
+  },
+  {
+   "src": [
+    50.17,
+    51.69
+   ],
+   "why": "silence"
+  }
+ ],
+ "out_duration": 42.56666666666666
+}
