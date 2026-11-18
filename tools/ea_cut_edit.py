@@ -51,7 +51,7 @@ def vad_silences(wav16, min_len=0.4, above_floor_db=8):
     return out, len(a) / sr
 
 
-def plan_edl(words, cuts, wav16, keep_breath=0.13, protect=()):
+def plan_edl(words, cuts, wav16, keep_breath=0.13, protect=(), dead=()):
     """Return frame-quantized kept segments [(s, e)] in source seconds plus a cut log."""
     sil, dur = vad_silences(wav16)
     starts = [w["t"] for w in words]
@@ -62,6 +62,9 @@ def plan_edl(words, cuts, wav16, keep_breath=0.13, protect=()):
         removed.append((s, e))
         log.append(dict(src=(round(s, 2), round(e, 2)), why=why,
                         text=" ".join(w["w"] for w in words[i0:i1 + 1])))
+    for s, e, why in dead:  # hand-marked dead air the VAD misses (outdoor wind, ambient noise)
+        removed.append((s, e))
+        log.append(dict(src=(round(s, 2), round(e, 2)), why=why))
     for (s, e) in sil:
         if any(s < pe and e > ps for ps, pe in protect):
             continue  # silent action (e.g. an exercise demo) is never trimmed
@@ -114,6 +117,8 @@ class Remap:
 def remap_words(words, rm):
     out = []
     for w in words:
+        if w["e"] - w["t"] > 0.9:  # ASR end = next word's start: don't hold a word over a silent demo
+            w = dict(w, e=w["t"] + 0.6)
         i = rm.seg_of(w["t"])
         if i is None:
             continue
@@ -163,7 +168,8 @@ def render(src, words_path, selfie, out_dir, film, only=None):
     wav16 = out / "a16.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vn", "-ac", "1", "-ar", "16000",
                     str(wav16)], check=True)
-    keep, log = plan_edl(words, film.CUTS, wav16, protect=getattr(film, "PROTECT", ()))
+    keep, log = plan_edl(words, film.CUTS, wav16, protect=getattr(film, "PROTECT", ()),
+                         dead=getattr(film, "DEAD", ()))
     rm = Remap(keep)
     json.dump(dict(keep=keep, cuts=log, out_duration=rm.total), open(out / "edl.json", "w"), indent=1)
     caps = caption_groups(remap_words(words, rm))
@@ -297,8 +303,11 @@ def mix(src, out_dir, film):
     voice = np.pad(voice, (0, total - len(voice)))
 
     music_tool = getattr(film, "MUSIC_TOOL", "video/tools/make_music.py")  # e.g. make_hiphop_beat.py
-    subprocess.run([sys.executable, "-I", str(ROOT / music_tool),
-                    str(out / "music_src.wav"), "--seconds", f"{total / SR + 1:.2f}"], check=True)
+    if getattr(film, "MUSIC_LEVEL", 0.16) <= 0:  # no music: a short silent bed keeps the code path
+        sf.write(out / "music_src.wav", np.zeros(SR, np.float32), SR)
+    else:
+        subprocess.run([sys.executable, "-I", str(ROOT / music_tool),
+                        str(out / "music_src.wav"), "--seconds", f"{total / SR + 1:.2f}"], check=True)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(out / "music_src.wav"), "-ac", "1",
                     "-ar", str(SR), str(out / "music_48k.wav")], check=True)
     music, _ = sf.read(out / "music_48k.wav", dtype="float32")
@@ -344,10 +353,19 @@ def mix(src, out_dir, film):
     r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(out / "mix_ln.wav"), "-af", "ebur128",
                         "-f", "null", "-"], capture_output=True, text=True).stderr
     integ = float([ln for ln in r.splitlines() if ln.strip().startswith("I:")][-1].split()[1])
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(out / "mix_ln.wav"), "-af",
-                    f"volume={-14.0 - integ:.2f}dB,aresample=192000,"
-                    "alimiter=limit=0.66:attack=1:release=60:level=false,aresample=48000",  # oversampled: true-peak safe
-                    "-ar", str(SR), str(out / "mix_final.wav")], check=True)
+    src, gain = out / "mix_ln.wav", -14.0 - integ
+    for _ in range(3):  # the limiter eats some make-up gain on peaky voice-only mixes: re-measure
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-af",
+                        f"volume={gain:.2f}dB,aresample=192000,"
+                        "alimiter=limit=0.66:attack=1:release=60:level=false,aresample=48000",  # oversampled: true-peak safe
+                        "-ar", str(SR), str(out / "mix_final.wav")], check=True)
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(out / "mix_final.wav"), "-af", "ebur128",
+                            "-f", "null", "-"], capture_output=True, text=True).stderr
+        integ = float([ln for ln in r.splitlines() if ln.strip().startswith("I:")][-1].split()[1])
+        if integ > -14.6:
+            break
+        subprocess.run(["cp", str(out / "mix_final.wav"), str(out / "mix_pass.wav")], check=True)
+        src, gain = out / "mix_pass.wav", -14.0 - integ
     print("mix", round(total / SR, 2), "s")
 
 
