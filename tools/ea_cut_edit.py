@@ -312,6 +312,8 @@ def mix(src, out_dir, film):
     fade[:SR] = np.linspace(0, 1, SR)
     fade[-int(0.8 * SR):] = np.linspace(1, 0, int(0.8 * SR))
     music = music / (np.abs(music).max() + 1e-9) * level * duck * fade
+    if getattr(film, "MUSIC_LEVEL", 0.16) <= 0:  # film asks for no music: voice + SFX only
+        music = np.zeros(total, np.float32)
 
     sfx = np.zeros(total, np.float32)
 

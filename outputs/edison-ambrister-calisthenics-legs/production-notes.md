@@ -1,4 +1,6 @@
-# CALISTHENICS WORKS LEGS: production notes (v1)
+# CALISTHENICS WORKS LEGS: production notes (v2)
+
+**v2 (Edison's request): music removed.** The audio is now Edison's voice plus the designed SFX only (`MUSIC_LEVEL = 0`). The picture is unchanged from v1, which remains in git history.
 
 Made with the saved style and the cut rule (shared standard §4b). Built by `tools/build_ea_calisthenics_legs.py` with the engine in `tools/ea_cut_edit.py`. The edit decision list is in `edl.json`.
 
@@ -21,12 +23,12 @@ Made with the saved style and the cut rule (shared standard §4b). Built by `too
 - **Titles:** head-tracked depth titles: CALISTHENICS → LEGS. → ALWAYS. → SQUATS. → LUNGES. → COMBINE IT. → MY FAVORITE. → **1 → 2 → 3** (on Edison's own count) → AS MANY AS POSSIBLE. → **500.**
 - **Picture:** word-timed captions, light grade, no vignette, punch-ins on cuts, CTD end card.
 - **Voice:** reassembled with 6 ms fades. High-pass, FFT denoise and compression.
-- **Music:** the default original bed (level 0.22, to carry the demo).
+- **Music:** none (removed in v2).
 - **SFX:** synthesized. Soft whooshes on regular titles; hits on LEGS., the 1/2/3 count and 500.
 
-## Delivery checks (`calisthenics-legs-v1.mp4`)
+## Delivery checks (`calisthenics-legs-v2.mp4`)
 - 1080 × 1920, 30 fps, 1,352 frames, 45.1 s (A/V lengths match).
-- Full decode with no errors. −14.9 LUFS, −3.3 dBTP. 40 MB.
+- Full decode with no errors. −14.7 LUFS, −3.5 dBTP. 40 MB.
 - Every title was inspected at phone size.
 
 ## Not done

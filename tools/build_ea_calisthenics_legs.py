@@ -26,7 +26,7 @@ CUTS = [
 ]
 DEMO = (24.8, 39.2)          # squat + lunge combo demo with spoken count (source seconds)
 PROTECT = [DEMO]
-MUSIC_LEVEL = 0.22           # default bed, a little higher so it carries the demo
+MUSIC_LEVEL = 0               # v2: Edison asked to remove the music (voice + SFX only)
 
 
 def _w(i):

@@ -1,6 +1,6 @@
 # Calisthenics works legs
 
-Reel: `calisthenics-legs-v1.mp4` (1080 × 1920, 45 s). Pillar: **EDISON TRAINS**. Edison posts this one himself.
+Reel: `calisthenics-legs-v2.mp4` (1080 × 1920, 45 s). Pillar: **EDISON TRAINS**. Edison posts this one himself.
 
 **TikTok title:** "Calisthenics doesn't work legs." Watch this.
 
