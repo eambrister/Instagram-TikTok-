@@ -1,0 +1,14 @@
+{
+  "name": "edison-motion",
+  "private": true,
+  "description": "Remotion motion-graphics overlays for Edison Ambrister's edits (rendered with transparency, composited over footage).",
+  "scripts": {
+    "render": "remotion render"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.545",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.545"
+  }
+}
