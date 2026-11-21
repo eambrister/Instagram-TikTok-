@@ -102,7 +102,8 @@ def word_ends(words, wav16):
     hop = int(0.01 * sr)
     n = len(a) // hop
     db = 20 * np.log10(np.sqrt(np.mean(a[:n * hop].reshape(n, hop) ** 2, axis=1)) + 1e-9)
-    thr = np.percentile(db, 10) + 12
+    live = db[db > -120]  # ignore digital silence, which would drag the noise floor to -180 dB
+    thr = max(np.percentile(live, 10) + 12, np.percentile(live, 90) - 30)
     ends = []
     for i, w in enumerate(words):
         lo = int(w["t"] / 0.01)
