@@ -3,5 +3,5 @@
 - **Format:** 1080×1350 single image. Instagram only.
 - **Files:** `01-iceberg.png`, `jpg/01-iceberg.jpg`, `caption.txt`, `final-carousel.zip`
 - **Logo:** Cutthroat Discipline emblem.
-- **Images:** drawn graphics, no AI image.
+- **Images:** AI photo made in Canva (`source-images/iceberg.png`). No people. Turn on Instagram's AI label.
 - **Rebuild:** `python3 tools/build_monumental_singles_2026_11_21b.py`

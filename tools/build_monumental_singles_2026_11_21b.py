@@ -92,40 +92,39 @@ def success_switches():
     save(img, slug, "01-success-switches")
 
 
+def shadowed(d, cx, y, text, f, fill):
+    cap = f.getbbox("H")
+    x = cx - f.getlength(text) / 2
+    for dx in range(-3, 4, 3):
+        for dy in range(-3, 4, 3):
+            d.text((x + dx, y - cap[1] + dy), text, font=f, fill=INK)
+    d.text((x, y - cap[1]), text, font=f, fill=fill)
+
+
 def iceberg():
     slug = "iceberg"
-    img = surface(83, light=(0.5, 0.0))
-    d = ImageDraw.Draw(img)
-    eyebrow(d, 80, "WHAT ACTUALLY CHANGES YOUR BODY")
-    ctext(d, 126, "THE PART", font(HEAD, 104), BONE)
-    ctext(d, 236, "NOBODY SEES.", font(HEAD, 104), GOLD)
-    water = 520
-    # water below the line
+    src = Image.open(folder(slug) / "source-images/iceberg.png").convert("RGB")
+    src = src.resize((W, round(src.height * W / src.width)), Image.LANCZOS)
+    img = Image.new("RGB", (W, H), INK)
+    img.paste(src, (0, 80))
+    img.paste(src.crop((0, 0, W, 80)).transpose(Image.FLIP_TOP_BOTTOM), (0, 0))
     a = np.asarray(img, np.float32)
     yy = np.arange(H, dtype=np.float32)[:, None]
-    deep = np.clip((yy - water) / 700, 0, 1) * (yy > water)
-    a = a * (1 - deep[..., None] * .45) + np.array((14, 18, 22), np.float32) * deep[..., None] * .45
+    shade = np.clip((yy - 1040) / 140, 0, 1) * .7
+    a = a * (1 - shade[..., None]) + np.array(INK, np.float32) * shade[..., None]
     img = Image.fromarray(np.clip(a, 0, 255).astype("uint8"))
     d = ImageDraw.Draw(img)
-    tip = [(470, water), (520, 420), (560, 440), (600, 395), (660, water)]
-    d.polygon(tip, fill=BONE)
-    body = [(430, water), (690, water), (770, 590), (835, 700), (815, 820), (850, 900), (760, 990),
-            (640, 1035), (540, 1020), (430, 1040), (330, 950), (300, 830), (265, 720), (330, 610)]
-    under = Image.new("L", (W, H), 0)
-    ImageDraw.Draw(under).polygon(body, fill=255)
-    img.paste(Image.new("RGB", (W, H), (58, 54, 46)), (0, 0), under.filter(ImageFilter.GaussianBlur(1)))
-    d = ImageDraw.Draw(img)
-    d.polygon(body, outline=GOLD, width=2)
-    d.line((60, water, W - 60, water), fill=GOLD, width=2)
+    eyebrow(d, 52, "WHAT ACTUALLY CHANGES YOUR BODY")
+    ctext(d, 92, "THE PART", font(HEAD, 76), BONE)
+    ctext(d, 174, "NOBODY SEES.", font(HEAD, 76), GOLD)
     lf = font(UTIL, 20)
-    tracked(d, 700, 445, "TRAINING", lf, BONE, 4)
-    lines = ["NUTRITION", "SLEEP", "DAILY STEPS", "CONSISTENCY"]
-    y = 625
-    for t in lines:
-        f = font(HEAD, 54)
-        ctext(d, y, t, f, GOLD, cx=555)
+    tracked(d, 690, 432, "TRAINING", lf, BONE, 4)
+    d.line((660, 442, 682, 442), fill=BONE, width=2)
+    y = 620
+    for t in ["NUTRITION", "SLEEP", "DAILY STEPS", "CONSISTENCY"]:
+        shadowed(d, 540, y, t, font(HEAD, 60), GOLD)
         y += 100
-    body_lines(d, 1085, "It's not an exact 80/20. But you can't out-train your plate.", 28, 900, BONE)
+    body_lines(d, 1104, "It's not an exact 80/20. But you can't out-train your plate.", 28, 940, BONE)
     save(img, slug, "01-iceberg")
 
 
