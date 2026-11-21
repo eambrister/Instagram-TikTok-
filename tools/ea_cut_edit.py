@@ -306,6 +306,8 @@ def render(src, words_path, selfie, out_dir, film, only=None):
         keep, log = plan_edl(words, film.CUTS, wav16, protect=getattr(film, "PROTECT", ()),
                              dead=getattr(film, "DEAD", ()))
         vkeep = keep
+    if hasattr(film, "fix_edl"):  # hand fixes from Edison's review (exact source times)
+        keep, vkeep = film.fix_edl(keep, vkeep)
     rm = Remap(keep)      # audio / captions / titles timeline
     vrm = Remap(vkeep)    # picture timeline (differs only at L-cuts; same total length)
     json.dump(dict(keep=keep, video_keep=vkeep, cuts=log, out_duration=rm.total), open(out / "edl.json", "w"),

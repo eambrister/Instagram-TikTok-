@@ -34,7 +34,31 @@ CUTS = [
     (410, 429, "retake: first 'It took them years… one decision.'"),
     (459, 473, "retake: 'Now here's the part that relates to you. You may not necessarily have a fault.'"),
     (498, 515, "retake: first 'But you have something that you've been building…' list"),
+    (396, 396, "v3: 'Now,' cut, his eyes are still on his notes as he says it (Edison's 2:01 note)"),
 ]
+
+
+def fix_edl(keep, vkeep):
+    """v3 fixes from Edison's review of v2. Each boundary keeps its L/J offset (picture minus audio)
+    unless the fix sets one, so audio and picture stay the same total length."""
+    K, V = [list(x) for x in keep], [list(x) for x in vkeep]
+
+    def at_end(t):
+        return min(range(len(K)), key=lambda k: abs(K[k][1] - t))
+
+    def set_end(t, new_end, offset=None):
+        k = at_end(t)
+        o = V[k][1] - K[k][1] if offset is None else offset
+        K[k][1] = new_end
+        V[k][1] = new_end + o
+        if k + 1 < len(K):
+            V[k + 1][0] = K[k + 1][0] + o
+
+    set_end(26.23, 26.23, offset=0.16)  # 0:12: next clip ("Going into November") opened on eyes coming up
+    set_end(50.43, 50.22)               # 0:22: end on "world." before his head drops
+    set_end(253.97, 253.93, offset=0.0) # 2:01: no hold after "millions." (eyes drop at 254.0)
+    set_end(364.2, 363.35, offset=0.0)  # 2:54: "purpose." ends 363.3; the rest was a breath while eyes dropped
+    return [tuple(x) for x in K], [tuple(x) for x in V]
 
 # B-roll beats: (first word index, word index whose start ends the beat, file, kind)
 BROLL = [
@@ -67,7 +91,7 @@ MATTE_MODEL = None    # set in main(): RobustVideoMatting HQ model for clean hea
 CAPTION_FIX = {
     97: "Huang,", 98: "the", 177: "On", 255: "NVIDIA", 261: "NVIDIA", 263: "Mr. Huang's", 264: "",
     285: "2009,", 286: "", 287: "", 305: "2019,", 306: "", 326: "$100", 327: "", 328: "million.", 329: "",
-    333: "Krzanich.", 335: "2018", 336: "", 397: "these", 495: "hundred-thousand-dollar", 496: "",
+    333: "Krzanich.", 335: "2018", 336: "", 397: "These", 495: "hundred-thousand-dollar", 496: "",
     647: "LOCKED", 648: "IN.",
 }
 
