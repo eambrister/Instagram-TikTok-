@@ -8,7 +8,7 @@ Usage: python3 tools/build_monumental_singles_2026_11_21b.py
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
-from build_monumental_singles_2026_11_13 import body_lines, ctext, eyebrow, fit, save
+from build_monumental_singles_2026_11_13 import body_lines, ctext, eyebrow, fit, folder, save
 from build_monumental_singles_2026_11_21 import CRIMSON, DIM
 from monumental_type import BONE, GOLD, HEAD, INK, LGOLD, STONE, UTIL, H, W, font, frame, surface, tracked, tracked_width
 
@@ -42,23 +42,24 @@ def disc(img, cx, cy, r, base, spots=(), seed=0):
 
 def your_circle():
     slug = "your-circle"
-    img = surface(81, light=(0.5, 0.0))
+    src = Image.open(folder(slug) / "source-images/oranges.png").convert("RGB")
+    src = src.resize((W, round(src.height * W / src.width)), Image.LANCZOS)
+    img = Image.new("RGB", (W, H), INK)
+    img.paste(src, (0, (H - src.height) // 2))
+    a = np.asarray(img, np.float32)
+    yy = np.arange(H, dtype=np.float32)[:, None]
+    shade = np.clip((yy - 1060) / 140, 0, 1) * .75 + np.clip((420 - yy) / 420, 0, 1) * .35
+    a = a * (1 - shade[..., None]) + np.array(INK, np.float32) * shade[..., None]
+    img = Image.fromarray(np.clip(a, 0, 255).astype("uint8"))
     d = ImageDraw.Draw(img)
-    eyebrow(d, 110, "CHOOSE CAREFULLY")
-    y = ctext(d, 160, "WHO YOU SURROUND", font(HEAD, 96), BONE) + 18
-    y = ctext(d, y, "YOURSELF WITH", font(HEAD, 96), BONE) + 18
-    ctext(d, y, "MATTERS.", font(HEAD, 130), GOLD)
-    orange = (205, 120, 40)
-    for cx, base, spots, seed in ((230, (150, 95, 45), [(-.2, .1, .55), (.45, -.45, .25), (-.6, -.5, .2)], 1),
-                                  (540, orange, [(-.55, .15, .28)], 2), (850, orange, [], 3)):
-        disc(img, cx, 770, 128, base, spots, seed)
-        sd = ImageDraw.Draw(img)
-        sd.ellipse((cx - 9, 770 - 128 + 4, cx + 9, 770 - 128 + 18), fill=(70, 80, 40))
-    d = ImageDraw.Draw(img)
+    eyebrow(d, 96, "CHOOSE CAREFULLY")
+    y = ctext(d, 146, "WHO YOU SURROUND", font(HEAD, 92), BONE) + 16
+    y = ctext(d, y, "YOURSELF WITH", font(HEAD, 92), BONE) + 16
+    ctext(d, y, "MATTERS.", font(HEAD, 124), GOLD)
     lf = font(UTIL, 18)
-    for cx, t, c in ((245, "ROT", STONE), (540, "SPREADING", LGOLD), (835, "UNTOUCHED", GOLD)):
-        tracked(d, cx - tracked_width(t, lf, 4) / 2, 948, t, lf, c, 4)
-    body_lines(d, 1010, "Rot spreads. So does discipline. Pick the people you want to become like.", 30, 900, BONE)
+    for cx, t, c in ((195, "ROT", STONE), (538, "SPREADING", LGOLD), (888, "UNTOUCHED", GOLD)):
+        tracked(d, cx - tracked_width(t, lf, 4) / 2, 1052, t, lf, c, 4)
+    body_lines(d, 1104, "Rot spreads. So does discipline. Choose your circle.", 28, 940, BONE)
     save(img, slug, "01-your-circle")
 
 
