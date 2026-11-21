@@ -49,6 +49,29 @@ def arrow_down(d, x, y0, y1, colour=BONE):
     d.polygon([(x - 10, y1 - 14), (x + 10, y1 - 14), (x, y1 + 2)], fill=colour)
 
 
+def plate(path, cx, cy, r, size):
+    """Cut a round plate (centre cx, cy, radius r in source px) as a soft-edged circle of diameter size."""
+    im = Image.open(path).convert("RGB").crop((cx - r, cy - r, cx + r, cy + r)).resize((size, size), Image.LANCZOS)
+    m = Image.new("L", (size * 4, size * 4), 0)
+    ImageDraw.Draw(m).ellipse((6, 6, size * 4 - 6, size * 4 - 6), fill=255)
+    im.putalpha(m.resize((size, size), Image.LANCZOS))
+    return im
+
+
+def matte(path, box):
+    """Crop a food on black and matte it by luminance."""
+    import numpy as np
+    from PIL import ImageFilter
+    im = Image.open(path).convert("RGB").crop(box)
+    lum = np.asarray(im, dtype=np.float32).max(axis=2)
+    im.putalpha(Image.fromarray((np.clip((lum - 22) / 30, 0, 1) * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(1.2)))
+    return im
+
+
+PLATES = [(360, 677), (1080, 655), (1786, 655), (2506, 684)]
+FOOD_X = [(14, 518), (461, 835), (835, 1030), (1100, 1303), (1332, 1735), (1706, 2128), (2152, 2412), (2441, 2860)]
+
+
 # ---------------------------------------------------------------- 1. body types
 
 def body_types():
@@ -118,16 +141,19 @@ def protein_day():
     title(d, "EDISON EATS  ·  ONE SIMPLE DAY", "HOW TO HIT", "120G+ PROTEIN", size=112)
     top, rh, x = 380, 165, 120
     d.line((x, top + 10, x, top + 3 * rh + 40), fill=GOLD, width=2)
+    src = folder(slug) / "source-images/meals.png"
     for i, (when, meal, detail, grams) in enumerate(MEALS):
         y0 = top + i * rh
         d.ellipse((x - 9, y0 + 1, x + 9, y0 + 19), fill=GOLD)
         tracked(d, x + 40, y0, when, font(UTIL, 20), LGOLD, 4)
-        mf = fit(HEAD, meal, 48, 640)
+        mf = fit(HEAD, meal, 48, 500)
         d.text((x + 40, y0 + 38 - mf.getbbox("H")[1]), meal, font=mf, fill=BONE)
-        df = fit(BODY, detail, 24, 640)
+        df = fit(BODY, detail, 22, 540)
         d.text((x + 40, y0 + 104), detail, font=df, fill=STONE)
-        nf = font(NUMERAL, 64)
-        d.text((990 - nf.getlength(grams), y0 + 30 - nf.getbbox("0")[1]), grams, font=nf, fill=GOLD)
+        nf = font(NUMERAL, 54)
+        d.text((830 - nf.getlength(grams), y0 + 36 - nf.getbbox("0")[1]), grams, font=nf, fill=GOLD)
+        pl = plate(src, *PLATES[i], 353, 142)
+        img.paste(pl, (848, y0 - 6), pl)
     y = top + 4 * rh + 8
     d.line((92, y, 988, y), fill=GOLD, width=1)
     tf = font(HEAD, 60)
@@ -283,13 +309,15 @@ def hydrating():
     d = ImageDraw.Draw(img)
     title(d, "WATER CONTENT PER 100G  ·  RAW", "HYDRATING FOODS", "RANKED", size=112)
     top, rh = 390, 86
-    bx0, bx1 = 470, 860
+    bx0, bx1 = 490, 860
     for i, (name, v) in enumerate(HYDRATE):
         y0 = top + i * rh
         nf = font(NUMERAL, 50)
         d.text((92, y0 + 8 - nf.getbbox("0")[1]), str(i + 1), font=nf, fill=GOLD)
-        hf = fit(HEAD, name, 40, 310)
-        d.text((150, y0 + 14 - hf.getbbox("H")[1]), name, font=hf, fill=BONE)
+        cut = matte(folder(slug) / "source-images/foods.png", (FOOD_X[i][0], 259, FOOD_X[i][1], 1087))
+        place(img, cut, 186, y0 + 28, 76, 82)
+        hf = fit(HEAD, name, 38, 232)
+        d.text((240, y0 + 14 - hf.getbbox("H")[1]), name, font=hf, fill=BONE)
         w = (v - 80) / 20 * (bx1 - bx0)
         d.rectangle((bx0, y0 + 14, bx1, y0 + 42), fill=(30, 29, 27))
         d.rectangle((bx0, y0 + 14, bx0 + w, y0 + 42), fill=GOLD if i < 5 else LGOLD)
