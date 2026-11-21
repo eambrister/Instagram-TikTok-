@@ -1,4 +1,47 @@
-# NVIDIA SCANDAL → LUST: production notes (v1)
+# NVIDIA SCANDAL → LUST: production notes
+
+## v2 (current: `nvidia-lust-v2.mp4`, 3:13)
+
+Edison's corrections on v1 were: his eyes dropping to his notes at the end of clips, B-roll replacing the frame, and caption errors.
+
+**Cut by words, not pauses.**
+- Each clip now starts 0.08 s before its first word and ends 0.07 s after its last word.
+- Word ends are measured from the audio, not guessed from the transcript.
+- Any pause over 0.3 s is removed.
+- Result: 51 segments, 190 s plus the 2.5 s end card (v1 was 226 s).
+
+**Eyes-down detection** (`tools/gaze_track.py`).
+- The MediaPipe face landmarker scores every frame for eyes down: iris drop, lid closure and head pitch.
+- Pauses where he looks down are always cut.
+- Where the eyes drop *during* a clip's last word, the picture cuts away early while the word finishes under the next clip's eyes-up opening frames (an L-cut). That applies at 4 edges.
+- Where a clip opens with his eyes still coming up, the picture joins late (a J-cut). That applies at 8 edges.
+- I ran the detector again on the finished video. 2 of 50 cuts (0:25 and 0:58) still show a brief look down, and both fall mid-word. The rest of the flags were ordinary blinks.
+
+**B-roll above his head.**
+- Every beat is now a rounded card in the wall space over his head, so he stays on screen talking.
+- His head passes in front of the card's lower edge, using the RobustVideoMatting HQ matte.
+- Phone screenshots are cropped to the headline (and the photo, where it matters).
+
+**Caption corrections.**
+- Jensen Huang (was "Twang").
+- Brian Krzanich.
+- 2009 / 2019 / 2018 and $100 million written as numerals.
+- NVIDIA spelled consistently.
+- "Mr. Huang's" kept on one line.
+- "On November 8th" and "these" capitalised correctly.
+- "hundred-thousand-dollar".
+- "LOCKED IN."
+
+Spoken lines are unchanged, as Edison directed.
+
+**Delivery checks.**
+- 1080 × 1920, 192.7 s.
+- Full decode with no errors.
+- −14.4 LUFS, −3.4 dBTP.
+
+---
+
+## v1 notes (superseded)
 
 Made with `edison-full-message` and the cut-the-raw-footage rule (shared standard §4b). Built by `tools/build_ea_nvidia_lust.py` with the engine in `tools/ea_cut_edit.py`. The edit decision list is in `edl.json`.
 
