@@ -1,6 +1,21 @@
 # NVIDIA SCANDAL → LUST: production notes
 
-## v2 (current: `nvidia-lust-v2.mp4`, 3:13)
+## v3 (current: `nvidia-lust-v3.mp4`, 3:11)
+
+These are fixes from Edison's review of v2. Each one is set at exact source times in `fix_edl()` in `tools/build_ea_nvidia_lust.py`.
+
+- **0:12:** the "Going into November…" clip opened on his eyes still coming up. The picture now joins 0.16 s later, and the previous clip holds for that time.
+- **0:22:** he moved after "world.". The clip now ends at 50.22 s, on the word.
+- **2:01:**
+  - The picture no longer holds after "millions.", where his eyes drop at 254.0 s.
+  - "Now," is cut, because he was still reading when he said it. The line now opens on "These are different men…".
+- **2:54:** "purpose." ends at 363.3 s, and what followed was a breath while his eyes dropped. The clip now ends on the word.
+
+Delivery checks: 190.9 s, full decode with no errors, −14.4 LUFS, −3.2 dBTP.
+
+---
+
+## v2 (`nvidia-lust-v2.mp4`, 3:13, superseded)
 
 Edison's corrections on v1 were: his eyes dropping to his notes at the end of clips, B-roll replacing the frame, and caption errors.
 

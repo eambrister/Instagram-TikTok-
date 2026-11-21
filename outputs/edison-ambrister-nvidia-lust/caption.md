@@ -1,6 +1,6 @@
 # NVIDIA scandal → lust
 
-Reel: `nvidia-lust-v2.mp4` (1080 × 1920, 3:13). Pillar: **THE STANDARD**. Edison posts this one himself.
+Reel: `nvidia-lust-v3.mp4` (1080 × 1920, 3:11). Pillar: **THE STANDARD**. Edison posts this one himself.
 
 **TikTok title:** 33 years to build it. One decision to lose it.
 
