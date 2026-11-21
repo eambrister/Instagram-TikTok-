@@ -60,6 +60,18 @@ BROLL = [
 ]
 
 
+CUT_BY_WORDS = True   # v2: cut on the words, not the pauses (no glance down at the notes at clip ends)
+GAZE = None           # set in main(): per-frame eyes-down score from tools/gaze_track.py (10 fps)
+MATTE_MODEL = None    # set in main(): RobustVideoMatting HQ model for clean head edges
+# v2 caption corrections (index -> text; "" hides a word that was merged into the previous one)
+CAPTION_FIX = {
+    97: "Huang,", 98: "the", 177: "On", 255: "NVIDIA", 261: "NVIDIA", 263: "Mr. Huang's", 264: "",
+    285: "2009,", 286: "", 287: "", 305: "2019,", 306: "", 326: "$100", 327: "", 328: "million.", 329: "",
+    333: "Krzanich.", 335: "2018", 336: "", 397: "these", 495: "hundred-thousand-dollar", 496: "",
+    647: "LOCKED", 648: "IN.",
+}
+
+
 def _w(i):
     """Start time of word i (past the last word: its end plus a short tail)."""
     return WORDS[i]["t"] if i < len(WORDS) else WORDS[-1]["t"] + 0.9
@@ -102,42 +114,59 @@ def build_events():
     return ev
 
 
-# ---------------------------------------------------------------- B-roll layer
+# ---------------------------------------------------------------- B-roll layer (v2: card above his head)
+# v2: Edison asked for the B-roll to sit ABOVE his head while he keeps talking, instead of replacing
+# the frame. Each beat is a rounded card in the wall space over his head; his head (RVM matte) passes
+# in front of the card's lower edge so it reads as layered. Phone screenshots are cropped to their
+# headline (and photo where it matters) so the card stays readable.
+CROPS = {  # source-pixel crop boxes for the tall phone screenshots
+    "IMG_8256.png": (0, 0, 1170, 560),     # CNN: "admits affair ... foreign spy claims"
+    "IMG_8257.png": (0, 0, 1170, 1160),    # CNN: Alice Huang headline + dinner photo
+    "IMG_8258.png": (0, 0, 1170, 700),     # NVIDIA newsroom letter opening
+    "IMG_8262.png": (0, 430, 1170, 900),   # Yahoo: market cap plunges $490B
+    "IMG_8263.png": (0, 0, 1170, 900),     # NVIDIA Announces CEO Transition
+    "IMG_8264.png": (0, 0, 1170, 620),     # UC Davis: Tiger Woods scandal cost
+    "IMG_8265.png": (0, 0, 1170, 560),     # AP: McDonald's fired CEO returns $105M
+    "IMG_8266.png": (0, 640, 1170, 1250),  # Intel CEO Brian Krzanich quits
+    "IMG_8267.png": (0, 0, 1170, 760),     # NBC: HP's CEO Hurd quits
+}
+CARD_W, CARD_H, CARD_TOP = 960, 540, 250   # max card box; never above the 250 px safe line
 _STATE = {}
+VIDEO_W, VIDEO_H = 960, 540
 
 
-def _card(path):
-    """Headline screenshot / photo as a rounded card with shadow on a dark graphite field."""
-    im = Image.open(path).convert("RGB")
-    s = min(960 / im.width, 1040 / im.height)
-    im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
+def _round(im, r=28):
     mask = Image.new("L", im.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, im.width - 1, im.height - 1), 26, fill=255)
-    card = Image.new("RGBA", (im.width + 80, im.height + 80), (0, 0, 0, 0))
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, im.width - 1, im.height - 1), r, fill=255)
+    return mask
+
+
+def _frame_card(im):
+    """Wrap a picture as an RGBA card: rounded corners, thin ivory rim, soft drop shadow."""
+    mask = _round(im)
+    pad = 44
+    card = Image.new("RGBA", (im.width + pad * 2, im.height + pad * 2), (0, 0, 0, 0))
     sh = Image.new("L", card.size, 0)
-    sh.paste(mask, (40, 52))
-    card.paste(Image.new("RGBA", card.size, (0, 0, 0, 170)), (0, 0), sh.filter(ImageFilter.GaussianBlur(22)))
-    card.paste(im, (40, 40), mask)
-    return card
+    sh.paste(mask, (pad, pad + 14))
+    card.paste(Image.new("RGBA", card.size, (0, 0, 0, 190)), (0, 0), sh.filter(ImageFilter.GaussianBlur(20)))
+    card.paste(im.convert("RGBA"), (pad, pad), mask)
+    rim = Image.new("RGBA", card.size, (0, 0, 0, 0))
+    ImageDraw.Draw(rim).rounded_rectangle((pad, pad, pad + im.width - 1, pad + im.height - 1), 28,
+                                          outline=(246, 239, 226, 150), width=3)
+    return Image.alpha_composite(card, rim)
 
 
-def _bg():
-    g = np.linspace(0, 1, H)[:, None, None]
-    top = np.array((41, 45, 52), np.float32)
-    bot = np.array(OBSIDIAN, np.float32)
-    return (top * (1 - g) + bot * g).repeat(W, axis=1).astype(np.float32)
-
-
-def _push(frame, z):
-    if z <= 1.0005:
-        return frame
-    im = Image.fromarray(np.clip(frame, 0, 255).astype(np.uint8))
-    cw, ch = W / z, H / z
-    x0, y0 = (W - cw) / 2, (H - ch) / 2
-    return np.asarray(im.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch)), np.float32)
+def _image(path, name):
+    im = Image.open(path).convert("RGB")
+    if name in CROPS:
+        im = im.crop(CROPS[name])
+    sc = min(CARD_W / im.width, CARD_H / im.height)
+    return im.resize((int(im.width * sc), int(im.height * sc)), Image.LANCZOS)
 
 
 def front(comp, t, rm):
+    import ea_cut_edit as eng
+    from build_ea_50_more_days import over
     if "beats" not in _STATE:
         beats = []
         for a, b, f, kind in BROLL:
@@ -145,52 +174,72 @@ def front(comp, t, rm):
             if t1 - t0 > 0.4:
                 beats.append(dict(t0=t0, t1=t1, f=f, kind=kind))
         _STATE["beats"] = beats
-        _STATE["bg"] = _bg()
-    for i, bt in enumerate(_STATE["beats"]):
-        if not (bt["t0"] <= t < bt["t1"]):
-            continue
-        u = (t - bt["t0"]) / (bt["t1"] - bt["t0"])
-        if bt["kind"] == "image":
-            if "card" not in bt:
-                bt["card"] = _card(BROLL_DIR / bt["f"])
-            card = bt["card"]
-            sc = 0.97 + 0.05 * u
-            c = card.resize((int(card.width * sc), int(card.height * sc)), Image.BILINEAR)
-            frame = _STATE["bg"].copy()
-            from build_ea_50_more_days import over
-            y = max(170, 720 - c.height // 2)
-            over(frame, c, (W - c.width) // 2, y + int(30 * (1 - ease(min(1, (t - bt["t0"]) / 0.3)))),
-                 min(1.0, (t - bt["t0"]) / 0.12))
-        else:
-            if "proc" not in bt:
-                name, _, ss = bt["f"].partition("@")
-                bt["proc"] = subprocess.Popen(
-                    ["ffmpeg", "-v", "error", "-ss", ss or "0", "-i", str(BROLL_DIR / name), "-vf",
-                     f"fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
-                     "eq=contrast=1.05:saturation=0.95", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
-                    stdout=subprocess.PIPE)
-                bt["last"] = None
-            buf = bt["proc"].stdout.read(W * H * 3)
-            if len(buf) == W * H * 3:
-                bt["last"] = np.frombuffer(buf, np.uint8).reshape(H, W, 3).astype(np.float32)
-            frame = _push(bt["last"], 1.0 + 0.06 * u) if bt["last"] is not None else comp.copy()
-        comp[:] = frame
-        return
-    # close finished video readers
+        _STATE["hy"] = None
+    cur = eng.CURRENT
+    hr = cur.get("head_raw")
+    if hr is not None:
+        _STATE["hy"] = hr if _STATE["hy"] is None or cur.get("new_seg") else 0.85 * _STATE["hy"] + 0.15 * hr
     for bt in _STATE["beats"]:
         if "proc" in bt and t >= bt["t1"] and bt["proc"].poll() is None:
             bt["proc"].kill()
+    for bt in _STATE["beats"]:
+        if not (bt["t0"] <= t < bt["t1"]):
+            continue
+        u = (t - bt["t0"]) / max(1e-3, bt["t1"] - bt["t0"])
+        name, _, ss = bt["f"].partition("@")
+        if bt["kind"] == "image":
+            if "pic" not in bt:
+                bt["pic"] = _image(BROLL_DIR / name, name)
+            pic = bt["pic"]
+            z = 1.0 + 0.04 * u  # slow push inside the card
+            cw, ch = pic.width / z, pic.height / z
+            pic = pic.resize(pic.size, Image.BILINEAR, box=((pic.width - cw) / 2, (pic.height - ch) / 2,
+                                                             (pic.width + cw) / 2, (pic.height + ch) / 2))
+        else:
+            if "proc" not in bt:
+                bt["proc"] = subprocess.Popen(
+                    ["ffmpeg", "-v", "error", "-ss", ss or "0", "-i", str(BROLL_DIR / name), "-vf",
+                     f"fps={FPS},scale={VIDEO_W}:{VIDEO_H}:force_original_aspect_ratio=increase,"
+                     f"crop={VIDEO_W}:{VIDEO_H},eq=contrast=1.05:saturation=0.95",
+                     "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+                bt["last"] = None
+            buf = bt["proc"].stdout.read(VIDEO_W * VIDEO_H * 3)
+            if len(buf) == VIDEO_W * VIDEO_H * 3:
+                bt["last"] = Image.frombytes("RGB", (VIDEO_W, VIDEO_H), buf)
+            if bt["last"] is None:
+                return
+            pic = bt["last"]
+        card = _frame_card(pic)
+        inn = ease(min(1.0, (t - bt["t0"]) / 0.28))
+        a = min(1.0, (t - bt["t0"]) / 0.12, (bt["t1"] - t) / 0.15)
+        sc = 0.94 + 0.06 * inn
+        if sc < 0.999:
+            card = card.resize((int(card.width * sc), int(card.height * sc)), Image.BILINEAR)
+        head = _STATE["hy"] if _STATE["hy"] is not None else 640.0
+        bottom = head + 60 + 44  # card's lower edge tucks ~60 px behind the top of his head
+        y = int(max(CARD_TOP - 44, bottom - card.height)) - int(40 * (1 - inn))
+        x = (W - card.width) // 2
+        before = comp.copy()
+        over(comp, card, x, y, a)
+        m = cur.get("mask")
+        if m is not None:  # his head in front of the card
+            mm = np.clip(m, 0, 1)[..., None]
+            comp[:] = comp * (1 - mm) + before * mm
+        return
 
 
 def main():
-    global BROLL_DIR, WORDS
+    global BROLL_DIR, WORDS, GAZE, MATTE_MODEL
     import ea_cut_edit as eng
     ap = argparse.ArgumentParser()
     for k in ("src", "words", "selfie", "out", "broll"):
         ap.add_argument(k)
     ap.add_argument("--only")
     ap.add_argument("--final")
+    ap.add_argument("--gaze")
+    ap.add_argument("--matte")
     a = ap.parse_args()
+    GAZE, MATTE_MODEL = a.gaze, a.matte
     BROLL_DIR = pathlib.Path(a.broll)
     WORDS = json.load(open(a.words))
     film = sys.modules[__name__]

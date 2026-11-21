@@ -25,6 +25,7 @@ from build_ea_50_more_days import (  # noqa: E402
 from mix_ea_50_more_days import impact, tick, whoosh  # noqa: E402
 
 SR = 48000
+CURRENT = {}  # this frame's graded picture, subject matte and raw head top, for film front() layers
 ZOOMS = (1.0, 1.12)
 ZOOM_CENTER = (0.5, 0.40)  # face sits in the upper-middle of these selfies
 
@@ -92,6 +93,135 @@ def plan_edl(words, cuts, wav16, keep_breath=0.13, protect=(), dead=()):
     q = lambda x: round(x * FPS) / FPS
     keep = [(q(s), q(e)) for s, e in keep if q(e) - q(s) >= 0.2]
     return keep, log
+
+
+def word_ends(words, wav16):
+    """Real end of each word from the audio (ASR 'e' is just the next word's start): the last 10 ms
+    frame above the speech threshold before the next word begins."""
+    a, sr = sf.read(wav16, dtype="float32")
+    hop = int(0.01 * sr)
+    n = len(a) // hop
+    db = 20 * np.log10(np.sqrt(np.mean(a[:n * hop].reshape(n, hop) ** 2, axis=1)) + 1e-9)
+    thr = np.percentile(db, 10) + 12
+    ends = []
+    for i, w in enumerate(words):
+        lo = int(w["t"] / 0.01)
+        hi = int(min(words[i + 1]["t"] if i + 1 < len(words) else len(a) / sr, w["t"] + 1.6) / 0.01)
+        act = np.where(db[lo:hi] > thr)[0]
+        ends.append((lo + act[-1] + 1) * 0.01 + 0.02 if len(act) else min(hi * 0.01, w["t"] + 0.3))
+    return ends
+
+
+def plan_edl_words(words, cuts, wav16, gaze=None, gaze_fps=10.0, gaze_th=1.8, max_gap=0.30,
+                   lead=0.08, tail=0.07):
+    """Cut by WORDS, not pauses: every kept segment starts just before its first word and ends just
+    after its last word's real end. Any pause longer than max_gap is removed, and so is any pause in
+    which Edison looks down at his notes (gaze score > gaze_th), however short. Segment edges are
+    pulled in to the word itself when the eyes are already dropping inside the lead/tail."""
+    ends = word_ends(words, wav16)
+    a, sr = sf.read(wav16, dtype="float32")
+    dur = len(a) / sr
+    drop = set()
+    log = []
+    for (i0, i1, why) in cuts:
+        drop.update(range(i0, i1 + 1))
+        log.append(dict(src=(round(words[i0]["t"], 2), round(ends[i1], 2)), why=why,
+                        text=" ".join(w["w"] for w in words[i0:i1 + 1])))
+    g = np.asarray(gaze if gaze is not None else [], np.float32)
+
+    def down(t0, t1):
+        if not len(g) or t1 <= t0:
+            return False
+        i0, i1 = int(np.floor(t0 * gaze_fps)), int(np.ceil(t1 * gaze_fps))
+        return bool((g[max(0, i0):max(i0 + 1, min(len(g), i1))] > gaze_th).any())
+
+    segs, cur = [], None
+    for i, w in enumerate(words):
+        if i in drop:
+            if cur:
+                segs.append(cur)
+                cur = None
+            continue
+        if cur is not None:
+            gap = w["t"] - ends[cur[1]]
+            if gap > max_gap or down(ends[cur[1]], w["t"]):
+                log.append(dict(src=(round(ends[cur[1]], 2), round(w["t"], 2)),
+                                why="eyes down" if gap <= max_gap else "pause"))
+                segs.append(cur)
+                cur = None
+        cur = [i, i] if cur is None else [cur[0], i]
+    if cur:
+        segs.append(cur)
+    keep, glances = [], []
+    for i0, i1 in segs:
+        s = words[i0]["t"] - lead
+        e = ends[i1] + tail
+        if down(s, words[i0]["t"]):
+            s = words[i0]["t"] - 0.02
+        if down(ends[i1], e):
+            e = ends[i1] + 0.01
+        if down(words[i0]["t"], ends[i1]):
+            glances.append((round(words[i0]["t"], 2), round(ends[i1], 2)))
+        keep.append((max(0.0, s), min(dur, e)))
+    keep[-1] = (keep[-1][0], min(dur, keep[-1][1] + 0.1))
+    q = lambda x: round(x * FPS) / FPS
+    out, last_words = [], []
+    for (s, e), (i0, i1) in zip(keep, segs):
+        s, e = q(s), q(e)
+        if out and s <= out[-1][1]:
+            out[-1] = (out[-1][0], max(out[-1][1], e))
+            last_words[-1] = i1
+        elif e - s >= 0.2:
+            out.append((s, e))
+            last_words.append(i1)
+    # L-cuts: where the eyes start to drop during a segment's last word, cut the PICTURE to the next
+    # segment early (its pre-roll, eyes up) while the audio of the last word plays on under it.
+    vkeep = [list(x) for x in out]
+    lcuts = []
+    for k in range(len(out) - 1):
+        lw = words[last_words[k]]["t"]
+        e = out[k][1]
+        if not down(lw, e):
+            continue
+        i = int(np.floor(lw * gaze_fps))
+        while i < len(g) and i / gaze_fps < e and g[i] <= gaze_th:
+            i += 1
+        v_end = q(max(lw + 0.1, i / gaze_fps - 0.05))
+        d = min(0.6, e - v_end)
+        while d > 0.04 and down(out[k + 1][0] - d, out[k + 1][0]):  # next pre-roll must be eyes-up
+            d -= 1 / FPS
+        d = q(d)
+        if d < 0.05:
+            continue
+        if out[k + 1][0] - d <= out[k][1]:  # pre-roll would reach back into this segment
+            continue
+        vkeep[k][1] = round(vkeep[k][1] - d, 4)
+        vkeep[k + 1][0] = round(vkeep[k + 1][0] - d, 4)
+        lcuts.append((round(e, 2), round(d, 2)))
+    # J-cuts: where a segment opens with the eyes still down (looking up from the notes), start its
+    # PICTURE late and hold the previous segment's picture a moment longer, if that stretch is eyes-up.
+    jcuts = []
+    for k in range(1, len(out)):
+        s0 = vkeep[k][0]
+        if not down(s0, s0 + 0.2):
+            continue
+        i = int(np.floor(s0 * gaze_fps))
+        while i < len(g) and g[i] > gaze_th and i / gaze_fps < s0 + 0.6:
+            i += 1
+        d = q(min(0.6, i / gaze_fps + 0.05 - s0))
+        while d > 0.04 and down(vkeep[k - 1][1], vkeep[k - 1][1] + d):
+            d -= 1 / FPS
+        d = q(d)
+        if d < 0.05 or vkeep[k - 1][1] + d >= s0 or vkeep[k][0] + d >= vkeep[k][1] - 0.3:
+            continue
+        vkeep[k - 1][1] = round(vkeep[k - 1][1] + d, 4)
+        vkeep[k][0] = round(vkeep[k][0] + d, 4)
+        jcuts.append((round(s0, 2), round(d, 2)))
+    log.append(dict(why="L-cuts: picture leaves early because the eyes drop on the last word", cuts=lcuts))
+    log.append(dict(why="J-cuts: picture joins late because the eyes are still coming up", cuts=jcuts))
+    log.append(dict(why="segments where eyes drop mid-speech (cannot cut without losing words)",
+                    spans=glances))
+    return out, log, [tuple(x) for x in vkeep]
 
 
 class Remap:
@@ -168,17 +298,36 @@ def render(src, words_path, selfie, out_dir, film, only=None):
     wav16 = out / "a16.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vn", "-ac", "1", "-ar", "16000",
                     str(wav16)], check=True)
-    keep, log = plan_edl(words, film.CUTS, wav16, protect=getattr(film, "PROTECT", ()),
-                         dead=getattr(film, "DEAD", ()))
-    rm = Remap(keep)
-    json.dump(dict(keep=keep, cuts=log, out_duration=rm.total), open(out / "edl.json", "w"), indent=1)
-    caps = caption_groups(remap_words(words, rm))
+    if getattr(film, "CUT_BY_WORDS", False):
+        gz = getattr(film, "GAZE", None)
+        keep, log, vkeep = plan_edl_words(words, film.CUTS, wav16, gaze=json.load(open(gz)) if gz else None)
+    else:
+        keep, log = plan_edl(words, film.CUTS, wav16, protect=getattr(film, "PROTECT", ()),
+                             dead=getattr(film, "DEAD", ()))
+        vkeep = keep
+    rm = Remap(keep)      # audio / captions / titles timeline
+    vrm = Remap(vkeep)    # picture timeline (differs only at L-cuts; same total length)
+    json.dump(dict(keep=keep, video_keep=vkeep, cuts=log, out_duration=rm.total), open(out / "edl.json", "w"),
+              indent=1, default=float)
+    fix = getattr(film, "CAPTION_FIX", {})
+    cap_words = [dict(w, w=fix.get(i, w["w"])) for i, w in enumerate(words)]
+    for i in range(1, len(cap_words)):  # a hidden (merged) word hands its end time to the word it joined
+        if not cap_words[i]["w"] and cap_words[i - 1]["w"] is not None:
+            j = i - 1
+            while j > 0 and not cap_words[j]["w"]:
+                j -= 1
+            cap_words[j]["e"] = cap_words[i]["e"]
+    caps = caption_groups(remap_words([w for w in cap_words if w["w"]], rm))
     events = remap_events(film.build_events(), rm)
     capf = font(BARLOW, 84)
 
     it = Interpreter(model_path=selfie)
     it.allocate_tensors()
     iin, iout = it.get_input_details()[0]["index"], it.get_output_details()[0]["index"]
+    rvm = None
+    if getattr(film, "MATTE_MODEL", None):  # RobustVideoMatting: clean, stable edges (tools/rvm_matte.py)
+        from rvm_matte import Matte
+        rvm = Matte(film.MATTE_MODEL)
     lo, hi = (float(v) for v in only.split(":")) if only else (0.0, rm.total)
     dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", src, "-vf", GRADE + f",fps={FPS}",
                             "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
@@ -197,25 +346,31 @@ def render(src, words_path, selfie, out_dir, film, only=None):
             break
         ts = k / FPS
         k += 1
-        si = rm.seg_of(ts + 1e-4)
+        si = vrm.seg_of(ts + 1e-4)
         if si is None:
             continue
-        t = rm(ts + 1e-4)
+        t = vrm(ts + 1e-4)
         n_out += 1
         if not (lo <= t < hi):
             continue
         frame = zoom(np.frombuffer(buf, np.uint8).reshape(H, W, 3).astype(np.float32), ZOOMS[si % 2])
         x = np.asarray(Image.fromarray(frame.astype(np.uint8)).resize((256, 256), Image.BILINEAR),
                        np.float32)[None] / 255.0
-        it.set_tensor(iin, x)
-        it.invoke()
-        m = refine_mask(it.get_tensor(iout)[0, ..., 0], frame)
         new_seg = prev_m is None or getattr(render, "_seg", None) != si
         render._seg = si
-        if not new_seg:  # temporal smoothing only within a shot
-            m = 0.6 * m + 0.4 * prev_m
+        if rvm is not None:
+            if new_seg:
+                rvm.reset()
+            m = rvm(frame)
+        else:
+            it.set_tensor(iin, x)
+            it.invoke()
+            m = refine_mask(it.get_tensor(iout)[0, ..., 0], frame)
+            if not new_seg:  # temporal smoothing only within a shot
+                m = 0.6 * m + 0.4 * prev_m
         prev_m = m
         rows = np.where((m[:, 330:750] > 0.5).any(1))[0]
+        CURRENT.update(frame=frame, mask=m, head_raw=float(rows[0]) if len(rows) else None, new_seg=new_seg)
         if len(rows):
             ht = float(np.clip(rows[0], 300, 560))
             head = ht if new_seg else 0.85 * head + 0.15 * ht
