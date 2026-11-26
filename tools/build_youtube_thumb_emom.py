@@ -1,7 +1,7 @@
 """YouTube thumbnail (1280x720): 42-round calisthenics endurance EMOM, Monumental kit + CTD logo.
 
 Usage: python3 tools/build_youtube_thumb_emom.py
-Source photo: outputs/edison-ambrister-yt-emom-endurance/source-images/edison.jpg (Edison's own photo)
+Source photo: outputs/edison-ambrister-yt-emom-endurance/source-images/edison-home.png (Edison's own photo)
 """
 from pathlib import Path
 
@@ -22,8 +22,8 @@ def fit(path, text, size, width):
 
 
 def photo():
-    im = ImageOps.exif_transpose(Image.open(OUT / "source-images/edison.jpg")).convert("RGB")
-    im = im.crop((0, 60, im.width, 60 + round(im.width / 0.86)))
+    im = ImageOps.exif_transpose(Image.open(OUT / "source-images/edison-home.png")).convert("RGB")
+    im = im.crop((0, 470, im.width, 470 + round(im.width / 0.86)))
     im = im.resize((round(TH * im.width / im.height), TH), Image.LANCZOS)
     im = ImageEnhance.Color(im).enhance(0.75)
     a = np.asarray(im, np.float32) / 255
