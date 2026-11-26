@@ -54,7 +54,7 @@ def main():
     d = ImageDraw.Draw(img)
 
     ef = font(UTIL, 22)
-    tracked(d, 56, 48, "42-ROUND EMOM  ·  NO EQUIPMENT", ef, LGOLD, 4)
+    tracked(d, 56, 48, "42-MINUTE ROTATING EMOM  ·  NO EQUIPMENT", ef, LGOLD, 4)
     f1 = fit(HEAD, "CALISTHENICS", 118, 700)
     d.text((52, 88 - f1.getbbox("H")[1]), "CALISTHENICS", font=f1, fill=BONE)
     f2 = fit(HEAD, "ENDURANCE", 150, 700)
@@ -62,7 +62,7 @@ def main():
     d.text((52, y - f2.getbbox("H")[1]), "ENDURANCE", font=f2, fill=GOLD)
     y += f2.getbbox("H")[3] - f2.getbbox("H")[1] + 30
 
-    rows = [("420", "PUSH-UPS"), ("420", "BURPEES"), ("840", "SQUATS")]
+    rows = [("140", "PUSH-UPS"), ("140", "BURPEES"), ("280", "SQUATS")]
     nf, lf = font(NUMERAL, 76), font(HEAD, 54)
     for num, lab in rows:
         d.text((56, y - nf.getbbox("0")[1]), num, font=nf, fill=GOLD)
@@ -71,7 +71,7 @@ def main():
     y += 2
     d.rectangle((52, y, 560, y + 74), fill=GOLD)
     tf = font(HEAD, 54)
-    t = "1,680 TOTAL REPS"
+    t = "560 TOTAL REPS"
     d.text((52 + (508 - tf.getlength(t)) / 2, y + 12 - tf.getbbox("H")[1] + 6), t, font=tf, fill=INK)
 
     logo = Image.open(ROOT / TOKENS["logo"]["compact"]).convert("RGBA").resize((118, 118), Image.LANCZOS)
