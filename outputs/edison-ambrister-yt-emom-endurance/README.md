@@ -3,5 +3,5 @@
 - **Size:** 1280×720 (YouTube thumbnail). File: `jpg/yt-thumbnail-emom-endurance.jpg` (PNG alongside).
 - **Workout:** 42-minute rotating EMOM. Minute 1: 10 push-ups, minute 2: 10 burpees, minute 3: 20 squats, repeat (14 rounds of each).
 - **Totals:** 140 push-ups, 140 burpees, 280 squats = 560 reps.
-- **Photo:** Edison's mirror photo (`source-images/edison-mirror.jpg`); the yellow wall is darkened, skin and eyes untouched. Logo: Cutthroat Discipline emblem.
+- **Photo:** Edison's flex photo (`source-images/edison-flex.jpg`); the grey wall is darkened, skin left natural. Earlier options (mirror, home, outdoor) are also in `source-images/`. Logo: Cutthroat Discipline emblem.
 - **Rebuild:** `python3 tools/build_youtube_thumb_emom.py`

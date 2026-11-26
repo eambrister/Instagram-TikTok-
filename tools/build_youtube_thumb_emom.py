@@ -1,7 +1,7 @@
 """YouTube thumbnail (1280x720): 42-round calisthenics endurance EMOM, Monumental kit + CTD logo.
 
 Usage: python3 tools/build_youtube_thumb_emom.py
-Source photo: outputs/edison-ambrister-yt-emom-endurance/source-images/edison-mirror.jpg (Edison's own photo)
+Source photo: outputs/edison-ambrister-yt-emom-endurance/source-images/edison-flex.jpg (Edison's own photo)
 """
 from pathlib import Path
 
@@ -22,19 +22,19 @@ def fit(path, text, size, width):
 
 
 def photo():
-    im = ImageOps.exif_transpose(Image.open(OUT / "source-images/edison-mirror.jpg")).convert("RGB")
-    im = im.crop((0, 430, im.width, 430 + round(im.width / 0.86)))
-    im = im.resize((round(TH * im.width / im.height), TH), Image.LANCZOS)
+    im = ImageOps.exif_transpose(Image.open(OUT / "source-images/edison-flex.jpg")).convert("RGB")
+    im = im.crop((0, 20, im.width, 1640))
+    im = im.resize((round(im.width * TH / im.height), TH), Image.LANCZOS)
     a = np.asarray(im, np.float32) / 255
-    r, g, b = a[..., 0], a[..., 1], a[..., 2]
-    # the wall is mustard yellow: red and green close together, blue well below; skin has red clearly above green
-    yellow = np.clip(((r + g) / 2 - b - .12) / .1, 0, 1) * np.clip((.075 - np.abs(r - g)) / .045, 0, 1)
-    yellow = np.asarray(Image.fromarray((yellow * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(3)), np.float32) / 255
-    a = a * (1 - yellow[..., None] * .85)
-    a = np.clip(a ** 1.08 * np.array([1.04, 1.0, .94], np.float32), 0, 1)
-    h, w = r.shape
+    lum, sat = a.mean(axis=2), a.max(axis=2) - a.min(axis=2)
+    # grey wall and the painting: bright and/or low saturation, unlike his skin
+    wall = np.clip((lum - .42) / .2, 0, 1) * np.clip((.2 - sat) / .12, 0, 1)
+    wall = np.asarray(Image.fromarray((wall * 255).astype("uint8")).filter(ImageFilter.MaxFilter(11)).filter(ImageFilter.GaussianBlur(3)), np.float32) / 255
+    a = a * (1 - wall[..., None] * .88)
+    a = np.clip(a ** 1.06 * np.array([1.04, 1.0, .94], np.float32), 0, 1)
+    h, w = lum.shape
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-    vig = np.clip(1.1 - (((xx - w * .45) / (w * .62)) ** 2 + ((yy - h * .45) / (h * .75)) ** 2), .08, 1)
+    vig = np.clip(1.15 - (((xx - w * .48) / (w * .6)) ** 2 + ((yy - h * .5) / (h * .85)) ** 2), .06, 1)
     a = a * vig[..., None]
     return Image.fromarray((a * 255).astype("uint8"))
 
@@ -43,10 +43,10 @@ def main():
     (OUT / "jpg").mkdir(parents=True, exist_ok=True)
     img = Image.new("RGB", (TW, TH), INK)
     ph = photo()
-    x0 = TW - ph.width + 40
+    x0 = TW - ph.width
     fade = np.ones((TH, ph.width), np.float32)
-    ramp = np.linspace(0, 1, 220, dtype=np.float32)
-    fade[:, :220] *= ramp[None, :]
+    ramp = np.linspace(0, 1, 120, dtype=np.float32)
+    fade[:, :120] *= ramp[None, :]
     img.paste(ph, (x0, 0), Image.fromarray((fade * 255).astype("uint8")))
     d = ImageDraw.Draw(img)
 
