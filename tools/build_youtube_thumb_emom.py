@@ -12,6 +12,7 @@ from monumental_type import BONE, GOLD, HEAD, INK, LGOLD, NUMERAL, ROOT, STONE, 
 
 OUT = ROOT / "outputs/edison-ambrister-yt-emom-endurance"
 TW, TH = 1280, 720
+FACE = (322, 172, 52, 66)  # face centre x, y and radii in the resized photo
 
 
 def fit(path, text, size, width):
@@ -25,18 +26,21 @@ def photo():
     im = ImageOps.exif_transpose(Image.open(OUT / "source-images/edison-home.png")).convert("RGB")
     im = im.crop((0, 470, im.width, 470 + round(im.width / 0.86)))
     im = im.resize((round(TH * im.width / im.height), TH), Image.LANCZOS)
-    im = ImageEnhance.Color(im).enhance(0.75)
+    im = ImageEnhance.Color(im).enhance(0.88)
     a = np.asarray(im, np.float32) / 255
     lum = a.mean(axis=2)
     sat = a.max(axis=2) - a.min(axis=2)
     # pull down bright, low-saturation background (sky, walls) and the overall exposure
     bg = np.clip((lum - .55) / .3, 0, 1) * np.clip((.22 - sat) / .15, 0, 1)
-    a = a * (1 - bg[..., None] * .8)
-    a = np.clip(a ** 1.35, 0, 1)
-    warm = np.array([1.08, .98, .82], np.float32)
-    a = np.clip(a * warm, 0, 1)
+    # keep the face out of the background pull (eye whites are bright and colourless like the wall)
     h, w = lum.shape
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    face = np.clip(2.2 - 1.6 * np.sqrt(((xx - FACE[0]) / FACE[2]) ** 2 + ((yy - FACE[1]) / FACE[3]) ** 2), 0, 1)
+    bg = bg * (1 - face)
+    a = a * (1 - bg[..., None] * .8)
+    a = np.clip(a ** 1.12, 0, 1)
+    warm = np.array([1.08, .98, .82], np.float32)
+    a = np.clip(a * warm, 0, 1)
     vig = np.clip(1 - (((xx - w * .55) / (w * .75)) ** 2 + ((yy - h * .42) / (h * .8)) ** 2), .15, 1)
     a = a * vig[..., None]
     return Image.fromarray((a * 255).astype("uint8"))
