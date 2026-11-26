@@ -13,6 +13,7 @@ from monumental_type import BONE, CHAR, GOLD, HEAD, LGOLD, ROOT, TOKENS, UTIL, f
 OUT = ROOT / "outputs/edison-ambrister-youtube-banner"
 BW, BH = 2560, 1440
 SAFE = (507, 508, 2053, 931)
+PHOTO = False  # Edison asked for no photo on the banner
 
 
 def background():
@@ -46,35 +47,32 @@ def photo():
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     img = background()
-    ph = photo()
-    x0, y0 = BW - ph.width + 40, 575 - round((600 - 226) * .65)
-    m = np.ones((ph.height, ph.width), np.float32)
-    m[:, :260] *= np.linspace(0, 1, 260, dtype=np.float32)[None, :]
-    m[:220] *= np.linspace(0, 1, 220, dtype=np.float32)[:, None]
-    m[-260:] *= np.linspace(1, 0, 260, dtype=np.float32)[:, None]
-    img.paste(ph, (x0, y0), Image.fromarray((m * 255).astype("uint8")))
+    if PHOTO:
+        ph = photo()
+        x0, y0 = BW - ph.width + 40, 575 - round((600 - 226) * .65)
+        m = np.ones((ph.height, ph.width), np.float32)
+        m[:, :260] *= np.linspace(0, 1, 260, dtype=np.float32)[None, :]
+        m[:220] *= np.linspace(0, 1, 220, dtype=np.float32)[:, None]
+        m[-260:] *= np.linspace(1, 0, 260, dtype=np.float32)[:, None]
+        img.paste(ph, (x0, y0), Image.fromarray((m * 255).astype("uint8")))
     d = ImageDraw.Draw(img)
 
     sx0, sy0, sx1, sy1 = SAFE
-    logo = Image.open(ROOT / TOKENS["logo"]["compact"]).convert("RGBA").resize((330, 330), Image.LANCZOS)
-    img.paste(logo, (sx0 + 30, sy0 + (sy1 - sy0 - 330) // 2), logo)
-    d.line((sx0 + 400, sy0 + 70, sx0 + 400, sy1 - 70), fill=GOLD, width=2)
-
-    tx = sx0 + 450
-    ef = font(UTIL, 30)
-    tracked(d, tx, sy0 + 88, "EDISON AMBRISTER", ef, LGOLD, 8)
-    f1 = font(HEAD, 170)
-    while f1.getlength("CALISTHENICS") > sx1 - tx - 20:
-        f1 = font(HEAD, f1.size - 2)
-    y = sy0 + 146
+    f1 = font(HEAD, 176)
+    f2 = font(HEAD, 98)
+    t2 = "SELF-MASTERY & DISCIPLINE"
+    tw = max(f1.getlength("CALISTHENICS"), f2.getlength(t2))
+    lw, gap = 330, 110
+    x = (BW - (lw + gap + tw)) / 2
+    logo = Image.open(ROOT / TOKENS["logo"]["compact"]).convert("RGBA").resize((lw, lw), Image.LANCZOS)
+    img.paste(logo, (round(x), sy0 + (sy1 - sy0 - lw) // 2), logo)
+    d.line((x + lw + gap / 2, sy0 + 70, x + lw + gap / 2, sy1 - 70), fill=GOLD, width=2)
+    tx = x + lw + gap
+    tracked(d, tx, sy0 + 86, "EDISON AMBRISTER", font(UTIL, 30), LGOLD, 8)
+    y = sy0 + 144
     d.text((tx, y - f1.getbbox("H")[1]), "CALISTHENICS", font=f1, fill=BONE)
     y += f1.getbbox("H")[3] - f1.getbbox("H")[1] + 26
-    t2 = "SELF-MASTERY & DISCIPLINE"
-    f2 = font(HEAD, 96)
-    while f2.getlength(t2) > sx1 - tx - 20:
-        f2 = font(HEAD, f2.size - 2)
     d.text((tx, y - f2.getbbox("H")[1]), t2, font=f2, fill=GOLD)
-    y += f2.getbbox("H")[3] - f2.getbbox("H")[1] + 34
 
     img.save(OUT / "youtube-banner-2560x1440.png", optimize=True)
     img.convert("RGB").save(OUT / "youtube-banner-2560x1440.jpg", quality=92)
