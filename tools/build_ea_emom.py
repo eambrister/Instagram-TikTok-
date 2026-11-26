@@ -31,6 +31,8 @@ MINUTES = 42
 CYCLES = MINUTES // len(MOVES)
 
 GRADES = {
+    # Edison's pick: the footage exactly as filmed, no colour or brightness change
+    "original": "null",
     # v1 choice: lift mids/shadows with a curve that keeps true black (no milky lift), light denoise
     "clean": "hqdn3d=3:2:6:4,curves=all='0/0 0.06/0.07 0.18/0.30 0.45/0.62 0.8/0.88 1/1',"
              "eq=saturation=1.06,colorbalance=rs=0.02:bs=-0.01:rm=0.02,unsharp=5:5:0.45",
